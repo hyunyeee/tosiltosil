@@ -6,7 +6,11 @@ export default {
     "./app/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        pretendard: ["var(--font-pretendard)"],
+      },
+    },
   },
   plugins: [],
 };

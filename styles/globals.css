@@ -1,26 +1,123 @@
-@import "../node_modules/tailwindcss";
+@import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* colors */
+@theme {
+  /* sub 그룹 */
+  --color-sub-red: #fbafa0;
+  --color-sub-orange: #ffd3b3;
+  --color-sub-yellow: #fff1b7;
+  --color-sub-green: #d1ffd4;
+  --color-sub-mint: #86dcdc;
+  --color-sub-skyblue: #a8e3fa;
+  --color-sub-blue: #a8c5fa;
+  --color-sub-purple: #dbc9f9;
+  --color-sub-pink: #ffd3ed;
+  --color-sub-coral: #ffc7d1;
+  --color-sub-indigo: #afb4c3;
+
+  /* primary 그룹 */
+  --color-primary-red: #f54d4d;
+  --color-primary-orange: #ff7a46;
+  --color-primary-yellow: #ffd13b;
+  --color-primary-green: #4fec76;
+  --color-primary-mint: #258a9c;
+  --color-primary-skyblue: #47b1f7;
+  --color-primary-blue: #4d6dee;
+  --color-primary-purple: #8a5ce6;
+  --color-primary-pink: #ff98f1;
+  --color-primary-coral: #ec358e;
+  --color-primary-indigo: #343743;
+  --color-primary-gray: #a7a7a7;
+  --color-primary-darkGray: #939394;
+  --color-primary-deepGray: #4b4b4b;
+  --color-primary-mainText: #151515;
+
+  /* gray 그룹 */
+  --color-gray-background: #fcfcfc;
+  --color-gray-card: #f4f4f4;
+
+  /* typograhy */
+  --font-size-large-title: 34px;
+  --font-weight-large-title: 700;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@utility large-title {
+  font-size: var(--text-large-title-size);
+  font-weight: var(--text-large-title-weight);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility title1 {
+  font-size: var(--text-title1-size);
+  font-weight: var(--text-title1-weight);
+}
+
+@utility title2 {
+  font-size: var(--text-title2-size);
+  font-weight: var(--text-title2-weight);
+}
+
+@utility title3 {
+  font-size: var(--text-title3-size);
+  font-weight: var(--text-title3-weight);
+}
+
+@utility title4 {
+  font-size: var(--text-title4-size);
+  font-weight: var(--text-title4-weight);
+}
+
+@utility body1 {
+  font-size: var(--text-body1-size);
+  font-weight: var(--text-body1-weight);
+}
+
+@utility body2 {
+  font-size: var(--text-body2-size);
+  font-weight: var(--text-body2-weight);
+}
+
+@utility subhead1 {
+  font-size: var(--text-subhead1-size);
+  font-weight: var(--text-subhead1-weight);
+}
+
+@utility subhead2 {
+  font-size: var(--text-subhead2-size);
+  font-weight: var(--text-subhead2-weight);
+}
+
+@utility callout {
+  font-size: var(--text-callout-size);
+  font-weight: var(--text-callout-weight);
+}
+
+@utility footout {
+  font-size: var(--text-footout-size);
+  font-weight: var(--text-footout-weight);
+}
+
+@utility footnote {
+  font-size: var(--text-footnote-size);
+  font-weight: var(--text-footnote-weight);
+}
+
+@utility caption1 {
+  font-size: var(--text-caption1-size);
+  font-weight: var(--text-caption1-weight);
+}
+
+@utility caption2 {
+  font-size: var(--text-caption2-size);
+  font-weight: var(--text-caption2-weight);
+}
+
+@utility footer {
+  font-size: var(--text-footer-size);
+  font-weight: var(--text-footer-weight);
 }
