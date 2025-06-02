@@ -10,8 +10,8 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "토실토싱",
-  description: "실시간 타이머를 이용한 계획 웹",
+  title: "토실토실",
+  description: "실시간 타이머를 이용한 목표 달성",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
       </head>
-      <body className={`${pretendard.className}`}>{children}</body>
+      <body className={`${pretendard.className} max-w-[430px] m-auto`}>{children}</body>
     </html>
   );
 }
