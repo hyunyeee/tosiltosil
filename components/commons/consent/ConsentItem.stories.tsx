@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import ConsentItem from "./ConsentItem";
+import ConsentItemComponent from "./ConsentItem";
 
-const meta: Meta<typeof ConsentItem> = {
+const meta: Meta<typeof ConsentItemComponent> = {
   title: "Components/Consent",
-  component: ConsentItem,
+  component: ConsentItemComponent,
   argTypes: {
     onCheckClick: { action: "onCheckClick" },
     onDetailInfoClick: { action: "onDetailInfoClick" },
@@ -13,7 +13,7 @@ const meta: Meta<typeof ConsentItem> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const IconBtn: Story = {
+export const ConsentItem: Story = {
   args: {
     id: "1",
     label: "서비스 이용약관 동의",
