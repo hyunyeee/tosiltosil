@@ -38,8 +38,10 @@ const PasswordInput = ({
           onClick={() => setIsPasswordVisible((prev) => !prev)}
         >
           <img
+            aria-label={
+              isPasswordVisible ? "비밀번호 숨기기" : "비밀번호 보이기"
+            }
             src={`${isPasswordVisible ? "/icons/open-eye-icon.svg" : "/icons/close-eye-icon.svg"}`}
-            alt="비밀번호 노출 선택 아이콘"
           />
         </button>
       )}

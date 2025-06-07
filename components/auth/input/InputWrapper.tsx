@@ -17,6 +17,8 @@ const InputWrapper = ({
         {children}
       </div>
       <p
+        role={error ? "alert" : "note"}
+        aria-live={error ? "polite" : undefined}
         className={`${
           error ? "text-primary-red" : "text-primary-darkGray"
         } footnote ml-[20px]`}
