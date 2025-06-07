@@ -6,15 +6,18 @@ import InputWrapper from "@/components/auth/input/InputWrapper";
 interface PasswordInputProps {
   errorMessage: string;
   value: string;
-  onChange: (value: string) => void;
+  handleInputChange: (value: string) => void;
 }
 
 const PasswordInput = ({
   errorMessage,
   value,
-  onChange,
+  handleInputChange,
 }: PasswordInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleInputChange(e.target.value);
+  };
 
   return (
     <InputWrapper
@@ -29,7 +32,7 @@ const PasswordInput = ({
         placeholder="비밀번호"
         type={isPasswordVisible ? "text" : "password"}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
       />
       {value && (
         <button

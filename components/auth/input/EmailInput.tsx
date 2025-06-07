@@ -3,10 +3,22 @@ import InputWrapper from "@/components/auth/input/InputWrapper";
 interface EmailInputProps {
   errorMessage: string;
   value: string;
-  onChange: (value: string) => void;
+  handleInputChange: (value: string) => void;
 }
 
-const EmailInput = ({ errorMessage, value, onChange }: EmailInputProps) => {
+const EmailInput = ({
+  errorMessage,
+  value,
+  handleInputChange,
+}: EmailInputProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleInputChange(e.target.value);
+  };
+
+  const handleClearClick = () => {
+    handleInputChange("");
+  };
+
   return (
     <InputWrapper
       error={errorMessage !== ""}
@@ -17,13 +29,13 @@ const EmailInput = ({ errorMessage, value, onChange }: EmailInputProps) => {
         placeholder="Email"
         type="email"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
       />
       {value && (
         <button
           type="button"
           className="cursor-pointer"
-          onClick={() => onChange("")}
+          onClick={handleClearClick}
         >
           <img src="/icons/delete-icon.svg" alt="value 초기화 아이콘" />
         </button>
