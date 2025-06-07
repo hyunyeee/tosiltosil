@@ -7,7 +7,7 @@ export interface IconButtonProps {
 
 const IconButton = ({ type, sort, text, onButtonClick }: IconButtonProps) => {
   const IconVariants = {
-    email: "bg-primary-darkGray text-white",
+    email: "bg-primary-deepGray text-white",
     kakao: "bg-[#FACF44] text-primary-mainText",
     naver: "bg-[#06BE34] text-white ",
   };
