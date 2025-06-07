@@ -56,7 +56,7 @@ export default function ConsentItem({
         onClick={onDetailInfoClick}
         className="text-primary-deepGray mr-[10px] text-xl"
       >
-        {">"}
+        <img src="/icons/next-icon.svg" />
       </button>
     </div>
   );
