@@ -1,22 +1,24 @@
 import InputWrapper from "@/components/auth/input/InputWrapper";
 
 interface EmailInputProps {
+  name: string; //name: keyof typeof formData;
   errorMessage: string;
   value: string;
-  handleInputChange: (value: string) => void;
+  onInputChange: (name: EmailInputProps["name"], value: string) => void;
 }
 
 const EmailInput = ({
+  name,
   errorMessage,
   value,
-  handleInputChange,
+  onInputChange,
 }: EmailInputProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onInputChange(name, e.target.value);
   };
 
   const handleClearClick = () => {
-    handleInputChange("");
+    onInputChange(name, "");
   };
 
   return (
@@ -29,7 +31,7 @@ const EmailInput = ({
         placeholder="Email"
         type="email"
         value={value}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
       {value && (
         <button

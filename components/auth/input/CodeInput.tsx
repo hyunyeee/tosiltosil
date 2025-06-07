@@ -1,22 +1,24 @@
 import InputWrapper from "@/components/auth/input/InputWrapper";
 
 interface CodeInputProps {
+  name: string; //name: keyof typeof formData;
   errorMessage: string;
   value: string;
-  handleInputChange: (value: string) => void;
+  onInputChange: (name: CodeInputProps["name"], value: string) => void;
 }
 
 const CodeInput = ({
+  name,
   errorMessage,
   value,
-  handleInputChange,
+  onInputChange,
 }: CodeInputProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onInputChange(name, e.target.value);
   };
 
   const handleClearClick = () => {
-    handleInputChange("");
+    onInputChange(name, "");
   };
 
   return (
@@ -29,7 +31,7 @@ const CodeInput = ({
         placeholder="인증번호 입력"
         type="text"
         value={value}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
       <p className="caption2">5:00</p>
       <button

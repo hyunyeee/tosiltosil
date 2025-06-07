@@ -4,25 +4,27 @@ import { useState } from "react";
 import InputWrapper from "@/components/auth/input/InputWrapper";
 
 interface PasswordInputProps {
+  name: string; //name: keyof typeof formData;
   errorMessage: string;
   value: string;
-  handleInputChange: (value: string) => void;
+  onInputChange: (name: PasswordInputProps["name"], value: string) => void;
 }
 
 const PasswordInput = ({
+  name,
   errorMessage,
   value,
-  handleInputChange,
+  onInputChange,
 }: PasswordInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleInputChange(e.target.value);
+    onInputChange(name, e.target.value);
   };
 
   return (
     <InputWrapper
       error={errorMessage !== ""}
-      helperText={
+      helperText={ 
         errorMessage ||
         "* 영문, 숫자, 특수문자를 포함하여 8글자 이상으로 입력해주세요"
       }
