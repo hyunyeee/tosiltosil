@@ -14,7 +14,7 @@ const PasswordInput = ({
   value,
   onChange,
 }: PasswordInputProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   return (
     <InputWrapper
@@ -27,7 +27,7 @@ const PasswordInput = ({
       <input
         className="subhead1 h-[24px] flex-grow-1"
         placeholder="비밀번호"
-        type={isOpen ? "text" : "password"}
+        type={isPasswordVisible ? "text" : "password"}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -35,10 +35,10 @@ const PasswordInput = ({
         <button
           type="button"
           className="cursor-pointer"
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => setIsPasswordVisible((prev) => !prev)}
         >
           <img
-            src={`${isOpen ? "/icons/open-eye-icon.svg" : "/icons/close-eye-icon.svg"}`}
+            src={`${isPasswordVisible ? "/icons/open-eye-icon.svg" : "/icons/close-eye-icon.svg"}`}
             alt="비밀번호 노출 선택 아이콘"
           />
         </button>
