@@ -1,3 +1,5 @@
+"use client";
+
 export interface IconButtonProps {
   type?: "button" | "submit";
   sort: "email" | "naver" | "kakao";

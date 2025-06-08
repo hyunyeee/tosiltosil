@@ -1,3 +1,5 @@
+"use client";
+
 export interface PrimaryButtonProps {
   type?: "button" | "submit";
   size: "sub" | "main";
