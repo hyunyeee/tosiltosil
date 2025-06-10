@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import InputWrapper from "@/components/auth/input/InputWrapper";
+import { formatSecondsToMMSS } from "@/utils/time";
 
 interface CodeInputProps {
   name: string; //name: keyof typeof formData;
@@ -18,11 +19,15 @@ const CodeInput = ({
 }: CodeInputProps) => {
   const [timeLeft, setTimeLeft] = useState(300); // 5분
 
-  const formatTime = (seconds: number) => {
-    const min = String(Math.floor(seconds / 60)).padStart(1, "0");
-    const sec = String(seconds % 60).padStart(2, "0");
-    return `${min}:${sec}`;
-  };
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onInputChange(name, e.target.value);
@@ -32,14 +37,6 @@ const CodeInput = ({
     onInputChange(name, "");
     setTimeLeft(300);
   };
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   return (
     <InputWrapper
@@ -53,7 +50,7 @@ const CodeInput = ({
         value={value}
         onChange={handleInputChange}
       />
-      <p className="caption2">{formatTime(timeLeft)}</p>
+      <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
       <button
         type="button"
         className="cursor-pointer"
