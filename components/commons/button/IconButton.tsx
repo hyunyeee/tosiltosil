@@ -20,9 +20,9 @@ const IconButton = ({ type, sort, text, onButtonClick }: IconButtonProps) => {
       type={type}
       onClick={onButtonClick}
     >
-      {sort === "email" && <img src="icons/email-icon.svg" alt="email" />}
-      {sort === "kakao" && <img src="icons/kakao-icon.svg" alt="kakao" />}
-      {sort === "naver" && <img src="icons/naver-icon.svg" alt="naver" />}
+      {sort === "email" && <img src="icons/email-icon.svg" alt="email_icon" />}
+      {sort === "kakao" && <img src="icons/kakao-icon.svg" alt="kakao_icon" />}
+      {sort === "naver" && <img src="icons/naver-icon.svg" alt="naver_icon" />}
       <div className="body1 w-full text-center">{text}</div>
     </button>
   );
