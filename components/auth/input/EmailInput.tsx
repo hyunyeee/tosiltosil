@@ -27,7 +27,7 @@ const EmailInput = ({
       helperText={errorMessage || "이메일 양식에 맞춰서 입력해주세요"}
     >
       <input
-        className="subhead1 h-[24px] flex-grow-1"
+        className="subhead1 h-[24px] flex-grow"
         placeholder="Email"
         type="email"
         value={value}
