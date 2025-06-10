@@ -13,7 +13,7 @@ export const PrimaryButton: Story = {
   args: {
     type: "button",
     size: "main",
-    text: "primary버튼입니다",
+    text: "primary 버튼입니다",
     isActive: true,
   },
 };
