@@ -18,6 +18,7 @@ const CodeInput = ({
   onInputChange,
 }: CodeInputProps) => {
   const [timeLeft, setTimeLeft] = useState(300); // 5분
+  const isVerified = true;
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -42,6 +43,7 @@ const CodeInput = ({
     <InputWrapper
       error={errorMessage !== ""}
       helperText={errorMessage || "* 인증번호 6글자를 입력해주세요"}
+      isVerified={isVerified}
     >
       <input
         className="subhead1 h-[24px] flex-grow-1"
@@ -57,8 +59,8 @@ const CodeInput = ({
         onClick={handleResendCode}
       >
         <img
-          src="/icons/re-send-icon.svg"
-          alt="이메일 인증번호 재전송 아이콘"
+          src={isVerified ? `/icons/check-icon.svg` : `/icons/re-send-icon.svg`}
+          alt={isVerified ? "인증 완료 아이콘" : "인증번호 재전송 아이콘"}
         />
       </button>
     </InputWrapper>

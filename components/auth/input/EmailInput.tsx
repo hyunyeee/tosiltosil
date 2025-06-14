@@ -13,6 +13,8 @@ const EmailInput = ({
   value,
   onInputChange,
 }: EmailInputProps) => {
+  const isVerified = true;
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onInputChange(name, e.target.value);
   };
@@ -25,6 +27,7 @@ const EmailInput = ({
     <InputWrapper
       error={errorMessage !== ""}
       helperText={errorMessage || "이메일 양식에 맞춰서 입력해주세요"}
+      isVerified={isVerified}
     >
       <input
         className="subhead1 h-[24px] flex-grow"
@@ -39,7 +42,12 @@ const EmailInput = ({
           className="cursor-pointer"
           onClick={handleClearClick}
         >
-          <img src="/icons/delete-icon.svg" alt="value 초기화 아이콘" />
+          <img
+            src={
+              isVerified ? `/icons/check-icon.svg` : `/icons/delete-icon.svg`
+            }
+            alt={isVerified ? "인증 완료 아이콘" : "입력값 초기화 아이콘"}
+          />
         </button>
       )}
     </InputWrapper>
