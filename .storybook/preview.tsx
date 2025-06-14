@@ -1,3 +1,4 @@
+import { pretendard } from "../styles/font";
 import type { Preview } from "@storybook/react";
 import "../styles/globals.css";
 
@@ -10,6 +11,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div className={`${pretendard.variable} font-pretendard`}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default preview;

@@ -6,6 +6,13 @@
   --font-weight-bold: 700;
 }
 
+button {
+  cursor: pointer;
+}
+
+.font-pretendard {
+  font-family: var(--font-pretendard), sans-serif;
+}
 /* colors */
 @theme {
   /* sub 그룹 */
@@ -43,8 +50,50 @@
   --color-gray-card: #f4f4f4;
 
   /* typograhy */
-  --font-size-large-title: 34px;
-  --font-weight-large-title: 700;
+  --text-large-title-size: 34px;
+  --text-large-title-weight: var(--font-weight-bold);
+
+  --text-title1-size: 24px;
+  --text-title1-weight: var(--font-weight-semibold);
+
+  --text-title2-size: 22px;
+  --text-title2-weight: var(--font-weight-semibold);
+
+  --text-title3-size: 20px;
+  --text-title3-weight: var(--font-weight-semibold);
+
+  --text-title4-size: 20px;
+  --text-title4-weight: var(--font-weight-regular);
+
+  --text-body1-size: 17px;
+  --text-body1-weight: var(--font-weight-semibold);
+
+  --text-body2-size: 17px;
+  --text-body2-weight: var(--font-weight-regular);
+
+  --text-subhead1-size: 15px;
+  --text-subhead1-weight: var(--font-weight-semibold);
+
+  --text-subhead2-size: 15px;
+  --text-subhead2-weight: var(--font-weight-regular);
+
+  --text-callout-size: 16px;
+  --text-callout-weight: var(--font-weight-regular);
+
+  --text-footout-size: 13px;
+  --text-footout-weight: var(--font-weight-semibold);
+
+  --text-footnote-size: 13px;
+  --text-footnote-weight: var(--font-weight-regular);
+
+  --text-caption1-size: 11px;
+  --text-caption1-weight: var(--font-weight-semibold);
+
+  --text-caption2-size: 11px;
+  --text-caption2-weight: var(--font-weight-regular);
+
+  --text-footer-size: 9px;
+  --text-footer-weight: var(--font-weight-regular);
 }
 
 @utility large-title {
