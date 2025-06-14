@@ -17,18 +17,29 @@ const CodeInput = ({
   value,
   onInputChange,
 }: CodeInputProps) => {
-  const [timeLeft, setTimeLeft] = useState(300); // 5분
+  const DURATION = 300; // 5분
+  const [timeLeft, setTimeLeft] = useState(DURATION);
   const isVerified = true;
 
   useEffect(() => {
-    if (timeLeft <= 0) return;
+    let timerId: ReturnType<typeof setTimeout>;
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+    const startTime = Date.now();
 
-    return () => clearInterval(timer);
-  }, [timeLeft]);
+    const tick = () => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const remaining = Math.max(DURATION - elapsed, 0);
+
+      setTimeLeft(remaining);
+
+      if (remaining > 0) {
+        timerId = setTimeout(tick, 1000);
+      }
+    };
+    tick();
+
+    return () => clearTimeout(timerId);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onInputChange(name, e.target.value);
