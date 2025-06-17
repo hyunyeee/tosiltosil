@@ -7,7 +7,8 @@ export const useCountdown = (duration: number) => {
   const [resendTrigger, setResendTrigger] = useState(0); // 타이머 재시작 트리거
 
   useEffect(() => {
-    let timerId: ReturnType<typeof setTimeout>;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
+
     const startTime = Date.now();
 
     const tick = () => {
@@ -23,7 +24,11 @@ export const useCountdown = (duration: number) => {
 
     tick();
 
-    return () => clearTimeout(timerId);
+    return () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+      }
+    };
   }, [resendTrigger]);
 
   return { timeLeft, setResendTrigger };
