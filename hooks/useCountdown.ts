@@ -29,7 +29,7 @@ export const useCountdown = (duration: number) => {
         clearTimeout(timerId);
       }
     };
-  }, [resendTrigger]);
+  }, [duration, resendTrigger]);
 
   return { timeLeft, setResendTrigger };
 };
