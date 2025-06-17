@@ -8,6 +8,7 @@ interface CodeInputProps {
   name: string; //name: keyof typeof formData;
   errorMessage: string;
   value: string;
+  isVerified: boolean;
   onInputChange: (name: CodeInputProps["name"], value: string) => void;
 }
 
@@ -15,9 +16,9 @@ const CodeInput = ({
   name,
   errorMessage,
   value,
+  isVerified,
   onInputChange,
 }: CodeInputProps) => {
-  const isVerified = false;
   const DURATION_IN_SECONDS = 300; // 5분
 
   const { timeLeft, setResendTrigger } = useCountdown(DURATION_IN_SECONDS);
