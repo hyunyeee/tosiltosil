@@ -39,7 +39,7 @@ const CodeInput = ({
       isVerified={isVerified}
     >
       <input
-        className="subhead1 h-[24px] flex-grow-1"
+        className="subhead1 h-[24px] w-full"
         placeholder="인증번호 입력"
         type="text"
         value={value}
@@ -48,7 +48,7 @@ const CodeInput = ({
       <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
       <button
         type="button"
-        className="cursor-pointer"
+        className="flex-shrink-0 cursor-pointer"
         onClick={handleResendCode}
       >
         <img

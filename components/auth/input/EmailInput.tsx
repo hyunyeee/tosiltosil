@@ -1,4 +1,5 @@
 import InputWrapper from "@/components/auth/input/InputWrapper";
+import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface EmailInputProps {
   name: string; //name: keyof typeof formData;
@@ -13,7 +14,7 @@ const EmailInput = ({
   value,
   onInputChange,
 }: EmailInputProps) => {
-  const isVerified = true;
+  const isVerified = false;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onInputChange(name, e.target.value);
@@ -26,11 +27,13 @@ const EmailInput = ({
   return (
     <InputWrapper
       error={errorMessage !== ""}
-      helperText={errorMessage || "이메일 양식에 맞춰서 입력해주세요"}
+      helperText={
+        errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.EMAIL : "")
+      }
       isVerified={isVerified}
     >
       <input
-        className="subhead1 h-[24px] flex-grow"
+        className="subhead1 h-[24px] w-full"
         placeholder="Email"
         type="email"
         value={value}
@@ -39,7 +42,7 @@ const EmailInput = ({
       {value && (
         <button
           type="button"
-          className="cursor-pointer"
+          className="flex-shrink-0 cursor-pointer"
           onClick={handleClearClick}
         >
           <img

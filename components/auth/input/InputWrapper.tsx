@@ -7,7 +7,7 @@ interface InputWrapperProps {
 
 const InputWrapper = ({
   error = false,
-  helperText = "helper text",
+  helperText = "",
   children,
   isVerified,
 }: InputWrapperProps) => {
