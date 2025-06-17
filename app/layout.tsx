@@ -20,8 +20,8 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
       </head>
-      <body className={`${pretendard.className}`}>
-        <div className="m-auto max-w-[430px]">{children}</div>
+      <body className={`${pretendard.className} bg-gray-background`}>
+        {children}
       </body>
     </html>
   );
