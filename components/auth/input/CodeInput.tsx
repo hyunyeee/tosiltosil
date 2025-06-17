@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import InputWrapper from "@/components/auth/input/InputWrapper";
 import { formatSecondsToMMSS } from "@/utils/time";
+import { useCountdown } from "@/hooks/useCountdown";
 
 interface CodeInputProps {
   name: string; //name: keyof typeof formData;
@@ -17,29 +17,10 @@ const CodeInput = ({
   value,
   onInputChange,
 }: CodeInputProps) => {
-  const DURATION = 300; // 5분
-  const [timeLeft, setTimeLeft] = useState(DURATION);
-  const isVerified = true;
+  const isVerified = false;
+  const DURATION_IN_SECONDS = 300; // 5분
 
-  useEffect(() => {
-    let timerId: ReturnType<typeof setTimeout>;
-
-    const startTime = Date.now();
-
-    const tick = () => {
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const remaining = Math.max(DURATION - elapsed, 0);
-
-      setTimeLeft(remaining);
-
-      if (remaining > 0) {
-        timerId = setTimeout(tick, 1000);
-      }
-    };
-    tick();
-
-    return () => clearTimeout(timerId);
-  }, []);
+  const { timeLeft, setResendTrigger } = useCountdown(DURATION_IN_SECONDS);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onInputChange(name, e.target.value);
@@ -47,7 +28,7 @@ const CodeInput = ({
 
   const handleResendCode = () => {
     onInputChange(name, "");
-    setTimeLeft(300);
+    setResendTrigger((prev) => prev + 1);
   };
 
   return (
