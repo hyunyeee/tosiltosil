@@ -4,7 +4,7 @@ export interface IconButtonProps {
   type?: "button" | "submit";
   sort: "email" | "naver" | "kakao";
   text: string;
-  onButtonClick: () => void;
+  onButtonClick?: () => void;
 }
 
 const IconButton = ({ type, sort, text, onButtonClick }: IconButtonProps) => {
