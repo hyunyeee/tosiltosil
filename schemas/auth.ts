@@ -19,7 +19,9 @@ export const loginSchema = z.object({
 export const SignUpSchema = z
   .object({
     email: z.string().email({ message: "올바른 이메일 형식을 입력해주세요." }),
-    code: z.number().min(6, { message: "인증번호 숫자 6자리를 입력해주세요." }),
+    code: z
+      .string()
+      .regex(/^\d{1,6}$/, { message: "숫자 6자리 이하로 입력해주세요." }),
     password: z
       .string()
       .min(8, {
