@@ -13,14 +13,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${pretendard.variable}`}>
+    <html
+      lang="ko"
+      className={`${pretendard.variable} flex w-full items-center justify-center`}
+    >
       <head>
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
       </head>
-      <body className={`${pretendard.className} bg-gray-background`}>
+      <body
+        className={`${pretendard.className} bg-gray-background h-screen w-full max-w-[430px]`}
+      >
         {children}
       </body>
     </html>

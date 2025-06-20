@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import InputWrapper from "@/components/auth/input/InputWrapper";
+import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface PasswordInputProps {
-  name: string; //name: keyof typeof formData;
+  name: "password" | "confirmPassword"; //name: keyof typeof formData;
   errorMessage: string;
   value: string;
   onInputChange: (name: PasswordInputProps["name"], value: string) => void;
@@ -21,17 +22,17 @@ const PasswordInput = ({
     onInputChange(name, e.target.value);
   };
 
+  const placeHolder = name === "password" ? "비밀번호" : "비밀번호 확인";
+  const helperText = name === "password" ? AUTH_ERROR_MESSAGE.PASSWORD : "";
+
   return (
     <InputWrapper
       error={errorMessage !== ""}
-      helperText={ 
-        errorMessage ||
-        "* 영문, 숫자, 특수문자를 포함하여 8글자 이상으로 입력해주세요"
-      }
+      helperText={errorMessage || (value === "" ? helperText : "")}
     >
       <input
-        className="subhead1 h-[24px] flex-grow-1"
-        placeholder="비밀번호"
+        className="subhead1 h-[24px] w-full"
+        placeholder={placeHolder}
         type={isPasswordVisible ? "text" : "password"}
         value={value}
         onChange={handleChange}
@@ -39,7 +40,7 @@ const PasswordInput = ({
       {value && (
         <button
           type="button"
-          className="cursor-pointer"
+          className="flex-shrink-0 cursor-pointer"
           onClick={() => setIsPasswordVisible((prev) => !prev)}
         >
           <img

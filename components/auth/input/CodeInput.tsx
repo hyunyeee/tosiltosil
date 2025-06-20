@@ -8,6 +8,7 @@ interface CodeInputProps {
   name: string; //name: keyof typeof formData;
   errorMessage: string;
   value: string;
+  isVerified: boolean;
   onInputChange: (name: CodeInputProps["name"], value: string) => void;
 }
 
@@ -15,9 +16,9 @@ const CodeInput = ({
   name,
   errorMessage,
   value,
+  isVerified,
   onInputChange,
 }: CodeInputProps) => {
-  const isVerified = false;
   const DURATION_IN_SECONDS = 300; // 5분
 
   const { timeLeft, setResendTrigger } = useCountdown(DURATION_IN_SECONDS);
@@ -38,16 +39,17 @@ const CodeInput = ({
       isVerified={isVerified}
     >
       <input
-        className="subhead1 h-[24px] flex-grow-1"
+        className="subhead1 h-[24px] w-full"
         placeholder="인증번호 입력"
         type="text"
         value={value}
         onChange={handleInputChange}
+        maxLength={6}
       />
       <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
       <button
         type="button"
-        className="cursor-pointer"
+        className="flex-shrink-0 cursor-pointer"
         onClick={handleResendCode}
       >
         <img
