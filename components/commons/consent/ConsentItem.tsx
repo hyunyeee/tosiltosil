@@ -5,8 +5,8 @@ type ConsentItemProps = {
   label: string;
   required: boolean;
   checked: boolean;
-  onCheckClick: (id: string, checked: boolean) => void;
-  onDetailInfoClick: () => void;
+  onCheckClick: (id: string) => void;
+  onDetailInfoClick: (id: string) => void;
 };
 
 export default function ConsentItem({
@@ -17,18 +17,11 @@ export default function ConsentItem({
   onCheckClick,
   onDetailInfoClick,
 }: ConsentItemProps) {
-  //   다음과 같이 상위에서 사용할 생각
-  //   const onCheckClick = (id: string, checked: boolean) => {
-  //     set함수((prev) =>
-  //       prev.map((item) => (item.id === id ? { ...item, checked } : item))
-  //     );
-  //   };
-
   return (
-    <div className="flex w-full max-w-[350px] items-center justify-between border-none p-[3px]">
+    <div className="flex w-full items-center justify-between border-none p-[3px]">
       <button
         className="flex items-center gap-2"
-        onClick={() => onCheckClick(id, !checked)}
+        onClick={() => onCheckClick(id)}
       >
         {checked ? (
           <img
@@ -53,7 +46,7 @@ export default function ConsentItem({
         </div>
       </button>
       <button
-        onClick={onDetailInfoClick}
+        onClick={() => onDetailInfoClick(id)}
         className="text-primary-deepGray mr-[10px] text-xl"
       >
         <img src="/icons/next-icon.svg" />

@@ -1,5 +1,7 @@
 import { pretendard } from "../styles/font";
 import type { Preview } from "@storybook/react";
+import { INITIAL_VIEWPORTS } from "storybook/viewport";
+
 import "../styles/globals.css";
 
 const preview: Preview = {
@@ -9,6 +11,9 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
+    },
+    viewport: {
+      options: INITIAL_VIEWPORTS,
     },
   },
   decorators: [
