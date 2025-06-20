@@ -120,6 +120,7 @@ const SignupForm = () => {
         />
 
         <PrimaryButton
+          type="submit"
           size="main"
           text="다음으로"
           isActive={true}

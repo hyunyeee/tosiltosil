@@ -66,6 +66,7 @@ const LoginForm = () => {
         />
       </div>
       <PrimaryButton
+        type="submit"
         size="main"
         text="로그인"
         isActive={true}
