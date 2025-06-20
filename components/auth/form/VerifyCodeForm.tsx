@@ -24,7 +24,7 @@ const VerifyCodeForm = () => {
       const isValidCode = /^\d{6}$/.test(value);
       setFormErrors((prev) => ({
         ...prev,
-        CODE: isValidCode ? "" : AUTH_ERROR_MESSAGE.CODE,
+        code: isValidCode ? "" : AUTH_ERROR_MESSAGE.CODE,
       }));
     }
   };
@@ -42,7 +42,6 @@ const VerifyCodeForm = () => {
         <CodeInput
           name="code"
           value={formData.code}
-          isVerified
           errorMessage={formErrors.code}
           onInputChange={handleInputChange}
         />

@@ -25,7 +25,7 @@ const ResetPasswordForm = () => {
         /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(value);
       setFormErrors((prev) => ({
         ...prev,
-        PASSWORD: isValidPassword ? "" : AUTH_ERROR_MESSAGE.PASSWORD,
+        password: isValidPassword ? "" : AUTH_ERROR_MESSAGE.PASSWORD,
       }));
     }
   };
