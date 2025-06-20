@@ -17,7 +17,7 @@ const PrimaryButton = ({
 }: PrimaryButtonProps) => {
   const sizeVariants = {
     main: "h-[48px] body1",
-    sub: "h-[38px] w-[158px] subhead1",
+    sub: "h-[38px] max-w-[158px] subhead1",
   };
   const activeClasses = isActive
     ? "bg-primary-mainText text-white"
