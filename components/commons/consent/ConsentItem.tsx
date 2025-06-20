@@ -18,7 +18,7 @@ export default function ConsentItem({
   onDetailInfoClick,
 }: ConsentItemProps) {
   return (
-    <div className="flex w-full max-w-[350px] items-center justify-between border-none p-[3px]">
+    <div className="flex w-full items-center justify-between border-none p-[3px]">
       <button
         className="flex items-center gap-2"
         onClick={() => onCheckClick(id)}

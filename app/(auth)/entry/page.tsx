@@ -16,17 +16,17 @@ export default function EntryPage() {
         </p>
       </header>
       <main className="mb-[142px] flex w-full flex-col items-center gap-[16px]">
-        <Link href="/login" className="block w-full">
+        <Link href="/login" className="contents">
           <IconButton type="button" text="이메일로 계속하기" sort="email" />
         </Link>
         <div className="text-primary-deepGray my-[16px] flex w-full items-center gap-[20px]">
           <span className="bg-primary-gray h-[1px] grow"></span>또는
           <span className="bg-primary-gray h-[1px] grow"></span>
         </div>
-        {/* <Link href="/" className="block w-full"> */}
+        {/* <Link href="/" className="contents"> */}
         <IconButton type="button" text="카카오로 계속하기" sort="kakao" />
         {/* </Link> */}
-        {/* <Link href="/" className="block w-full"> */}
+        {/* <Link href="/" className="contents"> */}
         <IconButton type="button" text="네이버로 계속하기" sort="naver" />
         {/* </Link> */}
       </main>

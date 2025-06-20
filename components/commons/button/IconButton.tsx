@@ -16,7 +16,7 @@ const IconButton = ({ type, sort, text, onButtonClick }: IconButtonProps) => {
 
   return (
     <button
-      className={` ${IconVariants[sort]} flex h-[48px] w-full max-w-[350px] items-center gap-[4px] rounded-md px-[16px] py-[13px]`}
+      className={` ${IconVariants[sort]} flex h-[48px] w-full items-center gap-[4px] rounded-md px-[16px] py-[13px]`}
       type={type}
       onClick={onButtonClick}
     >
