@@ -5,7 +5,7 @@ export interface PrimaryButtonProps {
   size: "sub" | "main";
   text: string;
   isActive?: boolean;
-  onButtonClick: () => void;
+  onButtonClick?: () => void;
 }
 
 const PrimaryButton = ({
