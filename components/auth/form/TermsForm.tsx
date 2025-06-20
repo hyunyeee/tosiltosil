@@ -10,7 +10,7 @@ import { useState } from "react";
 const TermsForm = () => {
   const router = useRouter();
   const [checkedMap, setCheckedMap] = useState<Record<string, boolean>>(
-    AGREEMENTS.reduce((acc, { id }) => ({ ...acc, [id]: false }), {})
+    Object.fromEntries(AGREEMENTS.map(({ id }) => [id, false]))
   );
   const isAllCheck = Object.values(checkedMap).every(Boolean);
 
@@ -28,7 +28,7 @@ const TermsForm = () => {
 
   const handleAllConsentClick = () => {
     setCheckedMap(() =>
-      AGREEMENTS.reduce((acc, { id }) => ({ ...acc, [id]: !isAllCheck }), {})
+      Object.fromEntries(AGREEMENTS.map(({ id }) => [id, !isAllCheck]))
     );
   };
 
