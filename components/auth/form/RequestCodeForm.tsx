@@ -30,7 +30,7 @@ const RequestCodeForm = () => {
       const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
       setFormErrors((prev) => ({
         ...prev,
-        EMAIL: isValidEmail ? "" : AUTH_ERROR_MESSAGE.EMAIL,
+        email: isValidEmail ? "" : AUTH_ERROR_MESSAGE.EMAIL,
       }));
     }
   };
