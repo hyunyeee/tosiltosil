@@ -4,6 +4,7 @@ import { useState } from "react";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
+import Link from "next/link";
 
 const ResetPasswordForm = () => {
   const [formData, setFormData] = useState({
@@ -55,12 +56,14 @@ const ResetPasswordForm = () => {
           />
         </div>
       </div>
-      <PrimaryButton
-        size="main"
-        text="로그인 페이지로"
-        isActive={false}
-        onButtonClick={() => {}}
-      />
+      <Link href="/login">
+        <PrimaryButton
+          size="main"
+          text="로그인 페이지로"
+          isActive={true}
+          onButtonClick={() => {}}
+        />
+      </Link>
     </form>
   );
 };
