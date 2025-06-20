@@ -44,6 +44,7 @@ const CodeInput = ({
         type="text"
         value={value}
         onChange={handleInputChange}
+        maxLength={6}
       />
       <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
       <button
