@@ -16,7 +16,7 @@ export const loginSchema = z.object({
     }),
 });
 
-export const SignUpSchema = z
+export const signupSchema = z
   .object({
     email: z.string().email({ message: "올바른 이메일 형식을 입력해주세요." }),
     code: z
