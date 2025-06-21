@@ -1,73 +1,81 @@
 "use client";
 
 import { useState } from "react";
+import { z } from "zod";
+import { signupSchema, checkPasswordsMatch } from "@/schemas/auth";
+import { useFormValidate } from "@/hooks/useFormValidate";
+
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
-import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
+
+type SignupFormData = z.infer<typeof signupSchema> & {
+  confirmPassword: string;
+};
 
 const SignupForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SignupFormData>({
     email: "",
     code: "",
     password: "",
     confirmPassword: "",
   });
 
-  const [formErrors, setFormErrors] = useState({
-    email: "",
-    code: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const isVerified = false; // 인증번호 확인 API 성공 응답이 온 경우
 
-  const handleInputChange = (name: string, value: string) => {
+  const { errors: formErrors, validateField } =
+    useFormValidate<Omit<SignupFormData, "confirmPassword">>(signupSchema);
+
+  const [passwordMatchError, setPasswordMatchError] = useState<string | null>(
+    null
+  );
+
+  const handleInputChange = (name: keyof SignupFormData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
-    if (name === "email") {
-      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      setFormErrors((prev) => ({
-        ...prev,
-        email: isValidEmail ? "" : AUTH_ERROR_MESSAGE.EMAIL,
-      }));
+    if (name !== "confirmPassword") {
+      validateField(name, value);
     }
-
-    if (name === "password") {
-      const isValidPassword =
-        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(value);
-      setFormErrors((prev) => ({
-        ...prev,
-        password: isValidPassword ? "" : AUTH_ERROR_MESSAGE.PASSWORD,
-      }));
-    }
-
-    if (name === "confirmPassword") {
-      const isValidPassword = formData.password === value;
-      setFormErrors((prev) => ({
-        ...prev,
-        confirmPassword: isValidPassword
-          ? ""
-          : AUTH_ERROR_MESSAGE.CONFIRM_PASSWORD,
-      }));
-    }
-
-    if (name === "code") {
-      const isValidCode = /^\d{6}$/.test(value);
-      setFormErrors((prev) => ({
-        ...prev,
-        code: isValidCode ? "" : AUTH_ERROR_MESSAGE.CODE,
-      }));
+    if (name === "confirmPassword" || name === "password") {
+      setPasswordMatchError(null); // 입력 중 오류 초기화
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("회원가입 Form:", formData);
+
+    const parsed = signupSchema.safeParse({
+      email: formData.email,
+      code: formData.code,
+      password: formData.password,
+    });
+
+    if (!parsed.success) {
+      const flattened = parsed.error.flatten().fieldErrors;
+      console.log("기본 유효성 검사 실패", flattened);
+      return;
+    }
+
+    const pwError = checkPasswordsMatch(
+      formData.password,
+      formData.confirmPassword
+    );
+    if (pwError) {
+      setPasswordMatchError(pwError);
+      return;
+    }
+
+    console.log("회원가입 시도:", formData);
   };
+
+  const isFormValid =
+    Object.values(formErrors ?? {}).every((error) => !error) &&
+    !passwordMatchError &&
+    Object.values(formData).every((value) => value !== "");
 
   return (
     <form onSubmit={handleSubmit}>
@@ -77,14 +85,14 @@ const SignupForm = () => {
           <EmailInput
             name="email"
             value={formData.email}
-            errorMessage={formErrors.email}
+            errorMessage={formErrors?.email?.[0]}
             onInputChange={handleInputChange}
           />
           <div className="flex justify-end">
             <PrimaryButton
               size="sub"
               text="인증번호받기"
-              isActive={true}
+              isActive={formData.email !== "" && !formErrors?.email?.[0]}
               onButtonClick={() => {}}
             />
           </div>
@@ -93,15 +101,15 @@ const SignupForm = () => {
           <CodeInput
             name="code"
             value={formData.code}
-            isVerified
-            errorMessage={formErrors.code}
+            isVerified={isVerified}
+            errorMessage={formErrors?.code?.[0]}
             onInputChange={handleInputChange}
           />
           <div className="flex justify-end">
             <PrimaryButton
               size="sub"
               text="인증번호확인"
-              isActive={true}
+              isActive={formData.code !== "" && !formErrors?.code?.[0]}
               onButtonClick={() => {}}
             />
           </div>
@@ -109,22 +117,20 @@ const SignupForm = () => {
         <PasswordInput
           name="password"
           value={formData.password}
-          errorMessage={formErrors.password}
+          errorMessage={formErrors?.password?.[0]}
           onInputChange={handleInputChange}
         />
         <PasswordInput
           name="confirmPassword"
           value={formData.confirmPassword}
-          errorMessage={formErrors.confirmPassword}
+          errorMessage={passwordMatchError ?? undefined}
           onInputChange={handleInputChange}
         />
-
         <PrimaryButton
           type="submit"
           size="main"
           text="다음으로"
-          isActive={true}
-          onButtonClick={() => {}}
+          isActive={isFormValid}
         />
       </div>
     </form>
