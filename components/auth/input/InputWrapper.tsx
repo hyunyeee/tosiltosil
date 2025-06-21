@@ -11,13 +11,15 @@ const InputWrapper = ({
   children,
   isVerified,
 }: InputWrapperProps) => {
+  const containerClass = `
+    flex w-full items-center gap-[6px] rounded-[6px] border-1 py-[12px] pr-[12px] pl-[20px]
+    ${error ? "border-primary-red" : "border-primary-darkGray"}
+    ${isVerified && !error ? "bg-primary-gray" : ""}
+  `;
+
   return (
     <div>
-      <div
-        className={`${error ? "border-primary-red" : "border-primary-darkGray"} ${isVerified && !error && "bg-primary-gray"} flex w-full items-center gap-[6px] rounded-[6px] border-1 py-[12px] pr-[12px] pl-[20px]`}
-      >
-        {children}
-      </div>
+      <div className={containerClass}>{children}</div>
       <p
         role={error ? "alert" : "note"}
         aria-live={error ? "polite" : undefined}
