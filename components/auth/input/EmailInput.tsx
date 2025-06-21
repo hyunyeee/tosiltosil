@@ -2,8 +2,8 @@ import InputWrapper from "@/components/auth/input/InputWrapper";
 import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface EmailInputProps {
-  name: string; //name: keyof typeof formData;
-  errorMessage: string;
+  name: "email";
+  errorMessage?: string;
   value: string;
   onInputChange: (name: EmailInputProps["name"], value: string) => void;
 }
