@@ -41,6 +41,7 @@ const VerifyCodeForm = () => {
         <h1 className="title2 mt-[163px] text-center">비밀번호 찾기</h1>
         <CodeInput
           name="code"
+          isVerified={false}
           value={formData.code}
           errorMessage={formErrors.code}
           onInputChange={handleInputChange}

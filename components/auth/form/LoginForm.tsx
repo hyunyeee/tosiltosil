@@ -2,51 +2,50 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { z } from "zod";
+import { useFormValidate } from "@/hooks/useFormValidate";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
-import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
+import { loginSchema } from "@/schemas/auth";
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
 
-  const [formErrors, setFormErrors] = useState({
-    email: "",
-    password: "",
-  });
+  const { errors: formErrors, validateField } =
+    useFormValidate<LoginFormData>(loginSchema);
 
-  const handleInputChange = (name: string, value: string) => {
+  const handleInputChange = (name: keyof LoginFormData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
-    if (name === "email") {
-      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      setFormErrors((prev) => ({
-        ...prev,
-        email: isValidEmail ? "" : AUTH_ERROR_MESSAGE.EMAIL,
-      }));
-      console.log(formErrors);
-    }
-
-    if (name === "password") {
-      const isValidPassword =
-        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(value);
-      setFormErrors((prev) => ({
-        ...prev,
-        password: isValidPassword ? "" : AUTH_ERROR_MESSAGE.PASSWORD,
-      }));
-    }
+    validateField(name, value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const parsed = loginSchema.safeParse(formData);
+
+    if (!parsed.success) {
+      const flattened = parsed.error.flatten().fieldErrors;
+      console.log("유효성 검사 실패", flattened);
+      return;
+    }
+
     console.log("로그인 시도:", formData);
   };
+
+  const isFormValid =
+    Object.values(formErrors ?? {}).every((error) => !error) &&
+    Object.values(formData).every((value) => value !== "");
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,13 +54,13 @@ const LoginForm = () => {
         <EmailInput
           name="email"
           value={formData.email}
-          errorMessage={formErrors.email}
+          errorMessage={formErrors?.email?.[0]}
           onInputChange={handleInputChange}
         />
         <PasswordInput
           name="password"
           value={formData.password}
-          errorMessage={formErrors.password}
+          errorMessage={formErrors?.password?.[0]}
           onInputChange={handleInputChange}
         />
       </div>
@@ -69,8 +68,7 @@ const LoginForm = () => {
         type="submit"
         size="main"
         text="로그인"
-        isActive={true}
-        onButtonClick={() => {}}
+        isActive={isFormValid}
       />
       <div className="mt-[27px] flex justify-between">
         <Link

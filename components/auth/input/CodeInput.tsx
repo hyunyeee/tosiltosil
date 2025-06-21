@@ -5,10 +5,10 @@ import { formatSecondsToMMSS } from "@/utils/time";
 import { useCountdown } from "@/hooks/useCountdown";
 
 interface CodeInputProps {
-  name: string; //name: keyof typeof formData;
-  errorMessage: string;
+  name: "code";
   value: string;
   isVerified: boolean;
+  errorMessage?: string;
   onInputChange: (name: CodeInputProps["name"], value: string) => void;
 }
 
@@ -34,7 +34,7 @@ const CodeInput = ({
 
   return (
     <InputWrapper
-      error={errorMessage !== ""}
+      error={value !== "" && !!errorMessage}
       helperText={errorMessage || "* 인증번호 6글자를 입력해주세요"}
       isVerified={isVerified}
     >
