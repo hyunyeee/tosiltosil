@@ -26,7 +26,7 @@ const EmailInput = ({
 
   return (
     <InputWrapper
-      error={errorMessage !== ""}
+      error={value !== "" && !!errorMessage}
       helperText={
         errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.EMAIL : "")
       }
