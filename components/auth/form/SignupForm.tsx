@@ -1,18 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { z } from "zod";
-import { signupSchema } from "@/schemas/auth";
+import { SignupFormData, signupSchema } from "@/schemas/auth";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-type SignupFormData = z.infer<typeof signupSchema> & {
-  confirmPassword: string;
-};
 
 const SignupForm = () => {
   // TODO: isVerified 는 “인증번호확인” API 호출 결과에 따라 true 로 설정
