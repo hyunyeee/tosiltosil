@@ -2,35 +2,38 @@ import InputWrapper from "@/components/auth/input/InputWrapper";
 import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface EmailInputProps {
-  name: "email";
+  isValid: boolean;
+  isVerified?: boolean;
   errorMessage?: string;
   value: string;
-  onInputChange: (name: EmailInputProps["name"], value: string) => void;
+  onInputChange: (value: string) => void;
+  sort: "login" | "signup";
 }
 
 const EmailInput = ({
-  name,
+  isValid,
+  isVerified,
   errorMessage,
   value,
   onInputChange,
+  sort,
 }: EmailInputProps) => {
-  const isVerified = false;
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onInputChange(name, e.target.value);
+    onInputChange(e.target.value);
   };
 
   const handleClearClick = () => {
-    onInputChange(name, "");
+    onInputChange("");
   };
 
   return (
     <InputWrapper
-      error={value !== "" && !!errorMessage}
+      error={isValid}
       helperText={
         errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.EMAIL : "")
       }
       isVerified={isVerified}
+      sort={sort}
     >
       <input
         className="subhead1 h-[24px] w-full"

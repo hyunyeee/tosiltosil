@@ -1,87 +1,82 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { z } from "zod";
-import { useFormValidate } from "@/hooks/useFormValidate";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
-import { loginSchema } from "@/schemas/auth";
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { LoginFormData, loginSchema } from "@/schemas/auth";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: "onSubmit",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const { errors: formErrors, validateField } =
-    useFormValidate<LoginFormData>(loginSchema);
-
-  const handleInputChange = (name: keyof LoginFormData, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    validateField(name, value);
+  const onSubmit = (data: LoginFormData) => {
+    console.log("로그인 시도:", data);
+    // TODO: 로그인 API 호출 등
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const parsed = loginSchema.safeParse(formData);
-
-    if (!parsed.success) {
-      const flattened = parsed.error.flatten().fieldErrors;
-      console.log("유효성 검사 실패", flattened);
-      return;
-    }
-
-    console.log("로그인 시도:", formData);
-  };
-
-  const isFormValid =
-    Object.values(formErrors ?? {}).every((error) => !error) &&
-    Object.values(formData).every((value) => value !== "");
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-[43px] flex flex-col gap-[27px]">
         <h1 className="title2 mt-[128px] text-center">로그인</h1>
-        <EmailInput
+        <Controller
           name="email"
-          value={formData.email}
-          errorMessage={formErrors?.email?.[0]}
-          onInputChange={handleInputChange}
+          control={control}
+          render={({ field }) => (
+            <EmailInput
+              sort="login"
+              isValid={!!errors.email}
+              value={field.value}
+              errorMessage={errors.email?.message}
+              onInputChange={field.onChange}
+            />
+          )}
         />
-        <PasswordInput
+
+        <Controller
           name="password"
-          value={formData.password}
-          errorMessage={formErrors?.password?.[0]}
-          onInputChange={handleInputChange}
+          control={control}
+          render={({ field }) => (
+            <PasswordInput
+              sort="login"
+              name={field.name}
+              value={field.value}
+              errorMessage={errors.password?.message}
+              onInputChange={field.onChange}
+            />
+          )}
         />
       </div>
       <PrimaryButton
         type="submit"
         size="main"
         text="로그인"
-        isActive={isFormValid}
+        isActive={isValid && !isSubmitting}
       />
       <div className="mt-[27px] flex justify-between">
         <Link
           href="/find-password"
           className="subhead2 border-primary-deepGray text-primary-deepGray border-b-1 px-[6px] pb-[5px]"
         >
-          <p className="inline">비밀번호찾기</p>
+          비밀번호찾기
         </Link>
         <Link
           href="/signup"
           className="subhead2 border-primary-deepGray text-primary-deepGray border-b-1 px-[6px] pb-[5px]"
         >
-          <p className="inline">회원가입</p>
+          회원가입
         </Link>
       </div>
     </form>
