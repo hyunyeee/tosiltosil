@@ -7,7 +7,7 @@ interface EmailInputProps {
   errorMessage?: string;
   value: string;
   onInputChange: (value: string) => void;
-  sort: "login" | "signup";
+  sort: "login" | "signup" | "find-password";
 }
 
 const EmailInput = ({

@@ -3,7 +3,7 @@ interface InputWrapperProps {
   helperText?: string;
   children: React.ReactNode;
   isVerified?: boolean;
-  sort: "login" | "signup";
+  sort: "login" | "signup" | "find-password";
 }
 
 const InputWrapper = ({
@@ -22,7 +22,9 @@ const InputWrapper = ({
   return (
     <div>
       <div className={containerClass}>{children}</div>
-      {((sort === "login" && error) || sort === "signup") && (
+      {((sort === "login" && error) ||
+        sort === "signup" ||
+        "find-password") && (
         <p
           role={error ? "alert" : "note"}
           aria-live={error ? "polite" : undefined}
