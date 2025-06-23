@@ -34,6 +34,7 @@ const VerifyCodeForm = () => {
               <CodeInput
                 sort="find-password"
                 value={field.value}
+                isValid={!!errors.code}
                 isVerified={false}
                 errorMessage={errors.code?.message}
                 onInputChange={field.onChange}

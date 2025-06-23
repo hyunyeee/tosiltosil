@@ -51,6 +51,7 @@ const LoginForm = () => {
           render={({ field }) => (
             <PasswordInput
               sort="login"
+              isValid={!!errors.password}
               name={field.name}
               value={field.value}
               errorMessage={errors.password?.message}

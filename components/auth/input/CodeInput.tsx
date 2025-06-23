@@ -8,6 +8,7 @@ import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 interface CodeInputProps {
   value: string;
   isVerified: boolean;
+  isValid: boolean;
   errorMessage?: string;
   onInputChange: (value: string) => void;
   sort: "login" | "signup" | "find-password";
@@ -17,6 +18,7 @@ const CodeInput = ({
   sort,
   errorMessage,
   value,
+  isValid,
   isVerified,
   onInputChange,
 }: CodeInputProps) => {
@@ -35,7 +37,7 @@ const CodeInput = ({
   return (
     <InputWrapper
       sort={sort}
-      error={value !== "" && !!errorMessage}
+      error={isValid}
       helperText={errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.CODE : "")}
       isVerified={isVerified}
     >
