@@ -1,35 +1,16 @@
 import { z } from "zod";
+import { emailSchema, codeSchema, passwordSchema } from "./validators";
 
 export const loginSchema = z.object({
-  email: z.string().email({
-    message: "이메일 양식에 맞지 않습니다. 다시 입력해주세요.",
-  }),
-  password: z
-    .string()
-    .min(8, {
-      message: "영문,숫자,특수문자를 포함하여 8글자 이상으로 입력해주세요",
-    })
-    .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
-      message: "영문,숫자,특수문자를 포함하여 8글자 이상으로 입력해주세요",
-    }),
+  email: emailSchema,
+  password: passwordSchema,
 });
 
 export const signupSchema = z
   .object({
-    email: z.string().email({ message: "올바른 이메일 형식을 입력해주세요." }),
-    code: z
-      .string()
-      .regex(/^\d{6}$/, { message: "숫자 6자리로 입력해주세요." }),
-    password: z
-      .string()
-      .min(8, {
-        message: "영문,숫자,특수문자를 포함하여 8글자 이상으로 입력해주세요",
-      })
-      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
-        message: "영문,숫자,특수문자를 포함하여 8글자 이상으로 입력해주세요",
-      }),
-  })
-  .extend({
+    email: emailSchema,
+    code: codeSchema,
+    password: passwordSchema,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -38,21 +19,16 @@ export const signupSchema = z
   });
 
 export const requestCodeSchema = z.object({
-  email: z.string().email("유효한 이메일 형식이 아닙니다"),
+  email: emailSchema,
 });
 
 export const verifyCodeSchema = z.object({
-  code: z.string().regex(/^\d{6}$/, "인증번호는 숫자 6자리여야 합니다"),
+  code: codeSchema,
 });
 
 export const resetPasswordSchema = z
   .object({
-    password: z
-      .string()
-      .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "영문,숫자,특수문자를 포함하여 8글자 이상으로 입력해주세요"
-      ),
+    password: passwordSchema,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
