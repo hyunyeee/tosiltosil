@@ -6,15 +6,15 @@ import { useCountdown } from "@/hooks/useCountdown";
 import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface CodeInputProps {
-  name: "code";
   value: string;
   isVerified: boolean;
   errorMessage?: string;
   onInputChange: (value: string) => void;
+  sort: "login" | "signup" | "find-password";
 }
 
 const CodeInput = ({
-  name,
+  sort,
   errorMessage,
   value,
   isVerified,
@@ -34,7 +34,7 @@ const CodeInput = ({
 
   return (
     <InputWrapper
-      sort="signup"
+      sort={sort}
       error={value !== "" && !!errorMessage}
       helperText={errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.CODE : "")}
       isVerified={isVerified}

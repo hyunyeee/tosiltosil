@@ -46,6 +46,13 @@ export const requestCodeSchema = z.object({
     .email("유효한 이메일 형식이 아닙니다"),
 });
 
+export const verifyCodeSchema = z.object({
+  code: z
+    .string({ required_error: "인증번호를 입력해주세요" })
+    .regex(/^\d{6}$/, "인증번호는 숫자 6자리여야 합니다"),
+});
+
+export type VerifyCodeFormData = z.infer<typeof verifyCodeSchema>;
 export type RequestCodeFormData = z.infer<typeof requestCodeSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type SignupFormData = z.infer<typeof signupSchema> & {

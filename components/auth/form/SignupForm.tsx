@@ -80,7 +80,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <>
                 <CodeInput
-                  name={field.name}
+                  sort="signup"
                   value={field.value}
                   isVerified={isVerified}
                   errorMessage={errors.code?.message}
