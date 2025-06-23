@@ -1,58 +1,63 @@
 "use client";
 
-import { useState } from "react";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import PasswordInput from "@/components/auth/input/PasswordInput";
-import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 import Link from "next/link";
+import { ResetPasswordFormData, resetPasswordSchema } from "@/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
 const ResetPasswordForm = () => {
-  const [formData, setFormData] = useState({
-    password: "",
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(resetPasswordSchema),
+    mode: "onChange",
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
   });
-
-  const [formErrors, setFormErrors] = useState({
-    password: "",
-  });
-
-  const handleInputChange = (name: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if (name === "password") {
-      const isValidPassword =
-        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(value);
-      setFormErrors((prev) => ({
-        ...prev,
-        password: isValidPassword ? "" : AUTH_ERROR_MESSAGE.PASSWORD,
-      }));
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    console.log("비밀번호 변경 Form:", formData);
+  const onSubmit = async (data: ResetPasswordFormData) => {
+    console.log("비밀번호 변경 Form:", data);
+    // TODO: 비밀번호 변경 API 호출
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-[60px]">
         <h1 className="title2 mt-[163px] text-center">비밀번호 재설정</h1>
         <div className="mb-[43px] flex flex-col gap-[27px]">
-          <PasswordInput
+          <Controller
             name="password"
-            value={formData.password}
-            errorMessage={formErrors.password}
-            onInputChange={handleInputChange}
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                sort="find-password"
+                isValid={!!errors.password}
+                name={field.name}
+                value={field.value}
+                errorMessage={errors.password?.message}
+                onInputChange={field.onChange}
+              />
+            )}
           />
-          <PasswordInput
-            name="password"
-            value={formData.password}
-            errorMessage={formErrors.password}
-            onInputChange={handleInputChange}
+
+          <Controller
+            name="confirmPassword"
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                sort="find-password"
+                name={field.name}
+                isValid={!!errors.confirmPassword}
+                value={field.value}
+                errorMessage={errors.confirmPassword?.message}
+                onInputChange={field.onChange}
+              />
+            )}
           />
         </div>
       </div>
@@ -60,8 +65,7 @@ const ResetPasswordForm = () => {
         <PrimaryButton
           size="main"
           text="로그인 페이지로"
-          isActive={true}
-          onButtonClick={() => {}}
+          isActive={isValid && !isSubmitting}
         />
       </Link>
     </form>

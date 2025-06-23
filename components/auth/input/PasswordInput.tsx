@@ -6,15 +6,17 @@ import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface PasswordInputProps<NameType extends string> {
   name: NameType;
+  isValid: boolean;
   errorMessage?: string;
   value: string;
   onInputChange: (value: string) => void;
-  sort: "login" | "signup";
+  sort: "login" | "signup" | "find-password";
 }
 
 const PasswordInput = <NameType extends string>({
   name,
   errorMessage,
+  isValid,
   value,
   onInputChange,
   sort,
@@ -29,11 +31,9 @@ const PasswordInput = <NameType extends string>({
 
   return (
     <InputWrapper
-      error={value !== "" && !!errorMessage}
+      error={isValid}
       helperText={
-        name === "password"
-          ? errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.PASSWORD : "")
-          : ""
+        errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.PASSWORD : "")
       }
       sort={sort}
     >
