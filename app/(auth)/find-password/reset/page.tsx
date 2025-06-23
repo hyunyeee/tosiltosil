@@ -1,9 +1,5 @@
 import ResetPasswordForm from "@/components/auth/form/ResetPasswordForm";
 
 export default function ResetPasswordPage() {
-  return (
-    <div>
-      <ResetPasswordForm />
-    </div>
-  );
+  return <ResetPasswordForm />;
 }
