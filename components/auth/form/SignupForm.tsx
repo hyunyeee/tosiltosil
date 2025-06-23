@@ -2,135 +2,138 @@
 
 import { useState } from "react";
 import { z } from "zod";
-import { signupSchema, checkPasswordsMatch } from "@/schemas/auth";
-import { useFormValidate } from "@/hooks/useFormValidate";
-
+import { signupSchema } from "@/schemas/auth";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type SignupFormData = z.infer<typeof signupSchema> & {
   confirmPassword: string;
 };
 
 const SignupForm = () => {
-  const [formData, setFormData] = useState<SignupFormData>({
-    email: "",
-    code: "",
-    password: "",
-    confirmPassword: "",
+  // TODO: isVerified 는 “인증번호확인” API 호출 결과에 따라 true 로 설정
+  const [isVerified, setIsVerified] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    mode: "onChange",
+    defaultValues: {
+      email: "",
+      code: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
-  const isVerified = false; // 인증번호 확인 API 성공 응답이 온 경우
-
-  const { errors: formErrors, validateField } =
-    useFormValidate<Omit<SignupFormData, "confirmPassword">>(signupSchema);
-
-  const [passwordMatchError, setPasswordMatchError] = useState<string | null>(
-    null
-  );
-
-  const handleInputChange = (name: keyof SignupFormData, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if (name !== "confirmPassword") {
-      validateField(name, value);
-    }
-    if (name === "confirmPassword" || name === "password") {
-      setPasswordMatchError(null); // 입력 중 오류 초기화
-    }
+  const onSubmit = (data: SignupFormData) => {
+    console.log("회원가입 시도:", data);
+    // TODO: 실제 회원가입 API 호출
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const parsed = signupSchema.safeParse({
-      email: formData.email,
-      code: formData.code,
-      password: formData.password,
-    });
-
-    if (!parsed.success) {
-      const flattened = parsed.error.flatten().fieldErrors;
-      console.log("기본 유효성 검사 실패", flattened);
-      return;
-    }
-
-    const pwError = checkPasswordsMatch(
-      formData.password,
-      formData.confirmPassword
-    );
-    if (pwError) {
-      setPasswordMatchError(pwError);
-      return;
-    }
-
-    console.log("회원가입 시도:", formData);
+  const handleRequestCode = async (email: string) => {
+    console.log("인증번호 요청:", email);
+    // TODO: 인증번호 요청 API
   };
 
-  const isFormValid =
-    Object.values(formErrors ?? {}).every((error) => !error) &&
-    !passwordMatchError &&
-    Object.values(formData).every((value) => value !== "");
+  const handleVerifyCode = async (code: string) => {
+    console.log("인증번호 확인:", code);
+    // TODO: 인증번호 확인 API → 성공 시 setIsVerified(true)
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h1 className="title2 mt-[71px] mb-[46px] text-center">회원가입</h1>
       <div className="flex flex-col gap-[23px]">
         <div>
-          <EmailInput
+          <Controller
             name="email"
-            value={formData.email}
-            errorMessage={formErrors?.email?.[0]}
-            onInputChange={handleInputChange}
+            control={control}
+            render={({ field }) => (
+              <>
+                <EmailInput
+                  isValid={!!errors.email}
+                  isVerified={isVerified}
+                  sort="signup"
+                  value={field.value}
+                  errorMessage={errors.email?.message}
+                  onInputChange={field.onChange}
+                />
+                <div className="flex justify-end">
+                  <PrimaryButton
+                    size="sub"
+                    text="인증번호받기"
+                    isActive={!!field.value && !errors.email}
+                    onButtonClick={() => handleRequestCode(field.value)}
+                  />
+                </div>
+              </>
+            )}
           />
-          <div className="flex justify-end">
-            <PrimaryButton
-              size="sub"
-              text="인증번호받기"
-              isActive={formData.email !== "" && !formErrors?.email?.[0]}
-              onButtonClick={() => {}}
-            />
-          </div>
         </div>
         <div>
-          <CodeInput
+          <Controller
             name="code"
-            value={formData.code}
-            isVerified={isVerified}
-            errorMessage={formErrors?.code?.[0]}
-            onInputChange={handleInputChange}
+            control={control}
+            render={({ field }) => (
+              <>
+                <CodeInput
+                  name={field.name}
+                  value={field.value}
+                  isVerified={isVerified}
+                  errorMessage={errors.code?.message}
+                  onInputChange={field.onChange}
+                />
+                <div className="flex justify-end">
+                  <PrimaryButton
+                    size="sub"
+                    text="인증번호확인"
+                    isActive={!!field.value && !errors.code}
+                    onButtonClick={() => handleVerifyCode(field.value)}
+                  />
+                </div>
+              </>
+            )}
           />
-          <div className="flex justify-end">
-            <PrimaryButton
-              size="sub"
-              text="인증번호확인"
-              isActive={formData.code !== "" && !formErrors?.code?.[0]}
-              onButtonClick={() => {}}
-            />
-          </div>
         </div>
-        <PasswordInput
+        <Controller
           name="password"
-          value={formData.password}
-          errorMessage={formErrors?.password?.[0]}
-          onInputChange={handleInputChange}
+          control={control}
+          render={({ field }) => (
+            <PasswordInput
+              sort="signup"
+              name={field.name}
+              value={field.value}
+              errorMessage={errors.password?.message}
+              onInputChange={field.onChange}
+            />
+          )}
         />
-        <PasswordInput
+        <Controller
           name="confirmPassword"
-          value={formData.confirmPassword}
-          errorMessage={passwordMatchError ?? undefined}
-          onInputChange={handleInputChange}
+          control={control}
+          render={({ field }) => (
+            <PasswordInput
+              sort="signup"
+              name={field.name}
+              value={field.value}
+              errorMessage={errors.confirmPassword?.message}
+              onInputChange={field.onChange}
+            />
+          )}
         />
         <PrimaryButton
           type="submit"
           size="main"
           text="다음으로"
-          isActive={isFormValid}
+          isActive={isValid && !isSubmitting && isVerified}
         />
       </div>
     </form>

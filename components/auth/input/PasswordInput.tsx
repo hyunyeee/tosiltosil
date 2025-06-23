@@ -8,7 +8,8 @@ interface PasswordInputProps<NameType extends string> {
   name: NameType;
   errorMessage?: string;
   value: string;
-  onInputChange: (name: NameType, value: string) => void;
+  onInputChange: (value: string) => void;
+  sort: "login" | "signup";
 }
 
 const PasswordInput = <NameType extends string>({
@@ -16,20 +17,25 @@ const PasswordInput = <NameType extends string>({
   errorMessage,
   value,
   onInputChange,
+  sort,
 }: PasswordInputProps<NameType>) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onInputChange(name, e.target.value);
+    onInputChange(e.target.value);
   };
 
   const placeHolder = name === "password" ? "비밀번호" : "비밀번호 확인";
-  const helperText = name === "password" ? AUTH_ERROR_MESSAGE.PASSWORD : "";
 
   return (
     <InputWrapper
       error={value !== "" && !!errorMessage}
-      helperText={errorMessage || (value === "" ? helperText : "")}
+      helperText={
+        name === "password"
+          ? errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.PASSWORD : "")
+          : ""
+      }
+      sort={sort}
     >
       <input
         className="subhead1 h-[24px] w-full"
