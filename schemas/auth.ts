@@ -5,6 +5,7 @@ import {
   passwordSchema,
   nicknameSchema,
 } from "./validators";
+import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 export const loginSchema = z.object({
   email: emailSchema,
@@ -19,7 +20,7 @@ export const signupSchema = z
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "입력하신 비밀번호와 일치하지 않습니다.",
+    message: AUTH_ERROR_MESSAGE.CONFIRM_PASSWORD,
     path: ["confirmPassword"],
   });
 
@@ -37,7 +38,7 @@ export const resetPasswordSchema = z
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "입력하신 비밀번호와 일치하지 않습니다.",
+    message: AUTH_ERROR_MESSAGE.CONFIRM_PASSWORD,
     path: ["confirmPassword"],
   });
 
