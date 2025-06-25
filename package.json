@@ -12,13 +12,14 @@
     "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.76.1",
     "jotai": "^2.12.4",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.56.3",
+    "react-hook-form": "^7.58.1",
     "zod": "^3.25.67"
   },
   "devDependencies": {
