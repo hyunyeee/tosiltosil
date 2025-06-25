@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export default function ProfilePage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -11,6 +12,12 @@ export default function ProfilePage() {
       const imageURL = URL.createObjectURL(file);
       setPreviewImage(imageURL);
     }
+  };
+
+  const resetImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPreviewImage(null);
   };
 
   return (
@@ -36,6 +43,20 @@ export default function ProfilePage() {
                   />
                 )}
               </div>
+              {previewImage && (
+                <button
+                  type="button"
+                  onClick={resetImage}
+                  className="absolute right-[13px] bottom-0 z-10"
+                >
+                  <Image
+                    src="/icons/delete-profile-icon.svg"
+                    alt="프로필 초기화"
+                    width={20}
+                    height={20}
+                  />
+                </button>
+              )}
             </div>
 
             <input
