@@ -53,7 +53,9 @@ export default function SearchPage() {
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <SearchTitle />
       </div>
-      <SearchResultList searchResultList={searchResultList} />
+      <div className={`${searchResultList.length === 0 ? "px-[20px]" : ""}`}>
+        <SearchResultList searchResultList={searchResultList} />
+      </div>
     </div>
   );
 }
