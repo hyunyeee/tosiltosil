@@ -1,11 +1,15 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import SearchInput from "@/components/search/SearchInput";
 import SearchTitle from "@/components/search/SearchTitle";
 import SearchResultList from "@/components/search/SearchResultList";
 import { SearchResult } from "@/types/search";
 
 export default function SearchPage() {
+  const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+
   const searchResultList: SearchResult[] = [
     { name: "김하늘", friendCode: 100001, status: "친구" },
     { name: "박지민", friendCode: 100002, status: "대기중" },
@@ -24,10 +28,29 @@ export default function SearchPage() {
     { name: "강민석", friendCode: 100015 },
   ];
 
+  const handleChangeQuery = (value: string) => {
+    setQuery(value);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  useEffect(() => {
+    if (debouncedQuery.trim()) {
+      console.log("검색어:", debouncedQuery);
+      // TODO: 실제 API 요청
+    }
+  }, [debouncedQuery]);
+
   return (
     <div className="mt-[28px]">
       <div className="px-[20px]">
-        <SearchInput />
+        <SearchInput value={query} onInputChange={handleChangeQuery} />
         <SearchTitle />
       </div>
       <SearchResultList searchResultList={searchResultList} />
