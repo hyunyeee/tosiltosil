@@ -32,7 +32,7 @@ const RequestCodeForm = () => {
             <div className="mb-[37px] flex flex-col gap-[78px]">
               <h1 className="title2 mt-[163px] text-center">비밀번호 찾기</h1>
               <EmailInput
-                isValid={!!errors.email}
+                isValid={!errors.email}
                 value={field.value}
                 errorMessage={errors.email?.message}
                 onInputChange={field.onChange}

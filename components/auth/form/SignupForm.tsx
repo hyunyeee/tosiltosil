@@ -54,7 +54,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <>
                 <EmailInput
-                  isValid={!!errors.email}
+                  isValid={!errors.email}
                   isVerified={isVerified}
                   sort="signup"
                   value={field.value}
@@ -82,7 +82,7 @@ const SignupForm = () => {
                 <CodeInput
                   sort="signup"
                   value={field.value}
-                  isValid={!!errors.code}
+                  isValid={!errors.code}
                   isVerified={isVerified}
                   errorMessage={errors.code?.message}
                   onInputChange={field.onChange}
@@ -106,7 +106,7 @@ const SignupForm = () => {
             <PasswordInput
               sort="signup"
               name={field.name}
-              isValid={!!errors.password}
+              isValid={!errors.password}
               value={field.value}
               errorMessage={errors.password?.message}
               onInputChange={field.onChange}
@@ -120,7 +120,7 @@ const SignupForm = () => {
             <PasswordInput
               sort="signup"
               name={field.name}
-              isValid={!!errors.confirmPassword}
+              isValid={!errors.confirmPassword}
               value={field.value}
               errorMessage={errors.confirmPassword?.message}
               onInputChange={field.onChange}

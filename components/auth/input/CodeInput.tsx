@@ -37,7 +37,7 @@ const CodeInput = ({
   return (
     <InputWrapper
       sort={sort}
-      error={isValid}
+      error={!isValid}
       helperText={errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.CODE : "")}
       isVerified={isVerified}
     >

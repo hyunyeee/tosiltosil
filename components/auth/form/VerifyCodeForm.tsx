@@ -10,7 +10,7 @@ const VerifyCodeForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<VerifyCodeFormData>({
     resolver: zodResolver(verifyCodeSchema),
     mode: "onChange",
@@ -34,7 +34,7 @@ const VerifyCodeForm = () => {
               <CodeInput
                 sort="find-password"
                 value={field.value}
-                isValid={!!errors.code}
+                isValid={!errors.code}
                 isVerified={false}
                 errorMessage={errors.code?.message}
                 onInputChange={field.onChange}
@@ -43,7 +43,7 @@ const VerifyCodeForm = () => {
             <PrimaryButton
               size="main"
               text="인증번호 확인"
-              isActive={!errors.code}
+              isActive={isValid && !isSubmitting}
             />
           </>
         )}

@@ -37,7 +37,7 @@ const LoginForm = () => {
           render={({ field }) => (
             <EmailInput
               sort="login"
-              isValid={!!errors.email}
+              isValid={!errors.email}
               value={field.value}
               errorMessage={errors.email?.message}
               onInputChange={field.onChange}
@@ -51,7 +51,7 @@ const LoginForm = () => {
           render={({ field }) => (
             <PasswordInput
               sort="login"
-              isValid={!!errors.password}
+              isValid={!errors.password}
               name={field.name}
               value={field.value}
               errorMessage={errors.password?.message}

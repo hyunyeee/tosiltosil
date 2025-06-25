@@ -36,7 +36,7 @@ const ResetPasswordForm = () => {
             render={({ field }) => (
               <PasswordInput
                 sort="find-password"
-                isValid={!!errors.password}
+                isValid={!errors.password}
                 name={field.name}
                 value={field.value}
                 errorMessage={errors.password?.message}
@@ -52,7 +52,7 @@ const ResetPasswordForm = () => {
               <PasswordInput
                 sort="find-password"
                 name={field.name}
-                isValid={!!errors.confirmPassword}
+                isValid={!errors.confirmPassword}
                 value={field.value}
                 errorMessage={errors.confirmPassword?.message}
                 onInputChange={field.onChange}
@@ -61,13 +61,12 @@ const ResetPasswordForm = () => {
           />
         </div>
       </div>
-      <Link href="/login">
-        <PrimaryButton
-          size="main"
-          text="로그인 페이지로"
-          isActive={isValid && !isSubmitting}
-        />
-      </Link>
+      <PrimaryButton
+        type="submit"
+        size="main"
+        text="로그인 페이지로"
+        isActive={isValid && !isSubmitting}
+      />
     </form>
   );
 };
