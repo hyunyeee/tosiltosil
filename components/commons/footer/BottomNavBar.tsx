@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { navItems } from "@/constants/navigationItems";
 
 // 스토리북에서 강제로 pathname 전달할 수 있도록 props 추가
 const BottomNavBar = ({ mockPathname }: { mockPathname?: string }) => {
