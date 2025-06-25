@@ -1,42 +1,43 @@
 import { z } from "zod";
+import { emailSchema, codeSchema, passwordSchema } from "./validators";
 
 export const loginSchema = z.object({
-  email: z.string().email({
-    message: "이메일 양식에 맞지 않습니다. 다시 입력해주세요.",
-  }),
-  password: z
-    .string()
-    .min(8, {
-      message:
-        "영어, 숫자, 특수문자를 모두 포함하여 8글자 이상으로 입력해주세요.",
-    })
-    .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
-      message:
-        "영어, 숫자, 특수문자를 모두 포함하여 8글자 이상으로 입력해주세요.",
-    }),
+  email: emailSchema,
+  password: passwordSchema,
 });
 
-export const signupSchema = z.object({
-  email: z.string().email({ message: "올바른 이메일 형식을 입력해주세요." }),
-  code: z.string().regex(/^\d{6}$/, { message: "숫자 6자리로 입력해주세요." }),
-  password: z
-    .string()
-    .min(8, {
-      message:
-        "영어, 숫자, 특수문자를 모두 포함하여 8글자 이상으로 입력해주세요.",
-    })
-    .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
-      message:
-        "영어, 숫자, 특수문자를 모두 포함하여 8글자 이상으로 입력해주세요.",
-    }),
+export const signupSchema = z
+  .object({
+    email: emailSchema,
+    code: codeSchema,
+    password: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "입력하신 비밀번호와 일치하지 않습니다.",
+    path: ["confirmPassword"],
+  });
+
+export const requestCodeSchema = z.object({
+  email: emailSchema,
 });
 
-export function checkPasswordsMatch(
-  password: string,
-  confirmPassword: string
-): string | null {
-  if (password !== confirmPassword) {
-    return "입력하신 비밀번호와 일치하지 않습니다. 다시 입력해주세요";
-  }
-  return null;
-}
+export const verifyCodeSchema = z.object({
+  code: codeSchema,
+});
+
+export const resetPasswordSchema = z
+  .object({
+    password: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "입력하신 비밀번호와 일치하지 않습니다.",
+    path: ["confirmPassword"],
+  });
+
+export type LoginFormData = z.infer<typeof loginSchema>;
+export type SignupFormData = z.infer<typeof signupSchema>;
+export type RequestCodeFormData = z.infer<typeof requestCodeSchema>;
+export type VerifyCodeFormData = z.infer<typeof verifyCodeSchema>;
+export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;

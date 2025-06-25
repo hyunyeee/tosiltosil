@@ -3,19 +3,22 @@
 import InputWrapper from "@/components/auth/input/InputWrapper";
 import { formatSecondsToMMSS } from "@/utils/time";
 import { useCountdown } from "@/hooks/useCountdown";
+import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface CodeInputProps {
-  name: "code";
   value: string;
   isVerified: boolean;
+  isValid: boolean;
   errorMessage?: string;
-  onInputChange: (name: CodeInputProps["name"], value: string) => void;
+  onInputChange: (value: string) => void;
+  sort: "login" | "signup" | "find-password";
 }
 
 const CodeInput = ({
-  name,
+  sort,
   errorMessage,
   value,
+  isValid,
   isVerified,
   onInputChange,
 }: CodeInputProps) => {
@@ -24,18 +27,18 @@ const CodeInput = ({
   const { timeLeft, setResendTrigger } = useCountdown(DURATION_IN_SECONDS);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onInputChange(name, e.target.value);
+    onInputChange(e.target.value);
   };
 
   const handleResendCode = () => {
-    onInputChange(name, "");
     setResendTrigger((prev) => prev + 1);
   };
 
   return (
     <InputWrapper
-      error={value !== "" && !!errorMessage}
-      helperText={errorMessage || "* 인증번호 6글자를 입력해주세요"}
+      sort={sort}
+      error={!isValid}
+      helperText={errorMessage || (value === "" ? AUTH_ERROR_MESSAGE.CODE : "")}
       isVerified={isVerified}
     >
       <input
