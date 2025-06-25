@@ -23,12 +23,14 @@ export default function ProfilePage() {
   });
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
       setPreviewImage(imageURL);
+      setSelectedFile(file);
     }
   };
 
@@ -36,10 +38,18 @@ export default function ProfilePage() {
     e.preventDefault();
     e.stopPropagation();
     setPreviewImage(null);
+    setSelectedFile(null);
   };
 
-  const onSubmit = (data: ProfileFormData) => {
-    console.log("회원가입 시도:", data);
+  const onSubmit = async (data: ProfileFormData) => {
+    const formData = new FormData();
+    formData.append("nickname", data.nickname);
+    if (selectedFile) {
+      formData.append("profileImage", selectedFile);
+    }
+    for (const [key, value] of formData.entries()) {
+      console.log(key, ":", value);
+    }
   };
 
   return (
