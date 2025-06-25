@@ -24,7 +24,7 @@ const InputWrapper = ({
       <div className={containerClass}>{children}</div>
       {((sort === "login" && error) ||
         sort === "signup" ||
-        "find-password") && (
+        sort === "find-password") && (
         <p
           role={error ? "alert" : "note"}
           aria-live={error ? "polite" : undefined}
