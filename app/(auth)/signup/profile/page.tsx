@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NicknameInput from "@/components/auth/input/NicknameInput";
@@ -25,9 +25,22 @@ export default function ProfilePage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
+  useEffect(() => {
+    return () => {
+      revokePreviewImage();
+    };
+  }, [previewImage]);
+
+  const revokePreviewImage = () => {
+    if (previewImage) {
+      URL.revokeObjectURL(previewImage);
+    }
+  };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      revokePreviewImage();
       const imageURL = URL.createObjectURL(file);
       setPreviewImage(imageURL);
       setSelectedFile(file);
