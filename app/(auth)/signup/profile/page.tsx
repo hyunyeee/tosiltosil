@@ -1,9 +1,27 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import NicknameInput from "@/components/auth/input/NicknameInput";
+import PrimaryButton from "@/components/commons/button/PrimaryButton";
+import { nicknameSchema, ProfileFormData } from "@/schemas/auth";
 
 export default function ProfilePage() {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(nicknameSchema),
+    shouldFocusError: true,
+    mode: "all",
+    defaultValues: {
+      nickname: "",
+    },
+  });
+
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,11 +38,15 @@ export default function ProfilePage() {
     setPreviewImage(null);
   };
 
+  const onSubmit = (data: ProfileFormData) => {
+    console.log("회원가입 시도:", data);
+  };
+
   return (
     <div className="mt-[120px]">
       <h1 className="title2">프로필 설정</h1>
       <h3 className="subhead2">마지막 단계인 프로필 설정까지하면 완료!</h3>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-[100px]">
           <label htmlFor="profile-upload" className="cursor-pointer">
             <div className="relative mx-auto mb-[29px] h-[140px] w-[140px]">
@@ -67,6 +89,24 @@ export default function ProfilePage() {
               onChange={handleImageChange}
             />
           </label>
+
+          <Controller
+            name="nickname"
+            control={control}
+            render={({ field }) => (
+              <NicknameInput
+                value={field.value}
+                errorMessage={errors.nickname?.message}
+                onInputChange={field.onChange}
+              />
+            )}
+          />
+          <PrimaryButton
+            type="submit"
+            size="main"
+            text="다음으로"
+            isActive={isValid && !isSubmitting}
+          />
         </div>
       </form>
     </div>
