@@ -6,7 +6,7 @@ export const emailSchema = z
 
 export const codeSchema = z
   .string()
-  .length(6, { message: "인증번호는 숫자 6자리여야 합니다." });
+  .regex(/^\d{6}$/, { message: "인증번호는 숫자 6자리여야 합니다." });
 
 const passwordErrorMsg =
   "영문, 숫자, 특수문자를 포함하여 8자 이상 입력해주세요.";
