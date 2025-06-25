@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 export const loginSchema = z.object({
   email: z.string().email({
@@ -40,3 +41,12 @@ export function checkPasswordsMatch(
   }
   return null;
 }
+
+export const nicknameSchema = z.object({
+  nickname: z
+    .string()
+    .min(2, { message: AUTH_ERROR_MESSAGE.NICKNAME })
+    .max(8, { message: AUTH_ERROR_MESSAGE.NICKNAME }),
+});
+
+export type ProfileFormData = z.infer<typeof nicknameSchema>;
