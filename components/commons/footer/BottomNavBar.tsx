@@ -12,7 +12,7 @@ const BottomNavBar = ({ mockPathname }: { mockPathname?: string }) => {
   return (
     <nav className="fixed bottom-0 z-10 flex w-full max-w-[430px] items-center justify-around border-t border-black/30 bg-white py-[10px]">
       {navItems.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive = pathname?.startsWith(item.href);
 
         return (
           <Link
