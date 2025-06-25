@@ -29,7 +29,7 @@ const NicknameInput = ({
       />
       <div className="border-primary-mainText mb-[6px] w-[172px] border-b-1" />
       <p
-        className={`caption2 ${errorMessage || value == "" ? "text-primary-gray" : "text-primary-mainText"}`}
+        className={`caption2 ${errorMessage || value === "" ? "text-primary-gray" : "text-primary-mainText"}`}
       >
         {helperText}
       </p>
