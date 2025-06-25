@@ -2,7 +2,6 @@
 
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import PasswordInput from "@/components/auth/input/PasswordInput";
-import Link from "next/link";
 import { ResetPasswordFormData, resetPasswordSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
