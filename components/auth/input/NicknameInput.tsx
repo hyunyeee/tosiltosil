@@ -23,13 +23,13 @@ const NicknameInput = ({
     <div className="mb-[54px] flex flex-col items-center justify-center">
       <input
         autoFocus
-        className="text-center focus:ring-0 focus:outline-none"
+        className="text-primary-mainText text-center focus:ring-0 focus:outline-none"
         value={value}
         onChange={handleInputChange}
       />
-      <div className="border-primary-darkGray mb-[6px] w-[172px] border-b-1" />
+      <div className="border-primary-mainText mb-[6px] w-[172px] border-b-1" />
       <p
-        className={`caption2 ${errorMessage || value == "" ? "text-primary-gray" : "primary-mainText"}`}
+        className={`caption2 ${errorMessage || value == "" ? "text-primary-gray" : "text-primary-mainText"}`}
       >
         {helperText}
       </p>
