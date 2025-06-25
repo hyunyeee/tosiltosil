@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NicknameInput from "@/components/auth/input/NicknameInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
-import { nicknameSchema, ProfileFormData } from "@/schemas/auth";
+import { ProfileFormData, profileSchema } from "@/schemas/auth";
 
 export default function ProfilePage() {
   const {
@@ -14,7 +14,7 @@ export default function ProfilePage() {
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
   } = useForm<ProfileFormData>({
-    resolver: zodResolver(nicknameSchema),
+    resolver: zodResolver(profileSchema),
     shouldFocusError: true,
     mode: "all",
     defaultValues: {

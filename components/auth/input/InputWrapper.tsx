@@ -3,6 +3,7 @@ interface InputWrapperProps {
   helperText?: string;
   children: React.ReactNode;
   isVerified?: boolean;
+  sort: "login" | "signup" | "find-password";
 }
 
 const InputWrapper = ({
@@ -10,6 +11,7 @@ const InputWrapper = ({
   helperText = "",
   children,
   isVerified,
+  sort,
 }: InputWrapperProps) => {
   const containerClass = `
     flex w-full items-center gap-[6px] rounded-[6px] border-1 py-[12px] pr-[12px] pl-[20px]
@@ -20,15 +22,19 @@ const InputWrapper = ({
   return (
     <div>
       <div className={containerClass}>{children}</div>
-      <p
-        role={error ? "alert" : "note"}
-        aria-live={error ? "polite" : undefined}
-        className={`${
-          error ? "text-primary-red" : "text-primary-darkGray"
-        } footnote ml-[20px]`}
-      >
-        {helperText}
-      </p>
+      {((sort === "login" && error) ||
+        sort === "signup" ||
+        sort === "find-password") && (
+        <p
+          role={error ? "alert" : "note"}
+          aria-live={error ? "polite" : undefined}
+          className={`${
+            error ? "text-primary-red" : "text-primary-darkGray"
+          } footnote ml-[20px]`}
+        >
+          {helperText}
+        </p>
+      )}
     </div>
   );
 };
