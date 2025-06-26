@@ -48,7 +48,7 @@ const ProfileImageUploader = ({
       <input
         type="file"
         id="profile-upload"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         className="hidden"
         onChange={onImageChange}
       />
