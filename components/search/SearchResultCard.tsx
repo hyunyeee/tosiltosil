@@ -23,7 +23,11 @@ const SearchResultCard = ({
 
   return (
     <div className="subhead2 bg-gray-background flex items-center rounded-[6px] border-1 border-black/20 px-[10px] py-[8px]">
-      <img src={profileImageSrc} className="h-[32px] w-[32px] rounded-[4px]" />
+      <img
+        src={profileImageSrc}
+        alt={`${nickname}의 프로필 이미지`}
+        className="h-[32px] w-[32px] rounded-[4px]"
+      />
       <div className="flex flex-1 gap-[24px]">
         <p className="text-primary-mainText ml-[10px] whitespace-nowrap">
           {nickname}
