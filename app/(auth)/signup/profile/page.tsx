@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NicknameInput from "@/components/auth/input/NicknameInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
+import ProfileImageUploader from "@/components/auth/profile/ProfileImageUploader";
 import { ProfileFormData, profileSchema } from "@/schemas/auth";
 
 export default function ProfilePage() {
@@ -71,48 +71,11 @@ export default function ProfilePage() {
       <h3 className="subhead2">마지막 단계인 프로필 설정까지하면 완료!</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-[100px]">
-          <label htmlFor="profile-upload" className="cursor-pointer">
-            <div className="relative mx-auto mb-[29px] h-[140px] w-[140px]">
-              <div className="h-full w-full overflow-hidden rounded-full bg-black/20">
-                {previewImage ? (
-                  <img
-                    src={previewImage}
-                    alt="프로필 미리보기"
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src="/images/default-profile-rabbit.png"
-                    alt="기본 프로필 아이콘"
-                    className="mx-auto mt-[40px] h-16 w-16"
-                  />
-                )}
-              </div>
-              {previewImage && (
-                <button
-                  type="button"
-                  onClick={resetImage}
-                  className="absolute right-[13px] bottom-0 z-10"
-                >
-                  <Image
-                    src="/icons/delete-profile-icon.svg"
-                    alt="프로필 초기화"
-                    width={20}
-                    height={20}
-                  />
-                </button>
-              )}
-            </div>
-
-            <input
-              type="file"
-              id="profile-upload"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageChange}
-            />
-          </label>
-
+          <ProfileImageUploader
+            previewImage={previewImage}
+            onImageChange={handleImageChange}
+            onImageReset={resetImage}
+          />
           <Controller
             name="nickname"
             control={control}
