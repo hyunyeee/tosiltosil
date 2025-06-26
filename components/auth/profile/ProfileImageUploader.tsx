@@ -22,10 +22,12 @@ const ProfileImageUploader = ({
               className="h-full w-full object-cover"
             />
           ) : (
-            <img
+            <Image
               src="/images/default-profile-rabbit.png"
               alt="기본 프로필 아이콘"
-              className="mx-auto mt-[40px] h-16 w-16"
+              className="mx-auto mt-[31px]"
+              width={78}
+              height={78}
             />
           )}
         </div>
@@ -35,11 +37,10 @@ const ProfileImageUploader = ({
             onClick={onImageReset}
             className="absolute right-[13px] bottom-0 z-10"
           >
-            <Image
+            <img
               src="/icons/delete-profile-icon.svg"
               alt="프로필 초기화"
-              width={20}
-              height={20}
+              className="h-[20px] w-[20px]"
             />
           </button>
         )}
