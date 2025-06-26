@@ -1,5 +1,7 @@
 export interface SearchResult {
-  name: string;
-  friendCode: number;
-  status?: "친구" | "대기중";
+  id?: string;
+  nickname: string;
+  profileImg: string;
+  code: string;
+  relationship?: "FRIEND" | "PENDING";
 }
