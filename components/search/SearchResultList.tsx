@@ -19,14 +19,17 @@ const SearchResultList = ({ searchResultList }: SearchResultListProps) => {
         </div>
       ) : (
         <div className="flex flex-col gap-[13px] p-[20px]">
-          {searchResultList.map(({ name, friendCode, status }) => (
-            <SearchResultCard
-              key={friendCode}
-              name={name}
-              friendCode={friendCode}
-              status={status}
-            />
-          ))}
+          {searchResultList.map(
+            ({ nickname, profileImg, code, relationship }) => (
+              <SearchResultCard
+                key={code}
+                nickname={nickname}
+                profileImg={profileImg}
+                code={code}
+                relationship={relationship}
+              />
+            )
+          )}
         </div>
       )}
     </div>
