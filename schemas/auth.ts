@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { emailSchema, codeSchema, passwordSchema } from "./validators";
+import {
+  emailSchema,
+  codeSchema,
+  passwordSchema,
+  nicknameSchema,
+} from "./validators";
+import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 export const loginSchema = z.object({
   email: emailSchema,
@@ -14,7 +20,7 @@ export const signupSchema = z
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "입력하신 비밀번호와 일치하지 않습니다.",
+    message: AUTH_ERROR_MESSAGE.CONFIRM_PASSWORD,
     path: ["confirmPassword"],
   });
 
@@ -32,12 +38,17 @@ export const resetPasswordSchema = z
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "입력하신 비밀번호와 일치하지 않습니다.",
+    message: AUTH_ERROR_MESSAGE.CONFIRM_PASSWORD,
     path: ["confirmPassword"],
   });
+
+export const profileSchema = z.object({
+  nickname: nicknameSchema,
+});
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type SignupFormData = z.infer<typeof signupSchema>;
 export type RequestCodeFormData = z.infer<typeof requestCodeSchema>;
 export type VerifyCodeFormData = z.infer<typeof verifyCodeSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+export type ProfileFormData = z.infer<typeof profileSchema>;
