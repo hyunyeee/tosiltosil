@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/search/SearchInput";
 import SearchTitle from "@/components/search/SearchTitle";
 import SearchResultList from "@/components/search/SearchResultList";
@@ -8,7 +9,7 @@ import { SearchResult } from "@/types/search";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 500);
 
   const searchResultList: SearchResult[] = [
     { name: "김하늘", friendCode: 100001, status: "친구" },
@@ -31,14 +32,6 @@ export default function SearchPage() {
   const handleChangeQuery = (value: string) => {
     setQuery(value);
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [query]);
 
   useEffect(() => {
     if (debouncedQuery.trim()) {
