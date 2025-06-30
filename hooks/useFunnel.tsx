@@ -31,6 +31,12 @@ export default function useFunnel<Steps extends NonEmptyTuple<string>>(
     if (!isFirst) setCurrentStep(steps[idx - 1]);
   };
 
+  const setStep = (step: StepKey) => {
+    if (steps.includes(step)) {
+      setCurrentStep(step);
+    }
+  };
+
   const Funnel = ({ children }: FunnelProps<StepKey>) => {
     const targetStep = children.find(
       (childStep) => childStep.props.name === currentStep
@@ -48,6 +54,7 @@ export default function useFunnel<Steps extends NonEmptyTuple<string>>(
     isLast,
     nextStep,
     prevStep,
+    setStep,
     Funnel,
     Step,
   } as const;
