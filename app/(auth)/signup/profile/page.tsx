@@ -8,7 +8,11 @@ import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import ProfileImageUploader from "@/components/auth/profile/ProfileImageUploader";
 import { ProfileFormData, profileSchema } from "@/schemas/auth";
 
-export default function ProfilePage() {
+interface ProfilePageProps {
+  onProfileNext: () => void;
+}
+
+export default function ProfilePage({ onProfileNext }: ProfilePageProps) {
   const {
     control,
     handleSubmit,
@@ -92,6 +96,7 @@ export default function ProfilePage() {
             size="main"
             text="다음으로"
             isActive={isValid && !isSubmitting}
+            onButtonClick={onProfileNext}
           />
         </div>
       </form>

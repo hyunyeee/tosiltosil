@@ -1,13 +1,17 @@
 "use client";
 
-import BackButton from "@/components/commons/button/BackButton";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import ConsentItem from "@/components/commons/consent/ConsentItem";
 import { AGREEMENTS } from "@/constants/terms";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const TermsForm = () => {
+interface TermsFormProps {
+  onTermsNext: () => void;
+  onDetailInfoClick: (id: string) => void;
+}
+
+const TermsForm = ({ onTermsNext, onDetailInfoClick }: TermsFormProps) => {
   const router = useRouter();
   const [checkedMap, setCheckedMap] = useState<Record<string, boolean>>(
     Object.fromEntries(AGREEMENTS.map(({ id }) => [id, false]))
@@ -18,26 +22,14 @@ const TermsForm = () => {
     setCheckedMap((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleBackClick = () => {
-    router.back();
-  };
-
-  const handleDetailInfoClick = (id: string) => {
-    router.push(`/terms/${id}`);
-  };
-
   const handleAllConsentClick = () => {
     setCheckedMap(() =>
       Object.fromEntries(AGREEMENTS.map(({ id }) => [id, !isAllCheck]))
     );
   };
 
-  const handleNextClick = () => {};
   return (
     <div className="flex flex-col items-center pb-[58px]">
-      <header className="mb-[76px] flex w-full items-center justify-start px-[20px] py-[16px]">
-        <BackButton onBackClick={handleBackClick} />
-      </header>
       <section className="flex w-full flex-col items-baseline px-[20px]">
         <h1 className="title2 text-primary-mainText mb-[12px]">
           약관 동의가 필요합니다.
@@ -78,7 +70,7 @@ const TermsForm = () => {
               checked={checkedMap[items.id]}
               required={items.required}
               onCheckClick={handleCheckClick}
-              onDetailInfoClick={handleDetailInfoClick}
+              onDetailInfoClick={onDetailInfoClick}
             />
           ))}
         </div>
@@ -87,7 +79,7 @@ const TermsForm = () => {
           size="main"
           text="다음으로"
           isActive={isAllCheck}
-          onButtonClick={handleNextClick}
+          onButtonClick={onTermsNext}
         />
       </main>
     </div>

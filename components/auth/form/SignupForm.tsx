@@ -9,9 +9,13 @@ import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const SignupForm = () => {
+interface SignupFormProps {
+  onSignupNext: () => void;
+}
+
+const SignupForm = ({ onSignupNext }: SignupFormProps) => {
   // TODO: isVerified 는 “인증번호확인” API 호출 결과에 따라 true 로 설정
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(true);
 
   const {
     control,
@@ -30,6 +34,7 @@ const SignupForm = () => {
 
   const onSubmit = (data: SignupFormData) => {
     console.log("회원가입 시도:", data);
+    onSignupNext();
     // TODO: 실제 회원가입 API 호출
   };
 

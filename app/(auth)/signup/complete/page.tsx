@@ -30,7 +30,7 @@ export default function SignupComplete() {
           목표를 설정해보세요
         </p>
       </section>
-      <Link href="/" className="contents">
+      <Link href="/login" className="contents">
         <PrimaryButton type="button" text="완료하기" size="main" isActive />
       </Link>
     </div>
