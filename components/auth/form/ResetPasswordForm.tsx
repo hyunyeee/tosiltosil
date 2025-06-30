@@ -8,10 +8,9 @@ import { Controller, useForm } from "react-hook-form";
 
 interface ResetPasswordFormProps {
   onResetNext: (code: string) => void;
-  onBack: () => void;
 }
 
-const ResetPasswordForm = ({ onResetNext, onBack }: ResetPasswordFormProps) => {
+const ResetPasswordForm = ({ onResetNext }: ResetPasswordFormProps) => {
   const {
     control,
     handleSubmit,

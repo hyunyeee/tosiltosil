@@ -6,10 +6,11 @@ import RequestCodeForm from "../form/RequestCodeForm";
 import VerifyCodeForm from "../form/VerifyCodeForm";
 import ResetPasswordForm from "../form/ResetPasswordForm";
 import { useRouter } from "next/navigation";
+import BackHeader from "@/components/commons/header/BackHeader";
 
 export default function FindPasswordFlow() {
   const router = useRouter();
-  const { Funnel, Step, nextStep, prevStep } = useFunnel([
+  const { Funnel, isFirst, Step, nextStep, prevStep } = useFunnel([
     "enterEmail",
     "verifyCode",
     "resetPassword",
@@ -29,19 +30,28 @@ export default function FindPasswordFlow() {
     // TODO: 데이터 전부 보냄
     router.replace("/login");
   };
+  const handleBackClick = () => {
+    if (isFirst) {
+      router.back();
+    } else {
+      prevStep();
+    }
+  };
 
   return (
-    
-    <Funnel>
-      <Step name="enterEmail">
-        <RequestCodeForm onEmailNext={handleEmailNext} />
-      </Step>
-      <Step name="verifyCode">
-        <VerifyCodeForm onCodeNext={handleCodeNext} onBack={prevStep} />
-      </Step>
-      <Step name="resetPassword">
-        <ResetPasswordForm onResetNext={handleReset} onBack={prevStep} />
-      </Step>
-    </Funnel>
+    <div className="flex flex-col">
+      <BackHeader onBackClick={handleBackClick} showActions={false} />
+      <Funnel>
+        <Step name="enterEmail">
+          <RequestCodeForm onEmailNext={handleEmailNext} />
+        </Step>
+        <Step name="verifyCode">
+          <VerifyCodeForm onCodeNext={handleCodeNext} />
+        </Step>
+        <Step name="resetPassword">
+          <ResetPasswordForm onResetNext={handleReset} />
+        </Step>
+      </Funnel>
+    </div>
   );
 }

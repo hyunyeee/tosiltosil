@@ -8,10 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 interface VerifyCodeFormProps {
   onCodeNext: (code: string) => void;
-  onBack: () => void;
 }
 
-const VerifyCodeForm = ({ onCodeNext, onBack }: VerifyCodeFormProps) => {
+const VerifyCodeForm = ({ onCodeNext }: VerifyCodeFormProps) => {
   const {
     control,
     handleSubmit,
