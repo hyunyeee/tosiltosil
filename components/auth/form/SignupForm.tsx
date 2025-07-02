@@ -10,7 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface SignupFormProps {
-  onSignupNext: () => void;
+  onSignupNext: (password: string) => void;
 }
 
 const SignupForm = ({ onSignupNext }: SignupFormProps) => {
@@ -34,7 +34,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
 
   const onSubmit = (data: SignupFormData) => {
     console.log("회원가입 시도:", data);
-    onSignupNext();
+    onSignupNext(data.password);
     // TODO: 실제 회원가입 API 호출
   };
 
