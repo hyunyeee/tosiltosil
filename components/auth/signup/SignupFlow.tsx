@@ -5,10 +5,13 @@ import useFunnel from "@/hooks/useFunnel";
 import { useRouter } from "next/navigation";
 import SignupForm from "../form/SignupForm";
 import TermsForm from "../form/TermsForm";
-import ProfilePage from "@/app/(auth)/signup/profile/page";
 import SignupComplete from "@/app/(auth)/signup/complete/page";
 import BackHeader from "@/components/commons/header/BackHeader";
 import TermsDetail from "../terms/TermsDetail";
+import { SignupPayload, TermAgreement } from "@/types/api/auth";
+import { AGREEMENTS } from "@/constants/terms";
+import { ProfileFormData } from "@/schemas/auth";
+import ProfileForm from "../form/ProfileForm";
 
 export default function SignupFlow() {
   const router = useRouter();
@@ -19,19 +22,39 @@ export default function SignupFlow() {
     "profile",
     "complete",
   ] as const);
-  const [data, setData] = useState({});
+  const [signupData, setSignupData] = useState<Partial<SignupPayload>>({});
+  const [termsData, setTermsData] = useState<TermAgreement[]>(
+    AGREEMENTS.map((prev) => ({ ...prev, agreed: false }))
+  );
+
   const [termsId, setTermsId] = useState<string | null>(null);
 
-  const handleSignupNext = () => {
-    // TODO:
+  const handleSignupNext = (password: string) => {
+    setSignupData((prev) => ({ ...prev, password }));
     nextStep();
   };
   const handleTermsNext = () => {
-    // TODO: 인증번호 완료 API
+    const termsResult = termsData.map(({ title, version, agreed }) => ({
+      title,
+      version,
+      agreed,
+    }));
+    setSignupData((prev) => ({ ...prev, terms: termsResult }));
     setStep("profile");
   };
-  const handleProfileNext = () => {
-    // TODO: 데이터 전부 보냄
+
+  const handleProfileNext = (formData: ProfileFormData, file: File | null) => {
+    const form = new FormData();
+    if (file) {
+      form.append("profileImage", file);
+    }
+    form.append(
+      "memberInfo",
+      new Blob([JSON.stringify(signupData)], {
+        type: "application/json",
+      })
+    );
+
     nextStep();
   };
 
@@ -57,6 +80,8 @@ export default function SignupFlow() {
         </Step>
         <Step name="terms">
           <TermsForm
+            termsData={termsData}
+            setTermsData={setTermsData}
             onTermsNext={handleTermsNext}
             onDetailInfoClick={handleDetailInfoClick}
           />
@@ -65,7 +90,7 @@ export default function SignupFlow() {
           {termsId && <TermsDetail id={termsId} />}
         </Step>
         <Step name="profile">
-          <ProfilePage onProfileNext={handleProfileNext} />
+          <ProfileForm<ProfileFormData> onSubmit={handleProfileNext} />
         </Step>
         <Step name="complete">
           <SignupComplete />
