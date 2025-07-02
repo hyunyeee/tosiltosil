@@ -2,29 +2,36 @@
 
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import ConsentItem from "@/components/commons/consent/ConsentItem";
-import { AGREEMENTS } from "@/constants/terms";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { TermAgreement } from "@/types/api/auth";
 
 interface TermsFormProps {
+  termsData: TermAgreement[];
+  setTermsData: React.Dispatch<React.SetStateAction<TermAgreement[]>>;
   onTermsNext: () => void;
   onDetailInfoClick: (id: string) => void;
 }
 
-const TermsForm = ({ onTermsNext, onDetailInfoClick }: TermsFormProps) => {
-  const router = useRouter();
-  const [checkedMap, setCheckedMap] = useState<Record<string, boolean>>(
-    Object.fromEntries(AGREEMENTS.map(({ id }) => [id, false]))
-  );
-  const isAllCheck = Object.values(checkedMap).every(Boolean);
+const TermsForm = ({
+  onTermsNext,
+  onDetailInfoClick,
+  setTermsData,
+  termsData,
+}: TermsFormProps) => {
+  const isAllChecked = termsData
+    .filter((t) => t.required)
+    .every((t) => t.agreed);
 
   const handleCheckClick = (id: string) => {
-    setCheckedMap((prev) => ({ ...prev, [id]: !prev[id] }));
+    setTermsData((prev) =>
+      prev.map((item) =>
+        item.title === id ? { ...item, agreed: !item.agreed } : item
+      )
+    );
   };
 
   const handleAllConsentClick = () => {
-    setCheckedMap(() =>
-      Object.fromEntries(AGREEMENTS.map(({ id }) => [id, !isAllCheck]))
+    setTermsData((prev) =>
+      prev.map((item) => ({ ...item, agreed: !isAllChecked }))
     );
   };
 
@@ -44,7 +51,7 @@ const TermsForm = ({ onTermsNext, onDetailInfoClick }: TermsFormProps) => {
             className="flex items-center gap-2"
             onClick={handleAllConsentClick}
           >
-            {isAllCheck ? (
+            {isAllChecked ? (
               <img
                 src="icons/check-icon.svg"
                 className="mr-[9px] h-[18px] w-[18px]"
@@ -62,13 +69,13 @@ const TermsForm = ({ onTermsNext, onDetailInfoClick }: TermsFormProps) => {
         </div>
         <div className="bg-primary-gray mb-[24px] h-[1px] w-full" />
         <div className="mb-[74px] flex w-full flex-col gap-[20px]">
-          {AGREEMENTS.map((items) => (
+          {termsData.map((item) => (
             <ConsentItem
-              key={items.id}
-              id={items.id}
-              label={items.label}
-              checked={checkedMap[items.id]}
-              required={items.required}
+              key={item.title}
+              id={item.title}
+              label={item.label}
+              checked={item.agreed}
+              required={item.required}
               onCheckClick={handleCheckClick}
               onDetailInfoClick={onDetailInfoClick}
             />
@@ -78,7 +85,7 @@ const TermsForm = ({ onTermsNext, onDetailInfoClick }: TermsFormProps) => {
           type="button"
           size="main"
           text="다음으로"
-          isActive={isAllCheck}
+          isActive={isAllChecked}
           onButtonClick={onTermsNext}
         />
       </main>
