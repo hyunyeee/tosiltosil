@@ -48,9 +48,13 @@ export default function SignupFlow() {
     if (file) {
       form.append("profileImage", file);
     }
+    const memberInfoPayload = {
+      ...signupData,
+      nickname: formData.nickname,
+    };
     form.append(
       "memberInfo",
-      new Blob([JSON.stringify(signupData)], {
+      new Blob([JSON.stringify(memberInfoPayload)], {
         type: "application/json",
       })
     );
