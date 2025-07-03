@@ -1,25 +1,18 @@
-import { SearchResult } from "@/types/search";
+interface FriendCardProps {
+  nickname: string;
+  profileImg: string;
+  code: string;
+  children: React.ReactNode;
+}
 
-const SearchResultCard = ({
+const FriendCard = ({
   nickname,
   profileImg,
   code,
-  relationship,
-}: SearchResult) => {
+  children,
+}: FriendCardProps) => {
   const profileImageSrc =
     profileImg === "" ? "/images/friend-default.svg" : `${profileImg}`;
-
-  const textColorClass =
-    relationship === "FRIEND"
-      ? "text-primary-deepGray"
-      : "text-primary-darkGray";
-
-  const statusText =
-    relationship === "FRIEND"
-      ? "친구"
-      : relationship === "PENDING"
-        ? "대기중"
-        : "";
 
   return (
     <div className="subhead2 bg-gray-background flex items-center rounded-[6px] border-1 border-black/20 px-[10px] py-[8px]">
@@ -33,12 +26,10 @@ const SearchResultCard = ({
           {nickname}
         </p>
         <p className="text-primary-gray">#{code}</p>
-        <p className={`${textColorClass} w-full flex-1 text-center`}>
-          {statusText}
-        </p>
+        {children}
       </div>
     </div>
   );
 };
 
-export default SearchResultCard;
+export default FriendCard;
