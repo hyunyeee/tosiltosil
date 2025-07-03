@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import SearchInput from "@/components/search/SearchInput";
-import SearchTitle from "@/components/search/SearchTitle";
-import SearchResultList from "@/components/search/SearchResultList";
+import SearchInput from "@/components/friend/search/SearchInput";
+import SearchTitle from "@/components/friend/search/SearchTitle";
+import SearchResultList from "@/components/friend/search/SearchResultList";
 import { searchResultList } from "@/app/mocks/searchResults";
 
 export default function SearchPage() {
@@ -28,9 +28,7 @@ export default function SearchPage() {
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <SearchTitle />
       </div>
-      <div>
-        <SearchResultList searchResultList={searchResultList} />
-      </div>
+      <SearchResultList searchResultList={searchResultList} />
     </div>
   );
 }
