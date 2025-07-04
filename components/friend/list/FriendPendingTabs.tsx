@@ -16,7 +16,7 @@ const FriendPendingTabs = ({
         <b className="caption2">{requestCount}</b>
         <img src="/icons/move-arrow-icon.svg" />
       </Link>
-      <Link href="/friend/request" className="flex items-center gap-[4px]">
+      <Link href="/friend/requests" className="flex items-center gap-[4px]">
         <b className="footout">수락 대기중</b>
         <b className="caption2">{pendingCount}</b>
         <img src="/icons/move-arrow-icon.svg" />
