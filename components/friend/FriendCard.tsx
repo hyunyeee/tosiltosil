@@ -21,11 +21,13 @@ const FriendCard = ({
         alt={`${nickname}의 프로필 이미지`}
         className="h-[32px] w-[32px] rounded-[4px]"
       />
-      <div className="flex flex-1 gap-[24px]">
-        <p className="text-primary-mainText ml-[10px] whitespace-nowrap">
-          {nickname}
-        </p>
-        <p className="text-primary-gray">#{code}</p>
+      <div className="flex flex-1 items-center">
+        <div className="flex items-center gap-[50px]">
+          <p className="text-primary-mainText ml-[10px] whitespace-nowrap">
+            {nickname}
+          </p>
+          <p className="text-primary-gray">#{code}</p>
+        </div>
         {children}
       </div>
     </div>

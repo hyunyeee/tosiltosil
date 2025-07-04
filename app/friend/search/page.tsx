@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/friend/search/SearchInput";
-import BasicTitle from "@/components/friend/search/BasicTitle";
+import BasicTitle from "@/components/friend/BasicTitle";
 import SearchResultList from "@/components/friend/search/SearchResultList";
 import { searchResultList } from "@/app/mocks/searchResults";
 
