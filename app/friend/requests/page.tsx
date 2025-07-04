@@ -28,7 +28,7 @@ export default function FriendRequestPage() {
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <BasicTitle
           iconSrc="/icons/friend-request-icon.svg"
-          text="수락대기중"
+          text={`수락대기중 ${friendResultList.length}`}
         />
       </div>
       <RequestList friendRequestList={friendResultList} />

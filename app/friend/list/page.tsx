@@ -27,7 +27,10 @@ export default function FriendListPage() {
     <div className="mt-[28px]">
       <div className="px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
-        <FriendPendingTabs requestCount={3} pendingCount={2} />
+        <FriendPendingTabs
+          requestCount={friendResultList.length}
+          pendingCount={friendResultList.length}
+        />
       </div>
       <FriendListTitle />
       <FriendList friendResultList={friendResultList} />

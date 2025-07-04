@@ -26,7 +26,10 @@ export default function FriendPendingPage() {
     <div className="mt-[28px]">
       <div className="px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
-        <BasicTitle iconSrc="/icons/friend-request-icon.svg" text="친구요청" />
+        <BasicTitle
+          iconSrc="/icons/friend-request-icon.svg"
+          text={`친구요청 ${friendResultList.length}`}
+        />
       </div>
       <PendingList friendRequestList={friendResultList} />
     </div>
