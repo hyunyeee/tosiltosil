@@ -5,3 +5,10 @@ export interface SearchResult {
   code: string;
   relationship?: "FRIEND" | "PENDING";
 }
+
+export interface FriendResult {
+  id?: string;
+  nickname: string;
+  profileImg: string;
+  code: string;
+}
