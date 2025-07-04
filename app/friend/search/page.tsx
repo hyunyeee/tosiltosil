@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/friend/search/SearchInput";
-import SearchTitle from "@/components/friend/search/SearchTitle";
+import BasicTitle from "@/components/friend/search/BasicTitle";
 import SearchResultList from "@/components/friend/search/SearchResultList";
 import { searchResultList } from "@/app/mocks/searchResults";
 
@@ -26,7 +26,7 @@ export default function SearchPage() {
     <div className="mt-[28px]">
       <div className="px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
-        <SearchTitle />
+        <BasicTitle iconSrc="/icons/search-icon.svg" text="검색결과" />
       </div>
       <SearchResultList searchResultList={searchResultList} />
     </div>
