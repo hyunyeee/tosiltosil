@@ -5,9 +5,9 @@ interface BaseUserInfo {
   code: string;
 }
 
-export interface FriendRequest extends BaseUserInfo {}
+export type FriendRequest = BaseUserInfo;
 
-export interface FriendResult extends BaseUserInfo {}
+export type FriendResult = BaseUserInfo;
 
 export interface SearchResult extends BaseUserInfo {
   relationship?: "FRIEND" | "PENDING";
