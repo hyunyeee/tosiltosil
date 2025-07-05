@@ -5,7 +5,6 @@ import useFunnel from "@/hooks/useFunnel";
 import { useRouter } from "next/navigation";
 import SignupForm from "../form/SignupForm";
 import TermsForm from "../form/TermsForm";
-import SignupComplete from "@/app/(auth)/signup/complete/page";
 import BackHeader from "@/components/commons/header/BackHeader";
 import TermsDetail from "../terms/TermsDetail";
 import { SignupPayload, TermAgreement } from "@/types/api/auth";
@@ -20,7 +19,6 @@ export default function SignupFlow() {
     "terms",
     "termsDetail",
     "profile",
-    "complete",
   ] as const);
   const [signupData, setSignupData] = useState<Partial<SignupPayload>>({});
   const [termsData, setTermsData] = useState<TermAgreement[]>(
@@ -58,8 +56,8 @@ export default function SignupFlow() {
         type: "application/json",
       })
     );
-
-    nextStep();
+    // TODO: 제출 후 회원가입 완료
+    router.replace("/signup/complete");
   };
 
   const handleBackClick = () => {
@@ -95,9 +93,6 @@ export default function SignupFlow() {
         </Step>
         <Step name="profile">
           <ProfileForm<ProfileFormData> onSubmit={handleProfileNext} />
-        </Step>
-        <Step name="complete">
-          <SignupComplete />
         </Step>
       </Funnel>
     </div>
