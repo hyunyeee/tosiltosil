@@ -69,13 +69,13 @@ const TermsForm = ({
         </div>
         <div className="bg-primary-gray mb-[24px] h-[1px] w-full" />
         <div className="mb-[74px] flex w-full flex-col gap-[20px]">
-          {termsData.map((item) => (
+          {termsData.map(({ title, label, agreed, required }) => (
             <ConsentItem
-              key={item.title}
-              id={item.title}
-              label={item.label}
-              checked={item.agreed}
-              required={item.required}
+              key={title}
+              id={title}
+              label={label}
+              checked={agreed}
+              required={required}
               onCheckClick={handleCheckClick}
               onDetailInfoClick={onDetailInfoClick}
             />
