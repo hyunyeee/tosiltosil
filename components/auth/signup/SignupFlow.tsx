@@ -14,12 +14,8 @@ import ProfileForm from "../form/ProfileForm";
 
 export default function SignupFlow() {
   const router = useRouter();
-  const { Funnel, isFirst, Step, nextStep, prevStep, setStep } = useFunnel([
-    "signup",
-    "terms",
-    "termsDetail",
-    "profile",
-  ] as const);
+  const { Funnel, isFirst, currentStep, Step, nextStep, prevStep, setStep } =
+    useFunnel(["signup", "terms", "termsDetail", "profile"] as const);
   const [signupData, setSignupData] = useState<Partial<SignupPayload>>({});
   const [termsData, setTermsData] = useState<TermAgreement[]>(
     AGREEMENTS.map((prev) => ({ ...prev, agreed: false }))
@@ -63,6 +59,8 @@ export default function SignupFlow() {
   const handleBackClick = () => {
     if (isFirst) {
       router.back();
+    } else if (currentStep === "profile") {
+      setStep("terms");
     } else {
       prevStep();
     }
