@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import { pretendard } from "@/styles/font";
 import { Providers } from "@/components/Providers";
+import OverlayRenderer from "@/components/overlay/OverlayRenderer";
 
 export const metadata: Metadata = {
   title: "토실토실",
@@ -29,6 +30,7 @@ export default function RootLayout({
       >
         <Providers>
           <div id="portal" />
+          <OverlayRenderer />
           {children}
         </Providers>
       </body>
