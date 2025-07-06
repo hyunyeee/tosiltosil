@@ -20,7 +20,7 @@ export default function FindPasswordFlow() {
   const handleEmailNext = (emailValue: string) => {
     // TODO: 이메일 인증번호 API 요청
     nextStep();
-    setEmail(email);
+    setEmail(emailValue);
   };
   const handleCodeNext = (code: string) => {
     // TODO: 인증번호 완료 API

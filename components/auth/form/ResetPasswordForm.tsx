@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
 interface ResetPasswordFormProps {
-  onResetNext: (code: string) => void;
+  onResetNext: (password: string) => void;
 }
 
 const ResetPasswordForm = ({ onResetNext }: ResetPasswordFormProps) => {
