@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import { pretendard } from "@/styles/font";
+import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "토실토실",
@@ -26,7 +27,10 @@ export default function RootLayout({
       <body
         className={`${pretendard.className} bg-gray-background h-screen w-full max-w-[430px]`}
       >
-        {children}
+        <Providers>
+          <div id="portal" />
+          {children}
+        </Providers>
       </body>
     </html>
   );
