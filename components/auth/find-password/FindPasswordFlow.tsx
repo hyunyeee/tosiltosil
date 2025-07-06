@@ -7,15 +7,13 @@ import VerifyCodeForm from "../form/VerifyCodeForm";
 import ResetPasswordForm from "../form/ResetPasswordForm";
 import { useRouter } from "next/navigation";
 import BackHeader from "@/components/commons/header/BackHeader";
+import { FIND_PASSWORD_STEPS } from "@/constants/flow";
 
 export default function FindPasswordFlow() {
   const router = useRouter();
-  const { Funnel, isFirst, Step, nextStep, prevStep } = useFunnel([
-    "enterEmail",
-    "verifyCode",
-    "resetPassword",
-  ] as const);
-  const [email, setEmail] = useState<string>("");
+  const { Funnel, isFirst, Step, nextStep, prevStep } =
+    useFunnel(FIND_PASSWORD_STEPS);
+  const [email, setEmail] = useState("");
 
   const handleEmailNext = (emailValue: string) => {
     // TODO: 이메일 인증번호 API 요청

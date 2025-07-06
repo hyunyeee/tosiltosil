@@ -11,11 +11,12 @@ import { SignupPayload, TermAgreement } from "@/types/api/auth";
 import { AGREEMENTS } from "@/constants/terms";
 import { ProfileFormData } from "@/schemas/auth";
 import ProfileForm from "../form/ProfileForm";
+import { SIGNUP_STEPS } from "@/constants/flow";
 
 export default function SignupFlow() {
   const router = useRouter();
   const { Funnel, isFirst, currentStep, Step, nextStep, prevStep, setStep } =
-    useFunnel(["signup", "terms", "termsDetail", "profile"] as const);
+    useFunnel(SIGNUP_STEPS);
   const [signupData, setSignupData] = useState<Partial<SignupPayload>>({});
   const [termsData, setTermsData] = useState<TermAgreement[]>(
     AGREEMENTS.map((prev) => ({ ...prev, agreed: false }))
