@@ -6,7 +6,7 @@ interface IModalContainerProps {
 
 const ModalContainer = ({ children }: IModalContainerProps) => {
   return (
-    <div className="mx-[20px] mt-[300px] flex flex-col items-center justify-center rounded bg-pink-400 p-6 shadow-lg">
+    <div className="fixed top-1/2 left-1/2 w-[calc(100%-40px)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 rounded-[8px] bg-white px-[30px] pt-[10px] pb-[24px] shadow-lg">
       {children}
     </div>
   );
