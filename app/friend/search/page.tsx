@@ -23,12 +23,14 @@ export default function SearchPage() {
   }, [debouncedQuery]);
 
   return (
-    <div className="mt-[28px]">
-      <div className="px-[20px]">
+    <div className="flex h-full flex-col">
+      <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <BasicTitle iconSrc="/icons/search-icon.svg" text="검색결과" />
       </div>
-      <SearchResultList searchResultList={searchResultList} />
+      <div className="flex-1 overflow-y-auto">
+        <SearchResultList searchResultList={searchResultList} />
+      </div>
     </div>
   );
 }

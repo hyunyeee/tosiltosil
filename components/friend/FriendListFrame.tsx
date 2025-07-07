@@ -5,10 +5,10 @@ interface FriendListFrameProps {
 
 const FriendListFrame = ({ isEmpty, children }: FriendListFrameProps) => {
   return (
-    <div className="bg-gray-card h-full min-h-[calc(100vh-146px)]">
+    <div className="bg-gray-card h-full">
       {isEmpty ? (
-        <div className="flex h-full flex-col items-center justify-center gap-[12px]">
-          <img className="mt-[214px]" src="/images/result-empty.svg" />
+        <div className="flex h-full flex-col items-center gap-[12px] pt-[197px]">
+          <img className="h-[58px] w-[58px]" src="/images/result-empty.svg" />
           <p className="subhead2 text-primary-darkGray">검색결과가 없습니다.</p>
         </div>
       ) : (

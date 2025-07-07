@@ -23,15 +23,17 @@ export default function FriendRequestPage() {
   }, [debouncedQuery]);
 
   return (
-    <div className="mt-[28px]">
-      <div className="px-[20px]">
+    <div className="flex h-full flex-col">
+      <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <BasicTitle
           iconSrc="/icons/friend-request-icon.svg"
           text={`수락대기중 ${friendResultList.length}`}
         />
       </div>
-      <RequestList friendRequestList={friendResultList} />
+      <div className="flex-1 overflow-y-auto">
+        <RequestList friendRequestList={friendResultList} />
+      </div>
     </div>
   );
 }

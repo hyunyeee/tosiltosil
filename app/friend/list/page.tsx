@@ -24,16 +24,18 @@ export default function FriendListPage() {
   }, [debouncedQuery]);
 
   return (
-    <div className="mt-[28px]">
-      <div className="px-[20px]">
+    <div className="flex h-full flex-col">
+      <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <FriendPendingTabs
           requestCount={friendResultList.length}
           pendingCount={friendResultList.length}
         />
       </div>
-      <FriendListTitle />
-      <FriendList friendResultList={friendResultList} />
+      <div className="flex-1 overflow-y-auto">
+        <FriendListTitle />
+        <FriendList friendResultList={friendResultList} />
+      </div>
     </div>
   );
 }

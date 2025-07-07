@@ -23,15 +23,17 @@ export default function FriendPendingPage() {
   }, [debouncedQuery]);
 
   return (
-    <div className="mt-[28px]">
-      <div className="px-[20px]">
+    <div className="flex h-full flex-col">
+      <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <BasicTitle
           iconSrc="/icons/friend-request-icon.svg"
           text={`친구요청 ${friendResultList.length}`}
         />
       </div>
-      <PendingList friendRequestList={friendResultList} />
+      <div className="flex-1 overflow-y-auto">
+        <PendingList friendRequestList={friendResultList} />
+      </div>
     </div>
   );
 }
