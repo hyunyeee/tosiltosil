@@ -8,7 +8,10 @@ interface FriendResultListProps {
 
 const FriendList = ({ friendResultList }: FriendResultListProps) => {
   return (
-    <FriendListFrame isEmpty={friendResultList.length === 0}>
+    <FriendListFrame
+      isEmpty={friendResultList.length === 0}
+      content="검색 결과가 없습니다."
+    >
       <div className="flex flex-col gap-[13px] p-[20px]">
         {friendResultList.map(({ nickname, profileImg, code }) => (
           <FriendResultCard

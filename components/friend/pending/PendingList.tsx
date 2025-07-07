@@ -8,7 +8,10 @@ interface FriendRequestListProps {
 
 const PendingList = ({ friendRequestList }: FriendRequestListProps) => {
   return (
-    <FriendListFrame isEmpty={friendRequestList.length === 0}>
+    <FriendListFrame
+      isEmpty={friendRequestList.length === 0}
+      content="검색 결과가 없습니다."
+    >
       <div className="flex flex-col gap-[13px] p-[20px]">
         {friendRequestList.map(({ nickname, profileImg, code }) => (
           <PendingCard
