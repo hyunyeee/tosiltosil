@@ -13,10 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className={`${pretendard.variable} flex w-full items-center justify-center`}
-    >
+    <html lang="ko" className={`${pretendard.variable} `}>
       <head>
         <link
           rel="stylesheet"
@@ -24,7 +21,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${pretendard.className} bg-gray-background h-screen w-full max-w-[430px]`}
+        className={`${pretendard.className} bg-gray-background mx-auto flex h-screen w-full max-w-[430px]`}
       >
         {children}
       </body>

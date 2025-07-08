@@ -1,5 +1,5 @@
-import RequestCodeForm from "@/components/auth/form/RequestCodeForm";
+import FindPasswordFlow from "@/components/auth/find-password/FindPasswordFlow";
 
 export default function FindPasswordPage() {
-  return <RequestCodeForm />;
+  return <FindPasswordFlow />;
 }
