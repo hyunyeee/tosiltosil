@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import SearchResultCard from "@/components/search/SearchResultCard";
+import SearchResultCard from "@/components/friend/search/SearchResultCard";
 
 const meta: Meta<typeof SearchResultCard> = {
   title: "Search/SearchResultCard",
