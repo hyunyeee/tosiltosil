@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 interface IPortalProps {
@@ -6,7 +6,19 @@ interface IPortalProps {
 }
 
 function Portal({ children }: IPortalProps) {
-  const element = document.querySelector("#portal");
+  const portalRef = useRef<Element | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      portalRef.current = document.querySelector("#portal");
+    }
+  }, []);
+
+  if (typeof window === "undefined" || !children) {
+    return null;
+  }
+
+  const element = portalRef.current;
 
   if (!element) {
     console.warn("Portal element with id 'portal' not found");
