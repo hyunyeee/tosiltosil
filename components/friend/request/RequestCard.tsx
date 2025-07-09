@@ -1,7 +1,9 @@
 import FriendCard from "@/components/friend/FriendCard";
-import { FriendRequest } from "@/types/friend";
 
-interface RequestCardProps extends FriendRequest {
+interface RequestCardProps {
+  nickname: string;
+  profileImg: string;
+  code: string;
   onAccept: (code: string) => void;
   onReject: (code: string) => void;
 }
