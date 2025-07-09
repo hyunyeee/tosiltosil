@@ -1,15 +1,24 @@
 import FriendCard from "@/components/friend/FriendCard";
 import { FriendRequest } from "@/types/friend";
 
-const RequestCard = ({ nickname, profileImg, code }: FriendRequest) => {
+interface RequestCardProps extends FriendRequest {
+  onAccept: (code: string) => void;
+  onReject: (code: string) => void;
+}
+
+const RequestCard = ({
+  nickname,
+  profileImg,
+  code,
+  onAccept,
+  onReject,
+}: RequestCardProps) => {
   const handleAccept = () => {
-    // TODO: 친구 요청 수락 API 연결
-    console.log("수락:", code);
+    onAccept(code);
   };
 
   const handleReject = () => {
-    // TODO: 친구 요청 거절 API 연결
-    console.log("거절:", code);
+    onReject(code);
   };
 
   return (
