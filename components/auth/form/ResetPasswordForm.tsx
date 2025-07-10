@@ -6,7 +6,11 @@ import { ResetPasswordFormData, resetPasswordSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
-const ResetPasswordForm = () => {
+interface ResetPasswordFormProps {
+  onResetNext: (password: string) => void;
+}
+
+const ResetPasswordForm = ({ onResetNext }: ResetPasswordFormProps) => {
   const {
     control,
     handleSubmit,
@@ -21,7 +25,7 @@ const ResetPasswordForm = () => {
   });
   const onSubmit = async (data: ResetPasswordFormData) => {
     console.log("비밀번호 변경 Form:", data);
-    // TODO: 비밀번호 변경 API 호출
+    onResetNext(data.password);
   };
 
   return (

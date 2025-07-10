@@ -1,43 +1,42 @@
 "use client";
 
-import BackButton from "@/components/commons/button/BackButton";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import ConsentItem from "@/components/commons/consent/ConsentItem";
-import { AGREEMENTS } from "@/constants/terms";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { TermAgreement } from "@/types/api/auth";
 
-const TermsForm = () => {
-  const router = useRouter();
-  const [checkedMap, setCheckedMap] = useState<Record<string, boolean>>(
-    Object.fromEntries(AGREEMENTS.map(({ id }) => [id, false]))
-  );
-  const isAllCheck = Object.values(checkedMap).every(Boolean);
+interface TermsFormProps {
+  termsData: TermAgreement[];
+  setTermsData: React.Dispatch<React.SetStateAction<TermAgreement[]>>;
+  onTermsNext: () => void;
+  onDetailInfoClick: (id: string) => void;
+}
+
+const TermsForm = ({
+  onTermsNext,
+  onDetailInfoClick,
+  setTermsData,
+  termsData,
+}: TermsFormProps) => {
+  const isAllChecked = termsData
+    .filter((t) => t.required)
+    .every((t) => t.agreed);
 
   const handleCheckClick = (id: string) => {
-    setCheckedMap((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const handleBackClick = () => {
-    router.back();
-  };
-
-  const handleDetailInfoClick = (id: string) => {
-    router.push(`/terms/${id}`);
-  };
-
-  const handleAllConsentClick = () => {
-    setCheckedMap(() =>
-      Object.fromEntries(AGREEMENTS.map(({ id }) => [id, !isAllCheck]))
+    setTermsData((prev) =>
+      prev.map((item) =>
+        item.title === id ? { ...item, agreed: !item.agreed } : item
+      )
     );
   };
 
-  const handleNextClick = () => {};
+  const handleAllConsentClick = () => {
+    setTermsData((prev) =>
+      prev.map((item) => ({ ...item, agreed: !isAllChecked }))
+    );
+  };
+
   return (
     <div className="flex flex-col items-center pb-[58px]">
-      <header className="mb-[76px] flex w-full items-center justify-start px-[20px] py-[16px]">
-        <BackButton onBackClick={handleBackClick} />
-      </header>
       <section className="flex w-full flex-col items-baseline px-[20px]">
         <h1 className="title2 text-primary-mainText mb-[12px]">
           약관 동의가 필요합니다.
@@ -52,7 +51,7 @@ const TermsForm = () => {
             className="flex items-center gap-2"
             onClick={handleAllConsentClick}
           >
-            {isAllCheck ? (
+            {isAllChecked ? (
               <img
                 src="icons/check-icon.svg"
                 className="mr-[9px] h-[18px] w-[18px]"
@@ -70,15 +69,15 @@ const TermsForm = () => {
         </div>
         <div className="bg-primary-gray mb-[24px] h-[1px] w-full" />
         <div className="mb-[74px] flex w-full flex-col gap-[20px]">
-          {AGREEMENTS.map((items) => (
+          {termsData.map(({ title, label, agreed, required }) => (
             <ConsentItem
-              key={items.id}
-              id={items.id}
-              label={items.label}
-              checked={checkedMap[items.id]}
-              required={items.required}
+              key={title}
+              id={title}
+              label={label}
+              checked={agreed}
+              required={required}
               onCheckClick={handleCheckClick}
-              onDetailInfoClick={handleDetailInfoClick}
+              onDetailInfoClick={onDetailInfoClick}
             />
           ))}
         </div>
@@ -86,8 +85,8 @@ const TermsForm = () => {
           type="button"
           size="main"
           text="다음으로"
-          isActive={isAllCheck}
-          onButtonClick={handleNextClick}
+          isActive={isAllChecked}
+          onButtonClick={onTermsNext}
         />
       </main>
     </div>

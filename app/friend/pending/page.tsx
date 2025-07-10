@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/friend/search/SearchInput";
 import BasicTitle from "@/components/friend/BasicTitle";
-import SearchResultList from "@/components/friend/search/SearchResultList";
-import { searchResultList } from "@/app/mocks/searchResults";
+import PendingList from "@/components/friend/pending/PendingList";
+import { friendResultList } from "@/app/mocks/searchResults";
 
-export default function SearchPage() {
+export default function FriendPendingPage() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
 
@@ -26,10 +26,13 @@ export default function SearchPage() {
     <div className="flex h-full flex-col">
       <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
-        <BasicTitle iconSrc="/icons/search-icon.svg" text="검색결과" />
+        <BasicTitle
+          iconSrc="/icons/friend-request-icon.svg"
+          text={`친구요청 ${friendResultList.length}`}
+        />
       </div>
       <div className="flex-1 overflow-y-auto">
-        <SearchResultList searchResultList={searchResultList} />
+        <PendingList friendRequestList={friendResultList} />
       </div>
     </div>
   );

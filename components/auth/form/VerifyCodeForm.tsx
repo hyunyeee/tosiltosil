@@ -6,7 +6,11 @@ import { VerifyCodeFormData, verifyCodeSchema } from "@/schemas/auth";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const VerifyCodeForm = () => {
+interface VerifyCodeFormProps {
+  onCodeNext: (code: string) => void;
+}
+
+const VerifyCodeForm = ({ onCodeNext }: VerifyCodeFormProps) => {
   const {
     control,
     handleSubmit,
@@ -18,8 +22,7 @@ const VerifyCodeForm = () => {
   });
 
   const onSubmit = (data: VerifyCodeFormData) => {
-    console.log("인증번호 확인 Form:", data);
-    // TODO: 인증번호 확인 API 호출
+    onCodeNext(data.code);
   };
 
   return (

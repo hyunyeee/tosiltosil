@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/friend/search/SearchInput";
-import BasicTitle from "@/components/friend/BasicTitle";
-import SearchResultList from "@/components/friend/search/SearchResultList";
-import { searchResultList } from "@/app/mocks/searchResults";
+import FriendPendingTabs from "@/components/friend/list/FriendPendingTabs";
+import FriendListTitle from "@/components/friend/list/FriendListTitle";
+import FriendList from "@/components/friend/list/FriendResultList";
+import { friendResultList } from "@/app/mocks/searchResults";
 
-export default function SearchPage() {
+export default function FriendListPage() {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
 
@@ -26,10 +27,14 @@ export default function SearchPage() {
     <div className="flex h-full flex-col">
       <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
-        <BasicTitle iconSrc="/icons/search-icon.svg" text="검색결과" />
+        <FriendPendingTabs
+          requestCount={friendResultList.length}
+          pendingCount={friendResultList.length}
+        />
       </div>
       <div className="flex-1 overflow-y-auto">
-        <SearchResultList searchResultList={searchResultList} />
+        <FriendListTitle />
+        <FriendList friendResultList={friendResultList} />
       </div>
     </div>
   );
