@@ -52,3 +52,5 @@ export const CategoryList: Category[] = [
     color: "indigo",
   },
 ];
+
+// export const CategoryList: Category[] = [];

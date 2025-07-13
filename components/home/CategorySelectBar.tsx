@@ -21,20 +21,29 @@ const CategorySelectBar = ({
       <button className="flex-shrink-0">
         <img src="/icons/add-category-icon.svg" />
       </button>
-      <div
-        className={`${selectedCategoryId === null ? "bg-primary-mainText" : "bg-primary-darkGray"} footnote flex-shrink-0 cursor-pointer rounded-[2px] border-[1px] px-[12px] py-[4px] text-white`}
-        onClick={resetCategory}
-      >
-        전체
-      </div>
-      {categoryList.map((category) => (
-        <CategoryLabel
-          key={category.categoryId}
-          {...category}
-          selectedCategoryId={selectedCategoryId}
-          onCategorySelect={onCategorySelect}
-        />
-      ))}
+      {categoryList.length > 0 && (
+        <>
+          <div
+            className={`${selectedCategoryId === null ? "bg-primary-mainText" : "bg-primary-darkGray"} footnote flex-shrink-0 cursor-pointer rounded-[2px] border-[1px] px-[12px] py-[4px] text-white`}
+            onClick={resetCategory}
+          >
+            전체
+          </div>
+
+          {categoryList?.map((category) => (
+            <CategoryLabel
+              key={category.categoryId}
+              {...category}
+              selectedCategoryId={selectedCategoryId}
+              onCategorySelect={onCategorySelect}
+            />
+          ))}
+        </>
+      )}
+
+      {categoryList.length === 0 && (
+        <p className="subhead2 text-primary-darkGray">카테고리가 없습니다</p>
+      )}
     </div>
   );
 };
