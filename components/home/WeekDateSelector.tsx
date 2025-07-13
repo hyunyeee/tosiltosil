@@ -68,7 +68,7 @@ const WeekDateSelector = () => {
       </div>
       <div className="bg-primary-gray mr-[18px] h-full w-[1px]" />
       <div
-        className="flex items-center gap-[15px] overflow-x-auto pr-[18px]"
+        className="flex items-center gap-[15px] overflow-x-auto pr-[18px] [&::-webkit-scrollbar]:hidden"
         ref={scrollContainerRef}
       >
         {dateList.map((date, i) => {

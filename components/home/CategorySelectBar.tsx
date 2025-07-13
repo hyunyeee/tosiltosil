@@ -17,7 +17,7 @@ const CategorySelectBar = ({
   };
 
   return (
-    <div className="bg-gray-background flex shrink-0 items-center gap-[14px] overflow-x-scroll px-[20px] py-[9px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]">
+    <div className="bg-gray-background flex shrink-0 items-center gap-[14px] overflow-x-scroll px-[20px] py-[9px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] [&::-webkit-scrollbar]:hidden">
       <button className="flex-shrink-0">
         <img src="/icons/add-category-icon.svg" />
       </button>
