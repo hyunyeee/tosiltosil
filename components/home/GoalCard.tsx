@@ -1,12 +1,14 @@
 import { GoalCardProps } from "@/types/Category";
 import StateTag from "@/components/home/StateTag";
+import { formatISODurationToTime } from "@/utils/time";
 
 const GoalCard = ({
   categoryName,
   color,
   title,
   state,
-  time,
+  duration,
+  totalTime,
   percentage,
   hasButton,
 }: GoalCardProps) => {
@@ -65,7 +67,7 @@ const GoalCard = ({
                       : "text-black/70"
                   } subhead2`}
                 >
-                  {time}
+                  {`${formatISODurationToTime(duration)} / ${formatISODurationToTime(totalTime)}`}
                 </p>
               </div>
             </div>
