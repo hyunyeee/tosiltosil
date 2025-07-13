@@ -10,8 +10,8 @@ import { CategoryList } from "@/constants/mocks/CategoryList";
 import { GoalListData } from "@/constants/mocks/GoalList";
 
 export default function GoalPage() {
-  const [categoryList, setCategoryList] = useState(CategoryList);
-  const [goalList, setGoalList] = useState(GoalListData);
+  const [categoryList, setCategoryList] = useState(CategoryList || []);
+  const [goalList, setGoalList] = useState(GoalListData || []);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
