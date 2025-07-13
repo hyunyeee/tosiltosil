@@ -44,7 +44,7 @@ const WeekDateSelector = () => {
   const scrollToToday = () => {
     if (!scrollContainerRef.current || !todayItemRef.current) return;
     const container = scrollContainerRef.current;
-    const SCROLL_AMOUNT = 329;
+    const SCROLL_AMOUNT = 327;
     container.scrollTo({
       left: SCROLL_AMOUNT,
       behavior: "smooth",
@@ -56,7 +56,7 @@ const WeekDateSelector = () => {
   }, []);
 
   return (
-    <div className="bg-gray-card flex py-[8px]">
+    <div className="bg-gray-card flex pt-[8px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]">
       <div
         className="flex cursor-pointer flex-col items-center gap-[3px] px-[19px]"
         onClick={focusToday}
@@ -80,13 +80,18 @@ const WeekDateSelector = () => {
               ref={isToday ? todayItemRef : null}
               className={`${
                 isFocused ? "text-primary-mainText" : "text-primary-darkGray"
-              } flex w-[32px] flex-shrink-0 cursor-pointer flex-col items-center gap-[3px]`}
+              } flex w-[32px] flex-shrink-0 cursor-pointer flex-col items-center`}
               onClick={() => toggleFocusDate(date)}
             >
-              <p className={isFocused ? "caption1" : "caption2"}>
+              <p className={`${isFocused ? "caption1" : "caption2"} mb-[3px]`}>
                 {date.getDate()}일
               </p>
-              <p className="subhead2">{getDayText(date, isToday)}</p>
+              <p className={`${isFocused ? "mb-[6px]" : "mb-[8px]"} subhead2`}>
+                {getDayText(date, isToday)}
+              </p>
+              {isFocused && (
+                <div className="h-[2px] w-[36px] rounded-t-full bg-black" />
+              )}
             </div>
           );
         })}
