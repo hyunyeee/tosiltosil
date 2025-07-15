@@ -47,14 +47,14 @@ const GoalCard = ({
                 backgroundColor: `var(--color-primary-${color})`,
               }}
             >
-              <img src="/images/goal-rabbit.svg" />
+              <img src="/images/goal-rabbit.svg" alt="목표 아이콘" />
             </div>
             <div className="flex flex-grow flex-col">
               <div className="flex justify-between">
                 <p className="text-primary-deepGray subhead1">{title}</p>
                 {hasButton && (
                   <button>
-                    <img src="/icons/more-icon.svg" />
+                    <img src="/icons/more-icon.svg" alt="더보기" />
                   </button>
                 )}
               </div>
@@ -94,7 +94,7 @@ const GoalCard = ({
                 }}
               />
             </div>
-            <img src="/icons/start-icon.svg" />
+            <img src="/icons/start-icon.svg" alt="시작 아이콘" />
           </div>
         </div>
       </div>
