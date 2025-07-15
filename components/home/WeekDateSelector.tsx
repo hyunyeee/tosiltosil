@@ -1,72 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
-const SCROLL_TO_TODAY_OFFSET = 327;
+import { useWeekDates } from "@/hooks/useWeekDates";
 
 const WeekDateSelector = () => {
-  const today = new Date();
-  const [focusDate, setFocusDate] = useState<Date>(today);
-
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const todayItemRef = useRef<HTMLDivElement>(null);
-
-  const startDate = new Date(today);
-  startDate.setDate(today.getDate() - 7);
-
-  const dateList = Array.from({ length: 21 }, (_, i) => {
-    const date = new Date(startDate);
-    date.setDate(startDate.getDate() + i);
-    return date;
-  });
-
-  const isSameDate = (a: Date, b: Date) => {
-    return (
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate()
-    );
-  };
-
-  const getDayText = (date: Date, isToday: boolean) => {
-    if (isToday) return "오늘";
-    const days = ["일", "월", "화", "수", "목", "금", "토"];
-    return days[date.getDay()];
-  };
-
-  const getDayTextColorClass = (day: number, isFocused: boolean) => {
-    if (day === 0) return isFocused ? "text-primary-red" : "text-sub-red"; // 일요일
-    if (day === 6) return isFocused ? "text-primary-blue" : "text-sub-blue"; // 토요일
-    return isFocused ? "text-primary-mainText" : "text-primary-darkGray"; // 평일
-  };
-
-  const getUnderlineColorClass = (day: number) => {
-    if (day === 0) return "bg-primary-red"; // 일요일
-    if (day === 6) return "bg-primary-blue"; // 토요일
-    return "bg-primary-mainText"; // 평일
-  };
-
-  const toggleFocusDate = (date: Date) => {
-    setFocusDate(date);
-  };
-
-  const focusToday = () => {
-    scrollToToday();
-    setFocusDate(today);
-  };
-
-  const scrollToToday = () => {
-    if (!scrollContainerRef.current || !todayItemRef.current) return;
-    const container = scrollContainerRef.current;
-    container.scrollTo({
-      left: SCROLL_TO_TODAY_OFFSET,
-      behavior: "smooth",
-    });
-  };
-
-  useEffect(() => {
-    scrollToToday();
-  }, []);
+  const {
+    today,
+    focusDate,
+    dateList,
+    scrollContainerRef,
+    todayItemRef,
+    isSameDate,
+    getDayText,
+    getDayTextColorClass,
+    getUnderlineColorClass,
+    toggleFocusDate,
+    focusToday,
+  } = useWeekDates();
 
   return (
     <div className="bg-gray-card flex pt-[8px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]">
