@@ -1,4 +1,4 @@
-import { formatISODurationToHourMinute } from "@/utils/time";
+import { formatISODurationToHHMM } from "@/utils/time";
 
 interface ProfileCardProps {
   memberId: string;
@@ -30,7 +30,7 @@ const ProfileCard = ({
           alt="프로필 이미지"
         />
         <p className="body2 absolute inset-0 flex items-center justify-center text-white">
-          {formatISODurationToHourMinute(totalTime)}
+          {formatISODurationToHHMM(totalTime)}
         </p>
       </div>
 

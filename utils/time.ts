@@ -4,7 +4,7 @@ export const formatSecondsToMMSS = (seconds: number): string => {
   return `${min}:${sec}`;
 };
 
-export const formatISODurationToTime = (isoDuration: string): string => {
+export const formatISODurationToHHMMSS = (isoDuration: string): string => {
   const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
 
   const matches = isoDuration.match(regex);
@@ -19,7 +19,7 @@ export const formatISODurationToTime = (isoDuration: string): string => {
   return `${pad(hours)} : ${pad(minutes)} : ${pad(seconds)}`;
 };
 
-export const formatISODurationToHourMinute = (isoDuration: string): string => {
+export const formatISODurationToHHMM = (isoDuration: string): string => {
   const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
 
   const matches = isoDuration.match(regex);
