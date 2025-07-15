@@ -32,6 +32,18 @@ const WeekDateSelector = () => {
     return days[date.getDay()];
   };
 
+  const getDayTextColorClass = (day: number, isFocused: boolean) => {
+    if (day === 0) return isFocused ? "text-primary-red" : "text-sub-red"; // 일요일
+    if (day === 6) return isFocused ? "text-primary-blue" : "text-sub-blue"; // 토요일
+    return isFocused ? "text-primary-mainText" : "text-primary-darkGray"; // 평일
+  };
+
+  const getUnderlineColorClass = (day: number) => {
+    if (day === 0) return "bg-primary-red"; // 일요일
+    if (day === 6) return "bg-primary-blue"; // 토요일
+    return "bg-primary-mainText"; // 평일
+  };
+
   const toggleFocusDate = (date: Date) => {
     setFocusDate(date);
   };
@@ -74,12 +86,16 @@ const WeekDateSelector = () => {
         {dateList.map((date, i) => {
           const isToday = isSameDate(date, today);
           const isFocused = isSameDate(focusDate, date);
+          const day = date.getDay();
+          const dayColorClass = getDayTextColorClass(day, isFocused);
+          const underBarColorClass = getUnderlineColorClass(day);
+
           return (
             <div
               key={i}
               ref={isToday ? todayItemRef : null}
               className={`${
-                isFocused ? "text-primary-mainText" : "text-primary-darkGray"
+                dayColorClass
               } flex w-[32px] flex-shrink-0 cursor-pointer flex-col items-center`}
               onClick={() => toggleFocusDate(date)}
             >
@@ -90,7 +106,9 @@ const WeekDateSelector = () => {
                 {getDayText(date, isToday)}
               </p>
               {isFocused && (
-                <div className="h-[2px] w-[36px] rounded-t-full bg-black" />
+                <div
+                  className={`h-[2px] w-[36px] rounded-t-full ${underBarColorClass}`}
+                />
               )}
             </div>
           );
