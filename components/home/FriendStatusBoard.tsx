@@ -2,7 +2,9 @@ import ProfileCard from "@/components/home/ProfileCard";
 import { friendStatusList } from "@/constants/mocks/FriendStatusList";
 
 const FriendStatusBoard = () => {
-  const activeFriendCount = friendStatusList.length;
+  const activeFriendCount = friendStatusList.filter(
+    (f) => f.status === "ACTIVE"
+  ).length;
 
   return (
     <div className="flex flex-col">
