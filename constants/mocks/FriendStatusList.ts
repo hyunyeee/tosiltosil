@@ -1,4 +1,4 @@
-interface friendStatus {
+interface FriendStatus {
   memberId: string;
   nickname: string;
   profileImg: string;
@@ -6,7 +6,7 @@ interface friendStatus {
   status: "ACTIVE" | "INACTIVE";
 }
 
-export const friendStatusList: friendStatus[] = [
+export const friendStatusList: FriendStatus[] = [
   {
     memberId: "1",
     nickname: "김하늘",
