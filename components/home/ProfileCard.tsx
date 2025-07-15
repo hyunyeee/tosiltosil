@@ -13,14 +13,16 @@ const ProfileCard = ({
   nickname,
   profileImg,
   totalTime,
-  status, // TODO: ACTIVE 인 사용자는 테두리 추가 에정
+  status, // TODO: ACTIVE 인 사용자는 테두리 색상 변경 예정
   isMe,
 }: ProfileCard) => {
   return (
     <div
       className={`${isMe ? "gap-[6px]" : "gap-[7px]"} flex flex-shrink-0 flex-col items-center`}
     >
-      <div className="relative h-[70px] w-[70px] overflow-hidden rounded-full bg-black/60">
+      <div
+        className={`${status === "ACTIVE" && "border-primary-skyblue border-[2px]"} relative h-[70px] w-[70px] overflow-hidden rounded-full bg-black/60`}
+      >
         <div className="absolute inset-0 bg-black/40" />
         <img
           src={profileImg || "/images/default-profile-image.svg"}
