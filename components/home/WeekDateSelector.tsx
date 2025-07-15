@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const SCROLL_TO_TODAY_OFFSET = 327;
+
 const WeekDateSelector = () => {
   const today = new Date();
   const [focusDate, setFocusDate] = useState<Date>(today);
@@ -56,9 +58,8 @@ const WeekDateSelector = () => {
   const scrollToToday = () => {
     if (!scrollContainerRef.current || !todayItemRef.current) return;
     const container = scrollContainerRef.current;
-    const SCROLL_AMOUNT = 327;
     container.scrollTo({
-      left: SCROLL_AMOUNT,
+      left: SCROLL_TO_TODAY_OFFSET,
       behavior: "smooth",
     });
   };
