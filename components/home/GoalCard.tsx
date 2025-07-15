@@ -29,7 +29,7 @@ const GoalCard = ({
 
       <div
         className={`relative flex w-full overflow-hidden rounded-[6px] bg-white ${
-          state === "실패" || (state === "완료" && "opacity-70")
+          state === "실패" || state === "완료" ? "opacity-70" : ""
         }`}
         style={{ filter: "drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.1))" }}
       >
