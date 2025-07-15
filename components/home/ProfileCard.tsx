@@ -1,6 +1,6 @@
 import { formatISODurationToHourMinute } from "@/utils/time";
 
-interface ProfileCard {
+interface ProfileCardProps {
   memberId: string;
   nickname: string;
   profileImg: string;
@@ -15,7 +15,7 @@ const ProfileCard = ({
   totalTime,
   status, // TODO: ACTIVE 인 사용자는 테두리 색상 변경 예정
   isMe,
-}: ProfileCard) => {
+}: ProfileCardProps) => {
   return (
     <div
       className={`${isMe ? "gap-[6px]" : "gap-[7px]"} flex flex-shrink-0 flex-col items-center`}
