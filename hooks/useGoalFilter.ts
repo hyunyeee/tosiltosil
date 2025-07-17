@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { GoalCardProps } from "@/types/Category";
-import { CategoryList } from "@/constants/mocks/CategoryList";
-import { GoalListData } from "@/constants/mocks/GoalList";
 
-export const useGoalFilter = () => {
-  const [categoryList] = useState(CategoryList || []);
-  const [goalList] = useState<GoalCardProps[]>(GoalListData || []);
+interface UseGoalFilterProps {
+  goalList: GoalCardProps[];
+}
+
+export const useGoalFilter = ({ goalList }: UseGoalFilterProps) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
@@ -27,7 +27,6 @@ export const useGoalFilter = () => {
   }, [selectedCategoryId, goalList]);
 
   return {
-    categoryList,
     goalList,
     selectedCategoryId,
     filteredGoalList,
