@@ -7,6 +7,7 @@ import WeekDateSelector from "@/components/home/WeekDateSelector";
 import GoalPercentage from "@/components/home/GoalPercentage";
 import CategorySelectBar from "@/components/home/CategorySelectBar";
 import GoalList from "@/components/home/GoalList";
+import PrivateUserGoal from "@/components/home/PrivateUserGoal";
 
 export default function FriendMainPage() {
   const {
@@ -16,6 +17,7 @@ export default function FriendMainPage() {
     handleCategorySelect,
   } = useGoalFilter();
 
+  const isVisibility = false;
   return (
     <div className="flex w-full flex-col">
       <FriendHomeHeader
@@ -31,12 +33,18 @@ export default function FriendMainPage() {
       />
       <WeekDateSelector />
       <GoalPercentage percentage={50} />
-      <CategorySelectBar
-        categoryList={categoryList}
-        selectedCategoryId={selectedCategoryId}
-        onCategorySelect={handleCategorySelect}
-      />
-      <GoalList goalList={filteredGoalList} />
+      {isVisibility ? (
+        <>
+          <CategorySelectBar
+            categoryList={categoryList}
+            selectedCategoryId={selectedCategoryId}
+            onCategorySelect={handleCategorySelect}
+          />
+          <GoalList goalList={filteredGoalList} />
+        </>
+      ) : (
+        <PrivateUserGoal />
+      )}
     </div>
   );
 }
