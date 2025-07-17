@@ -23,8 +23,8 @@ const WeekDateSelector = () => {
         className="flex cursor-pointer flex-col items-center gap-[3px] px-[19px]"
         onClick={focusToday}
       >
-        <p className="caption2">{today.getFullYear()}</p>
-        <p className="subhead2 text-nowrap">
+        <p className="text-primary-deepGray caption2">{today.getFullYear()}</p>
+        <p className="text-primary-deepGray subhead2 text-nowrap">
           {`${today.getMonth() + 1}`.padStart(2, "0")}월
         </p>
       </div>
