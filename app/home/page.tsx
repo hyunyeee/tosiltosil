@@ -9,7 +9,7 @@ import GoalList from "@/components/home/GoalList";
 import { CategoryList } from "@/constants/mocks/CategoryList";
 import { GoalListData } from "@/constants/mocks/GoalList";
 
-export default function GoalPage() {
+export default function MainPage() {
   const [categoryList, setCategoryList] = useState(CategoryList || []);
   const [goalList, setGoalList] = useState(GoalListData || []);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
