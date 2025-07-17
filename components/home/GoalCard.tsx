@@ -1,6 +1,7 @@
 import { GoalCardProps } from "@/types/Category";
 import StateTag from "@/components/home/StateTag";
 import { formatISODurationToHHMMSS } from "@/utils/time";
+import { getPrimaryColor, getSubColor } from "@/utils/theme";
 
 const GoalCard = ({
   categoryName,
@@ -12,16 +13,13 @@ const GoalCard = ({
   percentage,
   hasButton,
 }: GoalCardProps) => {
-  const backgroundColor = `var(--color-sub-${color})`;
-  const borderColor = `var(--color-primary-${color})`;
-
   return (
     <div className="flex w-full flex-col items-start gap-[11px]">
       <div
         className="footnote text-primary-mainText flex-shrink-0 cursor-pointer rounded-[2px] border-[1px] px-[12px] py-[4px] text-center"
         style={{
-          backgroundColor,
-          borderColor,
+          backgroundColor: getSubColor(color),
+          borderColor: getPrimaryColor(color),
         }}
       >
         {categoryName}
@@ -36,7 +34,7 @@ const GoalCard = ({
         <div
           className="h-full w-[8px]"
           style={{
-            backgroundColor: `var(--color-primary-${color})`,
+            backgroundColor: getPrimaryColor(color),
           }}
         />
         <div className="flex-1 py-[15px] pr-[20px] pl-[13px]">
@@ -44,7 +42,7 @@ const GoalCard = ({
             <div
               className="flex h-[38px] w-[38px] items-center justify-center rounded-[4px]"
               style={{
-                backgroundColor: `var(--color-primary-${color})`,
+                backgroundColor: getPrimaryColor(color),
               }}
             >
               <img src="/images/goal-rabbit.svg" alt="목표 아이콘" />
@@ -90,7 +88,7 @@ const GoalCard = ({
                 className="h-full rounded-[2px] bg-blue-500"
                 style={{
                   width: `${percentage}%`,
-                  backgroundColor: `var(--color-primary-${color})`,
+                  backgroundColor: getPrimaryColor(color),
                 }}
               />
             </div>

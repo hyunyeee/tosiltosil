@@ -1,3 +1,5 @@
+import { getPrimaryColor, getSubColor } from "@/utils/theme";
+
 interface CategoryLabelProps {
   categoryId: number;
   title: string;
@@ -19,16 +21,13 @@ const CategoryLabel = ({
     onCategorySelect(categoryId);
   };
 
-  const backgroundColor = `var(--color-sub-${color})`;
-  const borderColor = `var(--color-primary-${color})`;
-
   return (
     <div
       onClick={handleSelectCategory}
       className="footnote text-primary-mainText flex-shrink-0 cursor-pointer rounded-[2px] border-[1px] px-[12px] py-[4px] text-center"
       style={{
-        backgroundColor,
-        borderColor,
+        backgroundColor: getSubColor(color),
+        borderColor: getPrimaryColor(color),
         opacity: isSelected ? 1 : 0.5,
       }}
     >
