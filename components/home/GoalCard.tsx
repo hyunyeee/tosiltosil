@@ -1,7 +1,7 @@
-import { GoalCardProps } from "@/types/Category";
 import StateTag from "@/components/home/StateTag";
 import { formatISODurationToHHMMSS } from "@/utils/time";
 import { getPrimaryColor, getSubColor } from "@/utils/theme";
+import { GoalCardProps } from "@/types/goal";
 
 const GoalCard = ({
   categoryName,

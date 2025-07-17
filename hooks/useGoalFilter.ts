@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GoalCardProps } from "@/types/Category";
+import { GoalCardProps } from "@/types/goal";
 
 interface UseGoalFilterProps {
   goalList: GoalCardProps[];

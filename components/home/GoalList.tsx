@@ -1,5 +1,5 @@
 import GoalCard from "@/components/home/GoalCard";
-import { GoalCardProps } from "@/types/Category";
+import { GoalCardProps } from "@/types/goal";
 
 interface GoalListProps {
   goalList: GoalCardProps[];
