@@ -4,7 +4,7 @@ export const CategoryList: Category[] = [
   {
     categoryId: 1,
     title: "매일할 것",
-    color: "pink",
+    color: "coral",
   },
   {
     categoryId: 2,
