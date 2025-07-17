@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useGoalFilter } from "@/hooks/useGoalFilter";
 import FriendHomeHeader from "@/components/home/FriendHomeHeader";
 import CountDashBoard from "@/components/home/CountDashBoard";
@@ -8,16 +9,18 @@ import GoalPercentage from "@/components/home/GoalPercentage";
 import CategorySelectBar from "@/components/home/CategorySelectBar";
 import GoalList from "@/components/home/GoalList";
 import PrivateUserGoal from "@/components/home/PrivateUserGoal";
+import { CategoryList } from "@/constants/mocks/CategoryList";
+import { GoalListData } from "@/constants/mocks/GoalList";
 
 export default function FriendMainPage() {
-  const {
-    categoryList,
-    selectedCategoryId,
-    filteredGoalList,
-    handleCategorySelect,
-  } = useGoalFilter();
+  // TODO: 데이터 fetch 후 데이터 set 예정
+  const [categoryList, setCategoryList] = useState(CategoryList);
+  const [goalList, setGoalList] = useState(GoalListData);
 
-  const isVisibility = false;
+  const { selectedCategoryId, filteredGoalList, handleCategorySelect } =
+    useGoalFilter({ goalList });
+
+  const isVisibility = true;
   return (
     <div className="flex w-full flex-col">
       <FriendHomeHeader
