@@ -97,11 +97,18 @@ export const useDragAndDrop = <T>({
 
       if (!isMoving) setIsMoving(true);
       e.preventDefault();
-
       const dx = e.clientX - dragInfoRef.current.start.x;
       const dy = e.clientY - dragInfoRef.current.start.y;
 
-      dragInfoRef.current.el.style.transform = `translate(${dx}px, ${dy}px)`;
+      const containerRect = containerRef.current!.getBoundingClientRect();
+      const originX = dragInfoRef.current.origin.x;
+      const itemWidth = dragInfoRef.current.size.width;
+      const minDx = containerRect.left - originX;
+      const maxDx = containerRect.right - originX - itemWidth;
+      const clampedDx = Math.max(minDx, Math.min(dx, maxDx));
+
+      dragInfoRef.current.el.style.transform = `translate(${clampedDx}px, ${dy}px)`;
+
       updatePlaceholderIndex(e.clientY);
     },
     [isMoving, updatePlaceholderIndex]
