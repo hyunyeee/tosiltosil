@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import { pretendard } from "@/styles/font";
-import { Providers } from "@/components/Providers";
+import { Providers } from "@/providers/Providers";
 import OverlayRenderer from "@/components/overlay/OverlayRenderer";
 
 export const metadata: Metadata = {
