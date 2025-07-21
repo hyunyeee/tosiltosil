@@ -45,13 +45,13 @@ export function fetchClient({
   }
 
   return {
-    get: <TResponse>(url: string) => request<TResponse>("GET", url),
-    post: <TResponse, TBody>(url: string, body: TBody) =>
-      request<TResponse, TBody>("POST", url, body),
-    put: <TResponse, TBody>(url: string, body: TBody) =>
-      request<TResponse, TBody>("PUT", url, body),
-    patch: <TResponse, TBody>(url: string, body: TBody) =>
-      request<TResponse, TBody>("PATCH", url, body),
-    delete: <TResponse>(url: string) => request<TResponse>("DELETE", url),
+    get: <TResponse>(path: string) => request<TResponse>("GET", path),
+    post: <TResponse, TBody>(path: string, body: TBody) =>
+      request<TResponse, TBody>("POST", path, body),
+    put: <TResponse, TBody>(path: string, body: TBody) =>
+      request<TResponse, TBody>("PUT", path, body),
+    patch: <TResponse, TBody>(path: string, body: TBody) =>
+      request<TResponse, TBody>("PATCH", path, body),
+    delete: <TResponse>(path: string) => request<TResponse>("DELETE", path),
   };
 }
