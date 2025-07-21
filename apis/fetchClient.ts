@@ -37,7 +37,7 @@ export function fetchClient({
       if (res.status === 204) {
         return undefined as unknown as TResponse;
       }
-      return res.json() as Promise<TResponse>;
+      return await res.json();
     } catch (error) {
       // TODO: 에러 구분 추가
       throw error;
