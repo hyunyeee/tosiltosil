@@ -1,0 +1,82 @@
+"use client";
+
+import { useMonthDates } from "@/hooks/useMonthDates";
+import Link from "next/link";
+
+const days = ["월", "화", "수", "목", "금", "토", "일"];
+
+export default function CalendarPage() {
+  const {
+    focusDate,
+    dateList,
+    isSameDate,
+    getDateColorClass,
+    toggleFocusDate,
+    goToPrevMonth,
+    goToNextMonth,
+    formatDate,
+  } = useMonthDates();
+
+  return (
+    <div className="w-full">
+      <h3 className="text-primary-mainText title3 mx-[20px] mt-[43px] mb-[45px]">
+        캘린더
+      </h3>
+
+      <div className="mb-[26px] flex items-center justify-center gap-[10px]">
+        <img
+          src="/icons/left-arrow.svg"
+          alt="전월로 이동"
+          onClick={goToPrevMonth}
+          className="cursor-pointer"
+        />
+        <p className="text-primary-mainText body1">
+          {focusDate.getFullYear()}년{" "}
+          {String(focusDate.getMonth() + 1).padStart(2, "0")}월
+        </p>
+        <img
+          src="/icons/right-arrow.svg"
+          alt="차월로 이동"
+          onClick={goToNextMonth}
+          className="cursor-pointer"
+        />
+      </div>
+
+      <div className="bg-gray-card px-[28px] pt-[56px] pb-[48px]">
+        <div className="text-primary-deepGray footnote grid grid-cols-7 text-center">
+          {days.map((day) => (
+            <span key={day}>{day}</span>
+          ))}
+        </div>
+
+        <div className="my-[28px] h-[1px] w-full bg-black/20" />
+
+        <div className="grid grid-cols-7 gap-x-[8px] gap-y-[6px] sm:gap-x-[12px] md:gap-x-[18px]">
+          {dateList.map((date, i) => {
+            const isFocused = isSameDate(focusDate, date);
+            const fullDate = formatDate(date);
+
+            return (
+              <Link
+                href={`/calendar/history/${fullDate}`}
+                key={i}
+                className="w-[32px]"
+              >
+                <div
+                  onClick={() => toggleFocusDate(date)}
+                  className={`${getDateColorClass(isFocused)} subhead1 flex h-[32px] cursor-pointer items-center justify-center rounded-[4px]`}
+                >
+                  {date.getDate()}
+                </div>
+                <div className="mt-[6px] flex w-full items-center justify-center gap-[3px] py-[4px]">
+                  <div className="bg-primary-yellow h-[6px] w-[6px]" />
+                  <div className="bg-primary-mint h-[6px] w-[6px]" />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
