@@ -9,7 +9,8 @@ interface Pos {
 
 interface DragInfo {
   pointerId: number;
-  start: Pos;
+  startClient: Pos;
+  startScroll: Pos;
   origin: Pos;
   size: { width: number; height: number };
   el: HTMLElement;
@@ -26,6 +27,9 @@ interface DragAndDropOptions<T> {
 const DEFAULT_LONG_PRESS_DURATION = 200; // ms
 const DEFAULT_GAP = 8; // px
 
+const SCROLL_THRESHOLD = 50; // px, 자동 스크롤이 시작될 뷰포트 가장자리 영역
+const SCROLL_SPEED = 6; // px, 프레임당 스크롤 속도
+
 export const useDragAndDrop = <T>({
   items,
   onReorder,
@@ -36,10 +40,124 @@ export const useDragAndDrop = <T>({
   const containerRef = useRef<HTMLDivElement>(null);
   const longPressTimeout = useRef<number | null>(null);
   const dragInfoRef = useRef<DragInfo | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const lastPointerPos = useRef<Pos>({ x: 0, y: 0 }); // 마지막 포인터 위치(clientY) 저장
 
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [placeholderIndex, setPlaceholderIndex] = useState<number | null>(null);
   const [isMoving, setIsMoving] = useState(false);
+
+  // 아이템 위치 업데이트 로직을 별도 함수로 분리
+  const updateDragPosition = useCallback((clientX: number, clientY: number) => {
+    if (!dragInfoRef.current) return;
+
+    const { startClient, startScroll, origin, size } = dragInfoRef.current;
+
+    const dx = clientX - startClient.x;
+
+    //움직인 거리 + 스크롤 거리 (드래그 컨테이너가 움직여야 하는 거리 )
+    const dy = clientY - startClient.y + (window.scrollY - startScroll.y);
+
+    const containerRect = containerRef.current!.getBoundingClientRect();
+    const minDx = containerRect.left - origin.x;
+    const maxDx = containerRect.right - origin.x - size.width;
+    const clampedDx = Math.max(minDx, Math.min(dx, maxDx));
+
+    dragInfoRef.current.el.style.transform = `translate(${clampedDx}px, ${dy}px)`;
+  }, []);
+
+  const updatePlaceholderIndex = useCallback(
+    (pointerY: number) => {
+      if (!containerRef.current || !dragInfoRef.current) return;
+
+      const { top } = containerRef.current.getBoundingClientRect();
+      const { height: itemHeight } = dragInfoRef.current.size;
+
+      const itemSlotHeight = itemHeight + gap;
+      const offsetY = pointerY - top;
+      const calculatedIndex = Math.floor(offsetY / itemSlotHeight);
+
+      const newIndex = Math.max(0, Math.min(calculatedIndex, items.length - 1));
+      if (newIndex !== placeholderIndex) {
+        setPlaceholderIndex(newIndex);
+      }
+    },
+    [gap, items.length, placeholderIndex]
+  );
+
+  const scrollLoop = useCallback(() => {
+    if (!dragInfoRef.current) return;
+
+    const pointerY = lastPointerPos.current.y;
+    let scrollAmount = 0;
+
+    if (pointerY < SCROLL_THRESHOLD) {
+      scrollAmount = -SCROLL_SPEED;
+    } else if (pointerY > window.innerHeight - SCROLL_THRESHOLD) {
+      scrollAmount = SCROLL_SPEED;
+    }
+
+    if (scrollAmount !== 0) {
+      window.scrollBy(0, scrollAmount);
+      // 스크롤이 발생했으므로, 현재 포인터 위치를 기준으로 드래그 아이템 위치를 다시 계산하고 업데이트
+      updateDragPosition(lastPointerPos.current.x, lastPointerPos.current.y);
+      // 플레이스홀더 위치도 업데이트
+      updatePlaceholderIndex(lastPointerPos.current.y);
+    }
+
+    animationFrameRef.current = requestAnimationFrame(scrollLoop);
+  }, [updateDragPosition, updatePlaceholderIndex]);
+
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>, index: number) => {
+      e.stopPropagation();
+      const el = e.currentTarget;
+      const pid = e.pointerId;
+      const rect = el.getBoundingClientRect();
+      lastPointerPos.current = { x: e.clientX, y: e.clientY };
+
+      longPressTimeout.current = window.setTimeout(() => {
+        el.setPointerCapture(pid);
+        setDragIndex(index);
+        dragInfoRef.current = {
+          pointerId: pid,
+          startClient: { x: e.clientX, y: e.clientY },
+          startScroll: { x: window.scrollX, y: window.scrollY },
+          origin: { x: rect.left, y: rect.top },
+          size: { width: rect.width, height: rect.height },
+          el,
+        };
+        setPlaceholderIndex(index);
+        animationFrameRef.current = requestAnimationFrame(scrollLoop);
+      }, longPressDuration);
+    },
+    [longPressDuration, scrollLoop]
+  );
+
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!dragInfoRef.current || e.pointerId !== dragInfoRef.current.pointerId)
+        return;
+
+      if (!isMoving) setIsMoving(true);
+      e.preventDefault();
+      // 마지막 포인터 위치(clientY 기준)를 계속 기록
+      lastPointerPos.current = { x: e.clientX, y: e.clientY };
+
+      updateDragPosition(e.clientX, e.clientY);
+      updatePlaceholderIndex(e.clientY);
+    },
+    [isMoving, updatePlaceholderIndex, updateDragPosition]
+  );
+
+  const getDragState = useCallback(
+    (index: number): DragState => {
+      if (dragIndex === index) return "dragging";
+      if (dragIndex !== null) return "others";
+      return "idle";
+    },
+    [dragIndex]
+  );
 
   const clearLongPress = useCallback(() => {
     if (longPressTimeout.current) {
@@ -49,6 +167,11 @@ export const useDragAndDrop = <T>({
   }, []);
 
   const handleDragEnd = useCallback(() => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+
     clearLongPress();
 
     if (dragInfoRef.current) {
@@ -70,81 +193,6 @@ export const useDragAndDrop = <T>({
     setPlaceholderIndex(null);
     setIsMoving(false);
   }, [clearLongPress, dragIndex, onReorder, placeholderIndex]);
-
-  const updatePlaceholderIndex = useCallback(
-    (pointerY: number) => {
-      if (!containerRef.current || !dragInfoRef.current) return;
-
-      const { top } = containerRef.current.getBoundingClientRect();
-      const { height: itemHeight } = dragInfoRef.current.size;
-
-      const itemSlotHeight = itemHeight + gap;
-      const offsetY = pointerY - top;
-      const calculatedIndex = Math.floor(offsetY / itemSlotHeight);
-
-      const newIndex = Math.max(0, Math.min(calculatedIndex, items.length - 1));
-      if (newIndex !== placeholderIndex) {
-        setPlaceholderIndex(newIndex);
-      }
-    },
-    [gap, items.length, placeholderIndex]
-  );
-
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      if (!dragInfoRef.current || e.pointerId !== dragInfoRef.current.pointerId)
-        return;
-
-      if (!isMoving) setIsMoving(true);
-      e.preventDefault();
-      const dx = e.clientX - dragInfoRef.current.start.x;
-      const dy = e.clientY - dragInfoRef.current.start.y;
-
-      const containerRect = containerRef.current!.getBoundingClientRect();
-      const originX = dragInfoRef.current.origin.x;
-      const itemWidth = dragInfoRef.current.size.width;
-      const minDx = containerRect.left - originX;
-      const maxDx = containerRect.right - originX - itemWidth;
-      const clampedDx = Math.max(minDx, Math.min(dx, maxDx));
-
-      dragInfoRef.current.el.style.transform = `translate(${clampedDx}px, ${dy}px)`;
-
-      updatePlaceholderIndex(e.clientY);
-    },
-    [isMoving, updatePlaceholderIndex]
-  );
-
-  const handlePointerDown = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>, index: number) => {
-      e.stopPropagation();
-      const el = e.currentTarget;
-      const pid = e.pointerId;
-      const rect = el.getBoundingClientRect();
-
-      longPressTimeout.current = window.setTimeout(() => {
-        el.setPointerCapture(pid);
-        setDragIndex(index);
-        setPlaceholderIndex(index);
-        dragInfoRef.current = {
-          pointerId: pid,
-          start: { x: e.clientX, y: e.clientY },
-          origin: { x: rect.left, y: rect.top },
-          size: { width: rect.width, height: rect.height },
-          el,
-        };
-      }, longPressDuration);
-    },
-    [longPressDuration]
-  );
-
-  const getDragState = useCallback(
-    (index: number): DragState => {
-      if (dragIndex === index) return "dragging";
-      if (dragIndex !== null) return "others";
-      return "idle";
-    },
-    [dragIndex]
-  );
 
   const getTransformStyle = useCallback(
     (index: number): string => {
