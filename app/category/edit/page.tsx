@@ -15,7 +15,10 @@ export default function CategoryEditPage() {
         />
       </div>
       <div className="flex-1 overflow-y-auto">
-        <FriendListFrame isEmpty={false} content="카테고리가 없습니다.">
+        <FriendListFrame
+          isEmpty={INITIAL_CATEGORY.length === 0}
+          content="카테고리가 없습니다."
+        >
           <div className="flex flex-col gap-[7px] px-5">
             <CategoryList initialCategories={INITIAL_CATEGORY} />
           </div>

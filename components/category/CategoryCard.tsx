@@ -1,4 +1,4 @@
-import { DragState } from "./CategoryList";
+import { DragState } from "@/hooks/useDragAndDrop";
 
 interface CategoryCardProps {
   title: string;
