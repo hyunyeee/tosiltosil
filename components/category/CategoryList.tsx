@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import CategoryCard from "./CategoryCard";
 
@@ -42,7 +43,7 @@ const CategoryList = ({ initialCategories }: CategoryListProps) => {
   return (
     <div
       {...containerProps}
-      className="flex touch-none flex-col gap-2 py-2 select-none"
+      className="flex touch-none flex-col gap-2 overflow-auto py-2 select-none"
     >
       {categories.map((category, index) => {
         const state: DragState = getDragState(index);
