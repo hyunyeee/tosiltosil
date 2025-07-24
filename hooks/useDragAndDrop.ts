@@ -49,8 +49,7 @@ export const useDragAndDrop = <T>({
 
   // 아이템 위치 업데이트 로직을 별도 함수로 분리
   const updateDragPosition = useCallback((clientX: number, clientY: number) => {
-    if (!dragInfoRef.current) return;
-
+    if (!dragInfoRef.current || !containerRef.current) return;
     const { startClient, startScroll, origin, size } = dragInfoRef.current;
 
     const dx = clientX - startClient.x;
@@ -58,7 +57,7 @@ export const useDragAndDrop = <T>({
     //움직인 거리 + 스크롤 거리 (드래그 컨테이너가 움직여야 하는 거리 )
     const dy = clientY - startClient.y + (window.scrollY - startScroll.y);
 
-    const containerRect = containerRef.current!.getBoundingClientRect();
+    const containerRect = containerRef.current.getBoundingClientRect();
     const minDx = containerRect.left - origin.x;
     const maxDx = containerRect.right - origin.x - size.width;
     const clampedDx = Math.max(minDx, Math.min(dx, maxDx));
