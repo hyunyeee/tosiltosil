@@ -54,7 +54,6 @@ export default function CalendarPage() {
                 className="w-[32px]"
               >
                 <div
-                  onClick={() => toggleFocusDate(date)}
                   className={`${getDateColorClass(
                     isSameDate(focusDate, date)
                   )} subhead1 flex h-[32px] cursor-pointer items-center justify-center rounded-[4px]`}
