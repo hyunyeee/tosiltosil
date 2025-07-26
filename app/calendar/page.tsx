@@ -8,7 +8,7 @@ const days = ["월", "화", "수", "목", "금", "토", "일"];
 export default function CalendarPage() {
   const {
     focusDate,
-    dateList,
+    calendarDates,
     isSameDate,
     getDateColorClass,
     toggleFocusDate,
@@ -25,23 +25,14 @@ export default function CalendarPage() {
 
       <div className="mb-[26px] flex items-center justify-center gap-[10px]">
         <button onClick={goToPrevMonth}>
-          <img
-            src="/icons/left-arrow.svg"
-            alt="전월로 이동"
-            className="cursor-pointer"
-          />
+          <img src="/icons/left-arrow.svg" alt="전월로 이동" />
         </button>
-
         <p className="text-primary-mainText body1">
           {focusDate.getFullYear()}년{" "}
           {String(focusDate.getMonth() + 1).padStart(2, "0")}월
         </p>
         <button onClick={goToNextMonth}>
-          <img
-            src="/icons/right-arrow.svg"
-            alt="차월로 이동"
-            className="cursor-pointer"
-          />
+          <img src="/icons/right-arrow.svg" alt="차월로 이동" />
         </button>
       </div>
 
@@ -55,19 +46,18 @@ export default function CalendarPage() {
         <div className="my-[28px] h-[1px] w-full bg-black/20" />
 
         <div className="grid grid-cols-7 gap-x-[8px] gap-y-[6px] sm:gap-x-[12px] md:gap-x-[18px]">
-          {dateList.map((date, i) => {
-            const isFocused = isSameDate(focusDate, date);
-            const fullDate = formatDate(date);
-
-            return (
+          {calendarDates.map((date, i) =>
+            date ? (
               <Link
-                href={`/calendar/history/${fullDate}`}
+                href={`/calendar/history/${formatDate(date)}`}
                 key={i}
                 className="w-[32px]"
               >
                 <div
                   onClick={() => toggleFocusDate(date)}
-                  className={`${getDateColorClass(isFocused)} subhead1 flex h-[32px] cursor-pointer items-center justify-center rounded-[4px]`}
+                  className={`${getDateColorClass(
+                    isSameDate(focusDate, date)
+                  )} subhead1 flex h-[32px] cursor-pointer items-center justify-center rounded-[4px]`}
                 >
                   {date.getDate()}
                 </div>
@@ -76,8 +66,10 @@ export default function CalendarPage() {
                   <div className="bg-primary-mint h-[6px] w-[6px]" />
                 </div>
               </Link>
-            );
-          })}
+            ) : (
+              <div key={i} className="h-[32px] w-[32px]" /> // 빈 셀
+            )
+          )}
         </div>
       </div>
     </div>
