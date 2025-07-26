@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 export const useWeekDates = () => {
   const SCROLL_TO_TODAY_OFFSET = 327;
 
   const today = useMemo(() => new Date(), []);
   const [focusDate, setFocusDate] = useState<Date>(today);
+  const [isReady, setIsReady] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const todayItemRef = useRef<HTMLDivElement>(null);
@@ -22,6 +23,11 @@ export const useWeekDates = () => {
       return date;
     });
   }, [startDate]);
+
+  useLayoutEffect(() => {
+    scrollToToday("auto");
+    requestAnimationFrame(() => setIsReady(true));
+  }, []);
 
   const isSameDate = (a: Date, b: Date) =>
     a.getFullYear() === b.getFullYear() &&
@@ -46,23 +52,19 @@ export const useWeekDates = () => {
     return "bg-primary-mainText";
   };
 
-  const scrollToToday = () => {
+  const scrollToToday = (behavior: ScrollBehavior = "auto") => {
     const container = scrollContainerRef.current;
-    if (!container || !todayItemRef.current) return;
+    if (!container) return;
     container.scrollTo({
       left: SCROLL_TO_TODAY_OFFSET,
-      behavior: "smooth",
+      behavior,
     });
   };
 
   const focusToday = () => {
-    scrollToToday();
+    scrollToToday("smooth");
     setFocusDate(today);
   };
-
-  useEffect(() => {
-    scrollToToday();
-  }, []);
 
   return {
     today,
@@ -77,5 +79,6 @@ export const useWeekDates = () => {
     getUnderlineColorClass,
     toggleFocusDate: setFocusDate,
     focusToday,
+    isReady,
   };
 };

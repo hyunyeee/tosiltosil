@@ -15,10 +15,15 @@ const WeekDateSelector = () => {
     getUnderlineColorClass,
     toggleFocusDate,
     focusToday,
+    isReady,
   } = useWeekDates();
 
   return (
-    <div className="bg-gray-card flex pt-[8px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]">
+    <div
+      className={`bg-gray-card flex pt-[8px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] transition-opacity duration-200 ${
+        isReady ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div
         className="flex cursor-pointer flex-col items-center gap-[3px] px-[19px]"
         onClick={focusToday}
