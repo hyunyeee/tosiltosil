@@ -7,12 +7,16 @@ interface FriendHomeHeaderProps {
     | "FRIEND"
     | "BLOCKED"
     | "GENERAL";
+  onActionClick?: () => void;
+  onMoreClick?: () => void;
 }
 
 const FriendHomeHeader = ({
   nickname,
   code,
   relationship,
+  onActionClick,
+  onMoreClick,
 }: FriendHomeHeaderProps) => {
   const showRelationText =
     relationship === "REQUEST_SENT" || relationship === "FRIEND";
@@ -31,6 +35,14 @@ const FriendHomeHeader = ({
         ? "추가"
         : null;
 
+  const handleActionClick = () => {
+    onActionClick?.();
+  };
+
+  const handleMoreClick = () => {
+    onMoreClick?.();
+  };
+
   return (
     <div className="mx-[20px] mt-[11px] mb-[15px] flex justify-between">
       <p className="body1">
@@ -44,12 +56,15 @@ const FriendHomeHeader = ({
         )}
 
         {relationActionButtonText && (
-          <button className="footnote bg-primary-mainText rounded-[2px] px-[14px] py-[3px] text-white">
+          <button
+            onClick={handleActionClick}
+            className="footnote bg-primary-mainText rounded-[2px] px-[14px] py-[3px] text-white"
+          >
             {relationActionButtonText}
           </button>
         )}
 
-        <button>
+        <button onClick={handleMoreClick}>
           <img src="/icons/more-icon.svg" alt="더보기" />
         </button>
       </div>
