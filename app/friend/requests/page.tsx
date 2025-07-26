@@ -27,7 +27,7 @@ export default function FriendRequestPage() {
       <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
         <BasicTitle
-          iconSrc="/icons/friend-request-icon.svg"
+          titleIconSrc="/icons/friend-request-icon.svg"
           text={`수락대기중 ${friendResultList.length}`}
         />
       </div>
