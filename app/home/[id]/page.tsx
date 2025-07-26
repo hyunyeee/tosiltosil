@@ -20,7 +20,8 @@ export default function FriendMainPage() {
   const { selectedCategoryId, filteredGoalList, handleCategorySelect } =
     useGoalFilter({ goalList });
 
-  const isVisibility = true;
+  const isVisible = false; // 비공개 사용자
+
   return (
     <div className="flex w-full flex-col">
       <FriendHomeHeader
@@ -36,7 +37,7 @@ export default function FriendMainPage() {
       />
       <WeekDateSelector />
       <GoalPercentage percentage={50} />
-      {isVisibility ? (
+      {isVisible ? (
         <>
           <CategorySelectBar
             categoryList={categoryList}
