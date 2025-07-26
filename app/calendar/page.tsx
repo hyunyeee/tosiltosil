@@ -24,22 +24,25 @@ export default function CalendarPage() {
       </h3>
 
       <div className="mb-[26px] flex items-center justify-center gap-[10px]">
-        <img
-          src="/icons/left-arrow.svg"
-          alt="전월로 이동"
-          onClick={goToPrevMonth}
-          className="cursor-pointer"
-        />
+        <button onClick={goToPrevMonth}>
+          <img
+            src="/icons/left-arrow.svg"
+            alt="전월로 이동"
+            className="cursor-pointer"
+          />
+        </button>
+
         <p className="text-primary-mainText body1">
           {focusDate.getFullYear()}년{" "}
           {String(focusDate.getMonth() + 1).padStart(2, "0")}월
         </p>
-        <img
-          src="/icons/right-arrow.svg"
-          alt="차월로 이동"
-          onClick={goToNextMonth}
-          className="cursor-pointer"
-        />
+        <button onClick={goToNextMonth}>
+          <img
+            src="/icons/right-arrow.svg"
+            alt="차월로 이동"
+            className="cursor-pointer"
+          />
+        </button>
       </div>
 
       <div className="bg-gray-card px-[28px] pt-[56px] pb-[48px]">
