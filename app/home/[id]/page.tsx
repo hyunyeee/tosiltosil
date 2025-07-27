@@ -36,7 +36,7 @@ export default function FriendMainPage() {
         goalCount={3}
       />
       <WeekDateSelector />
-      <GoalPercentage percentage={50} />
+      <GoalPercentage percentage={50} hasButton={false} />
       {isVisible ? (
         <>
           <CategorySelectBar

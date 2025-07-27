@@ -22,7 +22,7 @@ export default function MainPage() {
     <div className="flex w-full flex-col">
       <FriendStatusBoard />
       <WeekDateSelector />
-      <GoalPercentage percentage={50} />
+      <GoalPercentage percentage={50} hasButton />
       <CategorySelectBar
         categoryList={categoryList}
         selectedCategoryId={selectedCategoryId}
