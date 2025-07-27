@@ -1,56 +1,15 @@
 import { Category } from "@/types/Category";
 
-export const CategoryList: Category[] = [
-  {
-    categoryId: 1,
-    title: "매일할 것",
-    color: "coral",
-  },
-  {
-    categoryId: 2,
-    title: "자기 전 할 것",
-    color: "orange",
-  },
-  {
-    categoryId: 3,
-    title: "주말 할 일",
-    color: "yellow",
-  },
-  {
-    categoryId: 4,
-    title: "운동 루틴",
-    color: "green",
-  },
-  {
-    categoryId: 5,
-    title: "건강 습관",
-    color: "mint",
-  },
-  {
-    categoryId: 6,
-    title: "업무 정리",
-    color: "skyblue",
-  },
-  {
-    categoryId: 7,
-    title: "공부 계획",
-    color: "blue",
-  },
-  {
-    categoryId: 9,
-    title: "감정 일기",
-    color: "pink",
-  },
-  {
-    categoryId: 10,
-    title: "식단 관리",
-    color: "coral",
-  },
-  {
-    categoryId: 11,
-    title: "독서 기록",
-    color: "indigo",
-  },
+export const INITIAL_CATEGORY: Category[] = [
+  { title: "이마트 가서 장보고 오기🐼", color: "red", categoryId: 1 },
+  { title: "스터디 자료 정리하기📚", color: "blue", categoryId: 2 },
+  { title: "운동하기🏃‍♂️", color: "purple", categoryId: 4 },
+  { title: "운동하기🏃‍♂️", color: "yellow", categoryId: 5 },
+  { title: "가자", color: "pink", categoryId: 6 },
+  { title: "공부하기", color: "orange", categoryId: 7 },
+  { title: "코딩하기", color: "green", categoryId: 8 },
+  { title: "디자인 하기", color: "mint", categoryId: 9 },
+  { title: "기획 하기", color: "skyblue", categoryId: 10 },
+  { title: "서버 생성", color: "coral", categoryId: 11 },
+  { title: "놀기", color: "indigo", categoryId: 12 },
 ];
-
-// export const CategoryList: Category[] = [];

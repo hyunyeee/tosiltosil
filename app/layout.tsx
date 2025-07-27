@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import { pretendard } from "@/styles/font";
-import { Providers } from "@/components/Providers";
+import { Providers } from "@/providers/Providers";
 import OverlayRenderer from "@/components/overlay/OverlayRenderer";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${pretendard.className} bg-gray-background mx-auto flex h-screen w-full max-w-[430px]`}
+        className={`${pretendard.className} bg-gray-background mx-auto flex min-h-screen w-full max-w-[430px] overflow-auto`}
       >
         <Providers>
           <div id="portal" />

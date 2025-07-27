@@ -10,7 +10,7 @@ const FriendListFrame = ({
   children,
 }: FriendListFrameProps) => {
   return (
-    <div className="bg-gray-card h-full">
+    <div className="bg-gray-card h-full py-5">
       {isEmpty ? (
         <div className="flex h-full flex-col items-center gap-[12px] pt-[197px]">
           <img className="h-[58px] w-[58px]" src="/images/result-empty.svg" />
