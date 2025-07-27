@@ -2,7 +2,7 @@ export interface StateTagProps {
   state: "진행전" | "진행중" | "완료" | "실패";
 }
 
-export const STATE_STYLE_MAP: Record<
+export const STATE_TAG_MAP: Record<
   StateTagProps["state"],
   { bg: string; text: string; border: string }
 > = {
@@ -25,5 +25,27 @@ export const STATE_STYLE_MAP: Record<
     bg: "",
     text: "text-black/70",
     border: "border-[1px] border-black/70",
+  },
+};
+
+export const PROGRESSBAR_LABEL_MAP: Record<
+  StateTagProps["state"],
+  { title: string; amount: string }
+> = {
+  진행전: {
+    title: "text-primary-darkGray",
+    amount: "text-primary-darkGray",
+  },
+  진행중: {
+    title: "text-primary-deepGray",
+    amount: "text-primary-mainText",
+  },
+  완료: {
+    title: "text-primary-deepGray",
+    amount: "text-primary-mainText",
+  },
+  실패: {
+    title: "text-primary-darkGray",
+    amount: "text-primary-deepGray",
   },
 };

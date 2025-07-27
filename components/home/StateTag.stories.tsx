@@ -1,9 +1,9 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import StateTag from "./StateTag";
-import { STATE_STYLE_MAP, StateTagProps } from "@/constants/stateTagMap";
+import { STATE_TAG_MAP, StateTagProps } from "@/constants/stateStyleMap";
 
-const stateList = Object.keys(STATE_STYLE_MAP) as StateTagProps["state"][];
+const stateList = Object.keys(STATE_TAG_MAP) as StateTagProps["state"][];
 
 const meta: Meta<typeof StateTag> = {
   title: "Components/StateTag",

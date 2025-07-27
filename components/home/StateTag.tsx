@@ -1,7 +1,7 @@
-import { StateTagProps, STATE_STYLE_MAP } from "@/constants/stateTagMap";
+import { StateTagProps, STATE_TAG_MAP } from "@/constants/stateStyleMap";
 
 const StateTag = ({ state }: StateTagProps) => {
-  const { bg, text, border } = STATE_STYLE_MAP[state];
+  const { bg, text, border } = STATE_TAG_MAP[state];
 
   return (
     <p
