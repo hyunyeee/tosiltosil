@@ -1,6 +1,7 @@
 import StateTag from "@/components/home/StateTag";
 import { formatISODurationToHHMMSS } from "@/utils/time";
 import { getPrimaryColor, getSubColor } from "@/utils/theme";
+import ProgressBarLabel from "@/components/home/ProgressBarLabel";
 import { GoalCardProps } from "@/types/goal";
 
 const GoalCard = ({
@@ -71,16 +72,7 @@ const GoalCard = ({
 
           <div className="mt-[11px] mb-[6px] h-[1px] w-full bg-black/20" />
           <div className="flex items-center gap-[10px]">
-            <p
-              className={`${state === "진행전" ? "text-primary-darkGray" : "text-primary-deepGray"} caption2 text-nowrap`}
-            >
-              진행률
-            </p>
-            <p
-              className={`${state === "진행전" ? "text-primary-darkGray" : "text-primary-mainText"} caption2 text-nowrap`}
-            >
-              {percentage}%
-            </p>
+            <ProgressBarLabel state={state} percentage={percentage} />
             <div className="bg-gray-card h-[18px] w-full overflow-hidden rounded-[2px]">
               <div
                 className="h-full rounded-[2px] bg-blue-500"
