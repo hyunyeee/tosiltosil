@@ -1,4 +1,4 @@
-import { GoalCardProps } from "@/types/Category";
+import { GoalCardProps } from "@/types/goal";
 
 export const GoalListData: GoalCardProps[] = [
   {
