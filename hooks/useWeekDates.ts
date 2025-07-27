@@ -26,7 +26,7 @@ export const useWeekDates = () => {
 
   useLayoutEffect(() => {
     scrollToToday("auto");
-    requestAnimationFrame(() => setIsReady(true));
+    setIsReady(true);
   }, []);
 
   const isSameDate = (a: Date, b: Date) =>
