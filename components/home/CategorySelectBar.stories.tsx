@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import CategorySelectBar from "./CategorySelectBar";
-import { CategoryList } from "@/constants/mocks/CategoryList";
+import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
 
 const meta: Meta<typeof CategorySelectBar> = {
   title: "Components/CategorySelectBar",
@@ -18,7 +18,7 @@ type Story = StoryObj<typeof CategorySelectBar>;
 
 export const Default: Story = {
   args: {
-    categoryList: CategoryList,
+    categoryList: INITIAL_CATEGORY,
     selectedCategoryId: null,
     onCategorySelect: (categoryId) => console.log("Selected:", categoryId),
   },
@@ -31,7 +31,7 @@ const InteractiveCategorySelect = () => {
 
   return (
     <CategorySelectBar
-      categoryList={CategoryList}
+      categoryList={INITIAL_CATEGORY}
       selectedCategoryId={selectedCategoryId}
       onCategorySelect={setSelectedCategoryId}
     />
