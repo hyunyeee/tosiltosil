@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 
 interface GoalPercentageProps {
@@ -5,8 +8,10 @@ interface GoalPercentageProps {
   hasButton: boolean;
 }
 const GoalPercentage = ({ percentage, hasButton }: GoalPercentageProps) => {
+  const router = useRouter();
+
   const navigateToCreateGoalPage = () => {
-    // TODO 목표 설정 페이지 이동 로직
+    router.push("/goal/create");
   };
 
   return (
