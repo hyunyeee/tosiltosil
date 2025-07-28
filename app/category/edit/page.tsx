@@ -1,7 +1,7 @@
 import CategoryList from "@/components/category/CategoryList";
 import BasicTitle from "@/components/friend/BasicTitle";
 import FriendListFrame from "@/components/friend/FriendListFrame";
-import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
+import { INITIAL_CATEGORY } from "@/mocks/categoryList";
 
 export default function CategoryEditPage() {
   // TODO: 카테고리 받아오기

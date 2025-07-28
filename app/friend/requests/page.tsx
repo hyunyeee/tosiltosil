@@ -5,7 +5,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/friend/search/SearchInput";
 import BasicTitle from "@/components/friend/BasicTitle";
 import RequestList from "@/components/friend/request/RequestList";
-import { friendResultList } from "@/app/mocks/searchResults";
+import { friendResultList } from "@/mocks/searchResults";
 
 export default function FriendRequestPage() {
   const [query, setQuery] = useState("");
