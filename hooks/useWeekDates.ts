@@ -29,29 +29,6 @@ export const useWeekDates = () => {
     setIsReady(true);
   }, []);
 
-  const isSameDate = (a: Date, b: Date) =>
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
-
-  const getDayText = (date: Date, isToday: boolean) => {
-    if (isToday) return "오늘";
-    const days = ["일", "월", "화", "수", "목", "금", "토"];
-    return days[date.getDay()];
-  };
-
-  const getDayTextColorClass = (day: number, isFocused: boolean) => {
-    if (day === 0) return isFocused ? "text-primary-red" : "text-sub-red";
-    if (day === 6) return isFocused ? "text-primary-blue" : "text-sub-blue";
-    return isFocused ? "text-primary-mainText" : "text-primary-darkGray";
-  };
-
-  const getUnderlineColorClass = (day: number) => {
-    if (day === 0) return "bg-primary-red";
-    if (day === 6) return "bg-primary-blue";
-    return "bg-primary-mainText";
-  };
-
   const scrollToToday = (behavior: ScrollBehavior = "auto") => {
     const container = scrollContainerRef.current;
     if (!container) return;
@@ -66,18 +43,17 @@ export const useWeekDates = () => {
     setFocusDate(today);
   };
 
+  const toggleFocusDate = (date: Date) => {
+    setFocusDate(date);
+  };
+
   return {
     today,
     focusDate,
-    setFocusDate,
     dateList,
     scrollContainerRef,
     todayItemRef,
-    isSameDate,
-    getDayText,
-    getDayTextColorClass,
-    getUnderlineColorClass,
-    toggleFocusDate: setFocusDate,
+    toggleFocusDate,
     focusToday,
     isReady,
   };

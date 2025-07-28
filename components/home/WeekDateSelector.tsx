@@ -1,6 +1,7 @@
 "use client";
 
 import { useWeekDates } from "@/hooks/useWeekDates";
+import { isSameDate } from "@/utils/date";
 
 const WeekDateSelector = () => {
   const {
@@ -9,14 +10,28 @@ const WeekDateSelector = () => {
     dateList,
     scrollContainerRef,
     todayItemRef,
-    isSameDate,
-    getDayText,
-    getDayTextColorClass,
-    getUnderlineColorClass,
     toggleFocusDate,
     focusToday,
     isReady,
   } = useWeekDates();
+
+  const getDayTextColorClass = (day: number, isFocused: boolean) => {
+    if (day === 0) return isFocused ? "text-primary-red" : "text-sub-red";
+    if (day === 6) return isFocused ? "text-primary-blue" : "text-sub-blue";
+    return isFocused ? "text-primary-mainText" : "text-primary-darkGray";
+  };
+
+  const getUnderlineColorClass = (day: number) => {
+    if (day === 0) return "bg-primary-red";
+    if (day === 6) return "bg-primary-blue";
+    return "bg-primary-mainText";
+  };
+
+  const getDayText = (date: Date, isToday: boolean) => {
+    if (isToday) return "오늘";
+    const days = ["일", "월", "화", "수", "목", "금", "토"];
+    return days[date.getDay()];
+  };
 
   return (
     <div
