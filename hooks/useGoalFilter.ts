@@ -7,7 +7,7 @@ export const useGoalFilter = (goalList: GoalCardProps[]) => {
   );
 
   const handleCategorySelect = (categoryId: number | null) => {
-    setSelectedCategoryId(categoryId);
+    setSelectedCategoryId((prev) => (prev === categoryId ? null : categoryId));
   };
 
   const filteredGoalList = useMemo(() => {
