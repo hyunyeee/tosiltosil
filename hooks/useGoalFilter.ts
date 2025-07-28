@@ -1,35 +1,23 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { GoalCardProps } from "@/types/goal";
 
-interface UseGoalFilterProps {
-  goalList: GoalCardProps[];
-}
-
-export const useGoalFilter = ({ goalList }: UseGoalFilterProps) => {
+export const useGoalFilter = (goalList: GoalCardProps[]) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
-  const [filteredGoalList, setFilteredGoalList] =
-    useState<GoalCardProps[]>(goalList);
 
   const handleCategorySelect = (categoryId: number | null) => {
     setSelectedCategoryId(categoryId);
   };
 
-  useEffect(() => {
-    if (selectedCategoryId === null) {
-      setFilteredGoalList(goalList);
-    } else {
-      setFilteredGoalList(
-        goalList.filter((item) => item.categoryId === selectedCategoryId)
-      );
-    }
-  }, [selectedCategoryId, goalList]);
+  const filteredGoalList = useMemo(() => {
+    if (selectedCategoryId === null) return goalList;
+    return goalList.filter((goal) => goal.categoryId === selectedCategoryId);
+  }, [goalList, selectedCategoryId]);
 
   return {
-    goalList,
     selectedCategoryId,
-    filteredGoalList,
     handleCategorySelect,
+    filteredGoalList,
   };
 };
