@@ -1,4 +1,5 @@
 import { FriendHomeHeaderRelationship } from "@/types/friend";
+import { RELATIONSHIP_CONFIG } from "@/constants/relationshipConfig";
 
 interface FriendHomeHeaderProps {
   nickname: string;
@@ -7,13 +8,6 @@ interface FriendHomeHeaderProps {
   onActionClick?: () => void;
   onMoreClick?: () => void;
 }
-
-const RELATIONSHIP_CONFIG = {
-  REQUEST_RECEIVED: { relationText: null, actionButtonText: "수락" },
-  REQUEST_SENT: { relationText: "대기중", actionButtonText: "취소" },
-  FRIEND: { relationText: "친구", actionButtonText: null },
-  GENERAL: { relationText: null, actionButtonText: "추가" },
-};
 
 const FriendHomeHeader = ({
   nickname,
