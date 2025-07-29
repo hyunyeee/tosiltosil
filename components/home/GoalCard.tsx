@@ -83,7 +83,11 @@ const GoalCard = ({
                 }}
               />
             </div>
-            <img src="/icons/start-icon.svg" alt="시작 아이콘" />
+            {hasButton && (
+              <button>
+                <img src="/icons/start-icon.svg" alt="시작 아이콘" />
+              </button>
+            )}
           </div>
         </div>
       </div>
