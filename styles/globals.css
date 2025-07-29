@@ -13,6 +13,17 @@ button {
 .font-pretendard {
   font-family: var(--font-pretendard), sans-serif;
 }
+
+@layer base {
+  html {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
 /* colors */
 @theme {
   /* sub 그룹 */
@@ -27,6 +38,7 @@ button {
   --color-sub-pink: #ffd3ed;
   --color-sub-coral: #ffc7d1;
   --color-sub-indigo: #afb4c3;
+  --color-sub-mainText: #4b4b4b; /* --color-primary-deepGray 색상과 동일 */
 
   /* primary 그룹 */
   --color-primary-red: #f54d4d;
@@ -52,68 +64,87 @@ button {
   /* typograhy */
   --text-large-title-size: 34px;
   --text-large-title-weight: var(--font-weight-bold);
+  --text-large-title-height: 40px;
 
   --text-title1-size: 24px;
   --text-title1-weight: var(--font-weight-semibold);
+  --text-title1-height: 28px;
 
   --text-title2-size: 22px;
   --text-title2-weight: var(--font-weight-semibold);
+  --text-title2-height: 28px;
 
   --text-title3-size: 20px;
   --text-title3-weight: var(--font-weight-semibold);
+  --text-title3-height: 24px;
 
   --text-title4-size: 20px;
   --text-title4-weight: var(--font-weight-regular);
 
   --text-body1-size: 17px;
   --text-body1-weight: var(--font-weight-semibold);
+  --text-body1-height: 22px;
 
   --text-body2-size: 17px;
   --text-body2-weight: var(--font-weight-regular);
+  --text-body2-height: 21px;
 
   --text-subhead1-size: 15px;
   --text-subhead1-weight: var(--font-weight-semibold);
+  --text-subhead1-height: 18px;
 
   --text-subhead2-size: 15px;
   --text-subhead2-weight: var(--font-weight-regular);
+  --text-subhead2-height: 18px;
 
   --text-callout-size: 16px;
   --text-callout-weight: var(--font-weight-regular);
 
   --text-footout-size: 13px;
   --text-footout-weight: var(--font-weight-semibold);
+  --text-footout-height: 16px;
 
   --text-footnote-size: 13px;
   --text-footnote-weight: var(--font-weight-regular);
+  --text-footnote-height: 16px;
 
   --text-caption1-size: 11px;
   --text-caption1-weight: var(--font-weight-semibold);
+  --text-caption1-height: 13px;
 
   --text-caption2-size: 11px;
   --text-caption2-weight: var(--font-weight-regular);
+  --text-caption2-height: 13px;
 
   --text-footer-size: 9px;
   --text-footer-weight: var(--font-weight-regular);
+
+  /* box-shadow */
+  --shadow-category: 0 0px 5px rgba(0, 0, 0, 0.25);
 }
 
 @utility large-title {
   font-size: var(--text-large-title-size);
   font-weight: var(--text-large-title-weight);
+  line-height: var(--text-large-title-height);
 }
 
 @utility title1 {
   font-size: var(--text-title1-size);
   font-weight: var(--text-title1-weight);
+  line-height: var(--text-title1-height);
 }
 
 @utility title2 {
   font-size: var(--text-title2-size);
   font-weight: var(--text-title2-weight);
+  line-height: var(--text-title2-height);
 }
 
 @utility title3 {
   font-size: var(--text-title3-size);
   font-weight: var(--text-title3-weight);
+  line-height: var(--text-title3-height);
 }
 
 @utility title4 {
@@ -124,21 +155,25 @@ button {
 @utility body1 {
   font-size: var(--text-body1-size);
   font-weight: var(--text-body1-weight);
+  line-height: var(--text-body1-height);
 }
 
 @utility body2 {
   font-size: var(--text-body2-size);
   font-weight: var(--text-body2-weight);
+  line-height: var(--text-body2-height);
 }
 
 @utility subhead1 {
   font-size: var(--text-subhead1-size);
   font-weight: var(--text-subhead1-weight);
+  line-height: var(--text-subhead1-height);
 }
 
 @utility subhead2 {
   font-size: var(--text-subhead2-size);
   font-weight: var(--text-subhead2-weight);
+  line-height: var(--text-subhead2-height);
 }
 
 @utility callout {
@@ -149,24 +184,37 @@ button {
 @utility footout {
   font-size: var(--text-footout-size);
   font-weight: var(--text-footout-weight);
+  line-height: var(--text-footout-height);
 }
 
 @utility footnote {
   font-size: var(--text-footnote-size);
   font-weight: var(--text-footnote-weight);
+  line-height: var(--text-footnote-height);
 }
 
 @utility caption1 {
   font-size: var(--text-caption1-size);
   font-weight: var(--text-caption1-weight);
+  line-height: var(--text-caption1-height);
 }
 
 @utility caption2 {
   font-size: var(--text-caption2-size);
   font-weight: var(--text-caption2-weight);
+  line-height: var(--text-caption2-height);
 }
 
 @utility footer {
   font-size: var(--text-footer-size);
   font-weight: var(--text-footer-weight);
+}
+
+@utility scroll-hide {
+  .scrollbar-hide {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+  }
 }
