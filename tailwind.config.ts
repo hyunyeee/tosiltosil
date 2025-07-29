@@ -11,7 +11,6 @@ export default {
         pretendard: ["var(--font-pretendard)"],
       },
       colors: {
-        /* Sub Colors */
         "sub-red": "var(--color-sub-red)",
         "sub-orange": "var(--color-sub-orange)",
         "sub-yellow": "var(--color-sub-yellow)",
@@ -23,8 +22,8 @@ export default {
         "sub-pink": "var(--color-sub-pink)",
         "sub-coral": "var(--color-sub-coral)",
         "sub-indigo": "var(--color-sub-indigo)",
+        "sub-mainText": "var(--color-sub-mainText)",
 
-        /* Primary Colors */
         "primary-red": "var(--color-primary-red)",
         "primary-orange": "var(--color-primary-orange)",
         "primary-yellow": "var(--color-primary-yellow)",
@@ -36,6 +35,7 @@ export default {
         "primary-pink": "var(--color-primary-pink)",
         "primary-coral": "var(--color-primary-coral)",
         "primary-indigo": "var(--color-primary-indigo)",
+        "primary-mainText": "var(--color-primary-mainText)",
       },
     },
   },
