@@ -8,7 +8,7 @@ export const formatISODurationToHHMMSS = (isoDuration: string): string => {
   const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
 
   const matches = isoDuration.match(regex);
-  if (!matches) return "00 : 00 : 00";
+  if (!matches) return "00:00:00";
 
   const hours = parseInt(matches[1] || "0", 10);
   const minutes = parseInt(matches[2] || "0", 10);
@@ -16,7 +16,7 @@ export const formatISODurationToHHMMSS = (isoDuration: string): string => {
 
   const pad = (num: number) => String(num).padStart(2, "0");
 
-  return `${pad(hours)} : ${pad(minutes)} : ${pad(seconds)}`;
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };
 
 export const formatISODurationToHHMM = (isoDuration: string): string => {
@@ -30,5 +30,5 @@ export const formatISODurationToHHMM = (isoDuration: string): string => {
 
   const pad = (num: number) => String(num).padStart(2, "0");
 
-  return `${pad(hours)} : ${pad(minutes)}`;
+  return `${pad(hours)}:${pad(minutes)}`;
 };
