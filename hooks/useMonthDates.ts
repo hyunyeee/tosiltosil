@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react";
 
 export const useMonthDates = () => {
-  const today = useMemo(() => new Date(), []);
-  const [focusDate, setFocusDate] = useState<Date>(today);
+  const [focusDate, setFocusDate] = useState(() => new Date());
 
   const getStartDayOfWeek = (date: Date) => {
     const year = date.getFullYear();
