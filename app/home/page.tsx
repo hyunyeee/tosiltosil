@@ -7,6 +7,7 @@ import WeekDateSelector from "@/components/home/WeekDateSelector";
 import GoalPercentage from "@/components/home/GoalPercentage";
 import CategorySelectBar from "@/components/home/CategorySelectBar";
 import GoalList from "@/components/home/GoalList";
+import FriendListFrame from "@/components/friend/FriendListFrame";
 import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
 import { GoalListData } from "@/constants/mocks/GoalList";
 
@@ -28,7 +29,12 @@ export default function MainPage() {
         selectedCategoryId={selectedCategoryId}
         onCategorySelect={handleCategorySelect}
       />
-      <GoalList goalList={filteredGoalList} />
+      <FriendListFrame
+        isEmpty={goalList.length === 0}
+        content="진행중인 목표가 없습니다."
+      >
+        <GoalList goalList={filteredGoalList} />
+      </FriendListFrame>
     </div>
   );
 }
