@@ -29,17 +29,6 @@ export const useMonthDates = () => {
     return [...emptyCells, ...dates];
   }, [focusDate]);
 
-  const isSameDate = (a: Date, b: Date) =>
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
-
-  const getDateColorClass = (isFocused: boolean) => {
-    return isFocused
-      ? "text-white bg-primary-mainText"
-      : "text-primary-mainText bg-gray-background border-[1px] border-black/20";
-  };
-
   const goToPrevMonth = () => {
     setFocusDate(
       (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1)
@@ -59,13 +48,15 @@ export const useMonthDates = () => {
     return `${yyyy}-${mm}-${dd}`;
   };
 
+  const toggleFocusDate = (date: Date) => {
+    setFocusDate(date);
+  };
+
   return {
     focusDate,
     setFocusDate,
     calendarDates,
-    isSameDate,
-    getDateColorClass,
-    toggleFocusDate: setFocusDate,
+    toggleFocusDate,
     goToPrevMonth,
     goToNextMonth,
     formatDate,

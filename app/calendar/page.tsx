@@ -1,21 +1,20 @@
 "use client";
 
-import { useMonthDates } from "@/hooks/useMonthDates";
 import Link from "next/link";
+import { useMonthDates } from "@/hooks/useMonthDates";
+import { isSameDate } from "@/utils/date";
 
 const days = ["월", "화", "수", "목", "금", "토", "일"];
 
 export default function CalendarPage() {
-  const {
-    focusDate,
-    calendarDates,
-    isSameDate,
-    getDateColorClass,
-    toggleFocusDate,
-    goToPrevMonth,
-    goToNextMonth,
-    formatDate,
-  } = useMonthDates();
+  const { focusDate, calendarDates, goToPrevMonth, goToNextMonth, formatDate } =
+    useMonthDates();
+
+  const getDateColorClass = (isFocused: boolean) => {
+    return isFocused
+      ? "text-white bg-primary-mainText"
+      : "text-primary-mainText bg-gray-background border-[1px] border-black/20";
+  };
 
   return (
     <div className="w-full">
