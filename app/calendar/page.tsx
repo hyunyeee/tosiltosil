@@ -51,6 +51,7 @@ export default function CalendarPage() {
                 href={`/calendar/history/${formatDate(date)}`}
                 key={i}
                 className="w-[32px]"
+                prefetch={false}
               >
                 <div
                   className={`${getDateColorClass(
