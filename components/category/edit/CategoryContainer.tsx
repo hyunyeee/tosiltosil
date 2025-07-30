@@ -6,6 +6,11 @@ import { useGetCategories } from "@/apis/category/queries";
 
 const CategoryContainer = () => {
   const { data: categories, isLoading, error } = useGetCategories();
+
+  const handleCategoryAdd = () => {
+    /*TODO: 모달 추가 */
+  };
+
   return (
     <>
       <div className="mt-[28px] flex shrink-0 items-center justify-between px-[20px]">
@@ -13,6 +18,7 @@ const CategoryContainer = () => {
           titleIconSrc="/icons/checklist-icon.svg"
           text="카테고리"
           buttonIconType="plus"
+          onButtonClick={handleCategoryAdd}
         />
       </div>
       <div className="flex-1 overflow-y-auto">
