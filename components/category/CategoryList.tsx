@@ -4,19 +4,14 @@ import { useState } from "react";
 import CategoryCard from "./CategoryCard";
 
 import { useDragAndDrop, DragState } from "@/hooks/useDragAndDrop";
-
-interface Category {
-  id: string;
-  title: string;
-  color: string;
-}
+import { Category } from "@/apis/category/types";
 
 interface CategoryListProps {
   initialCategories: Category[];
 }
 
 const CategoryList = ({ initialCategories }: CategoryListProps) => {
-  const [categories, setCategories] = useState(initialCategories);
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
 
   // 순서 변경 시 서버에 요청을 보내고 상태를 업데이트하는 함수
   const handleReorder = (oldIndex: number, newIndex: number) => {
@@ -36,9 +31,9 @@ const CategoryList = ({ initialCategories }: CategoryListProps) => {
       onReorder: handleReorder,
     });
 
-  const handleDeleteCategory = (id: string) => {
+  const handleDeleteCategory = (id: number) => {
     // TODO: 서버에 삭제 요청 보내기
-    setCategories((prev) => prev.filter((c) => c.id !== id));
+    setCategories((prev) => prev.filter((c) => c.categoryId !== id));
   };
   return (
     <div
@@ -57,11 +52,15 @@ const CategoryList = ({ initialCategories }: CategoryListProps) => {
             };
 
         return (
-          <div key={category.id} {...getItemProps(index)} style={CategoryStyle}>
+          <div
+            key={category.categoryId}
+            {...getItemProps(index)}
+            style={CategoryStyle}
+          >
             <CategoryCard
               title={category.title}
               color={category.color}
-              onCategoryDelete={() => handleDeleteCategory(category.id)}
+              onCategoryDelete={() => handleDeleteCategory(category.categoryId)}
               dragState={state}
             />
           </div>
