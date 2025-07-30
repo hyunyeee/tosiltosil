@@ -3,7 +3,7 @@ import { FriendResult, SearchResult } from "@/types/friend";
 // export const searchResultList: SearchResult[] = [];
 // export const friendResultList: FriendResult[] = [];
 
-export const searchResultList: SearchResult[] = [
+export const mockSearchResultList: SearchResult[] = [
   {
     id: "1",
     nickname: "김하늘",
