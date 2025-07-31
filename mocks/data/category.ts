@@ -1,4 +1,6 @@
 export const mockCategoryList = {
+  status: 200,
+  message: "카테고리 리스트 조회 성공",
   data: [
     {
       title: "이마트 가서 장보고 오기🐼",
