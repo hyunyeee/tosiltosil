@@ -17,7 +17,7 @@ import {
 import { ApiResponse } from "@/types/api/api";
 
 export const useGetCategories = () => {
-  return useQuery<Category[], Error>({
+  return useQuery<ApiResponse<Category[]>, Error>({
     queryKey: categoryKeys.all,
     queryFn: getCategories,
     staleTime: 1000 * 60 * 5, // 5분

@@ -23,12 +23,12 @@ const CategoryContainer = () => {
       </div>
       <div className="flex-1 overflow-y-auto">
         <FriendListFrame
-          isEmpty={!categories || categories.length === 0}
+          isEmpty={!categories?.data || categories.data.length === 0}
           content="카테고리가 없습니다."
         >
           {categories && (
             <div className="flex flex-col gap-[7px] px-5">
-              <CategoryList initialCategories={categories} />
+              <CategoryList initialCategories={categories.data} />
             </div>
           )}
         </FriendListFrame>

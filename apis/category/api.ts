@@ -9,9 +9,7 @@ import type {
 
 // GET
 export const getCategories = async () => {
-  const response =
-    await apiClient.get<ApiResponse<Category[]>>("/api/v1/categories");
-  return response.data;
+  return await apiClient.get<ApiResponse<Category[]>>("/api/v1/categories");
 };
 
 export const getCategoryColorsPerDay = async ({
