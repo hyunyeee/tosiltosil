@@ -47,7 +47,7 @@ export const useCreateCategory = () => {
   >({
     mutationFn: createCategory,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: categoryKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: categoryKeys.all });
     },
   });
 };
