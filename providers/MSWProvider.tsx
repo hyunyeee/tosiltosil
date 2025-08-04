@@ -5,18 +5,19 @@ import { useEffect, useState } from "react";
 export function MSWProvider({ children }: { children: React.ReactNode }) {
   const [isMockingReady, setIsMockingReady] = useState(false);
   useEffect(() => {
-    async function init() {
-      if (
-        typeof window !== "undefined" &&
-        process.env.NODE_ENV === "development"
-      ) {
-        const { worker } = await import("../mocks/browser");
-        await worker.start();
-        setIsMockingReady(true);
+    if (process.env.NODE_ENV === "development") {
+      async function init() {
+        if (
+          typeof window !== "undefined" &&
+          process.env.NODE_ENV === "development"
+        ) {
+          const { worker } = await import("../mocks/browser");
+          await worker.start({ onUnhandledRequest: "bypass" });
+          setIsMockingReady(true);
+        }
       }
+      init();
     }
-    init();
   }, []);
-  if (!isMockingReady) return;
-  return <>{children}</>;
+  if (isMockingReady) return <>{children}</>;
 }
