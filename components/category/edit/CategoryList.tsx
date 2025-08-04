@@ -4,14 +4,14 @@ import { useState } from "react";
 import CategoryCard from "./CategoryCard";
 
 import { useDragAndDrop, DragState } from "@/hooks/useDragAndDrop";
-import { Category } from "@/types/Category";
+import { Category } from "@/apis/category/types";
 
 interface CategoryListProps {
   initialCategories: Category[];
 }
 
 const CategoryList = ({ initialCategories }: CategoryListProps) => {
-  const [categories, setCategories] = useState(initialCategories);
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
 
   // 순서 변경 시 서버에 요청을 보내고 상태를 업데이트하는 함수
   const handleReorder = (oldIndex: number, newIndex: number) => {
