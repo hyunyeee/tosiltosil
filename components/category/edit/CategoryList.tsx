@@ -31,9 +31,9 @@ const CategoryList = ({ initialCategories }: CategoryListProps) => {
       onReorder: handleReorder,
     });
 
-  const handleDeleteCategory = (id: number) => {
+  const handleDeleteCategory = (categoryId: number) => {
     // TODO: 서버에 삭제 요청 보내기
-    setCategories((prev) => prev.filter((c) => c.categoryId !== id));
+    setCategories((prev) => prev.filter((c) => c.categoryId !== categoryId));
   };
   return (
     <div
