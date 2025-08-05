@@ -5,12 +5,12 @@ import { useRecordDate } from "@/hooks/useRecordDate";
 import { getPrimaryColor, getSubColor } from "@/utils/theme";
 import FriendListFrame from "@/components/friend/FriendListFrame";
 import GoalCard from "@/components/home/GoalCard";
-import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
+import { mockCategoryList } from "@/mocks/data/category";
 import { GoalListData } from "@/constants/mocks/GoalList";
 
 export default function HistoryPage() {
   // TODO: 데이터 fetch 후 데이터 set 예정
-  const [categoryList, setCategoryList] = useState(INITIAL_CATEGORY);
+  const [categoryList, setCategoryList] = useState(mockCategoryList.data);
   const [goalList, setGoalList] = useState(GoalListData);
   const { year, month, day } = useRecordDate();
 

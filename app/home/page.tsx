@@ -8,12 +8,12 @@ import GoalPercentage from "@/components/home/GoalPercentage";
 import CategorySelectBar from "@/components/home/CategorySelectBar";
 import GoalList from "@/components/home/GoalList";
 import FriendListFrame from "@/components/friend/FriendListFrame";
-import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
+import { mockCategoryList } from "@/mocks/data/category";
 import { GoalListData } from "@/constants/mocks/GoalList";
 
 export default function MainPage() {
   // TODO: 데이터 fetch 후 데이터 set 예정
-  const [categoryList, setCategoryList] = useState(INITIAL_CATEGORY);
+  const [categoryList, setCategoryList] = useState(mockCategoryList.data);
   const [goalList, setGoalList] = useState(GoalListData);
 
   const { selectedCategoryId, handleCategorySelect, filteredGoalList } =
