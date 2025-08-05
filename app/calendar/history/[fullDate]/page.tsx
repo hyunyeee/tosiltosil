@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useRecordDate } from "@/hooks/useRecordDate";
 import { getPrimaryColor, getSubColor } from "@/utils/theme";
 import FriendListFrame from "@/components/friend/FriendListFrame";
 import GoalCard from "@/components/home/GoalCard";
 import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
 import { GoalListData } from "@/constants/mocks/GoalList";
-import { useRecordDate } from "@/hooks/useRecordDate";
 
 export default function HistoryPage() {
   // TODO: 데이터 fetch 후 데이터 set 예정
