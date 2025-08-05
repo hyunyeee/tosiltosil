@@ -2,20 +2,13 @@
 
 import Link from "next/link";
 import { useMonthDates } from "@/hooks/useMonthDates";
-import { isSameDate } from "@/utils/date";
+import { formatDate, isSameDate } from "@/utils/date";
 
 const days = ["월", "화", "수", "목", "금", "토", "일"];
 
 export default function CalendarPage() {
   const { focusDate, calendarDates, goToPrevMonth, goToNextMonth } =
     useMonthDates();
-
-  const formatDate = (date: Date): string => {
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(date.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  };
 
   const getDateColorClass = (isFocused: boolean) => {
     return isFocused
