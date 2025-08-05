@@ -7,15 +7,13 @@ import FriendListFrame from "@/components/friend/FriendListFrame";
 import GoalCard from "@/components/home/GoalCard";
 import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
 import { GoalListData } from "@/constants/mocks/GoalList";
+import { useRecordDate } from "@/hooks/useRecordDate";
 
 export default function HistoryPage() {
   // TODO: 데이터 fetch 후 데이터 set 예정
   const [categoryList, setCategoryList] = useState(INITIAL_CATEGORY);
   const [goalList, setGoalList] = useState(GoalListData);
-  const params = useParams();
-
-  const fullDate = params.fullDate as string | undefined;
-  const date = fullDate?.split("-");
+  const { year, month, day } = useRecordDate();
 
   const percentage = 30;
 
@@ -24,8 +22,7 @@ export default function HistoryPage() {
       <div className="ml-[20px]">
         <h1 className="title3 mt-[43px] mb-[11px]">기록</h1>
         <h3 className="body1">
-          {date?.[0]}년 {date?.[1]?.padStart(2, "0")}월{" "}
-          {date?.[2]?.padStart(2, "0")}일
+          {year}년 {month}월 {day}일
         </h3>
       </div>
 
