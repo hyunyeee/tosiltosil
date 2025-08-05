@@ -3,12 +3,20 @@
 import Link from "next/link";
 import { useMonthDates } from "@/hooks/useMonthDates";
 import { formatDate, isSameDate } from "@/utils/date";
+import { getPrimaryColor } from "@/utils/theme";
+import { colorData } from "@/constants/mocks/CalendarColorData";
 
 const days = ["월", "화", "수", "목", "금", "토", "일"];
 
 export default function CalendarPage() {
   const { focusDate, calendarDates, goToPrevMonth, goToNextMonth } =
     useMonthDates();
+
+  const getColorsForDate = (date: Date) => {
+    const dateString = formatDate(date);
+    const found = colorData.find((item) => item.date === dateString);
+    return found ? found.color : [];
+  };
 
   const getDateColorClass = (isFocused: boolean) => {
     return isFocused
@@ -61,12 +69,20 @@ export default function CalendarPage() {
                   {date.getDate()}
                 </div>
                 <div className="mt-[6px] flex w-full items-center justify-center gap-[3px] py-[4px]">
-                  <div className="bg-primary-yellow h-[6px] w-[6px]" />
-                  <div className="bg-primary-mint h-[6px] w-[6px]" />
+                  {getColorsForDate(date).map((color, idx) => (
+                    <div
+                      key={idx}
+                      className="h-[6px] w-[6px]"
+                      style={{
+                        backgroundColor: getPrimaryColor(color),
+                      }}
+                    />
+                  ))}
                 </div>
               </Link>
             ) : (
-              <div key={i} className="h-[32px] w-[32px]" /> // 빈 셀
+              <div key={i} className="h-[32px] w-[32px]" />
+              // 빈 셀
             )
           )}
         </div>
