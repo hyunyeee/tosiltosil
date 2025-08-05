@@ -6,7 +6,7 @@ import SearchInput from "@/components/friend/search/SearchInput";
 import FriendPendingTabs from "@/components/friend/list/FriendPendingTabs";
 import FriendListTitle from "@/components/friend/list/FriendListTitle";
 import FriendList from "@/components/friend/list/FriendResultList";
-import { friendResultList } from "@/app/mocks/searchResults";
+import { friendResultList } from "@/mocks/data/user";
 
 export default function FriendListPage() {
   const [query, setQuery] = useState("");

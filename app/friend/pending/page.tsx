@@ -5,7 +5,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/friend/search/SearchInput";
 import BasicTitle from "@/components/friend/BasicTitle";
 import PendingList from "@/components/friend/pending/PendingList";
-import { friendResultList } from "@/app/mocks/searchResults";
+import { friendResultList } from "@/mocks/searchResults";
 
 export default function FriendPendingPage() {
   const [query, setQuery] = useState("");

@@ -5,7 +5,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import SearchInput from "@/components/friend/search/SearchInput";
 import BasicTitle from "@/components/friend/BasicTitle";
 import SearchResultList from "@/components/friend/search/SearchResultList";
-import { searchResultList } from "@/app/mocks/searchResults";
+import { mockSearchResultList } from "@/mocks/data/user";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
@@ -26,10 +26,10 @@ export default function SearchPage() {
     <div className="flex h-full w-full flex-col">
       <div className="mt-[28px] shrink-0 px-[20px]">
         <SearchInput value={query} onInputChange={handleChangeQuery} />
-        <BasicTitle iconSrc="/icons/search-icon.svg" text="검색결과" />
+        <BasicTitle titleIconSrc="/icons/search-icon.svg" text="검색결과" />
       </div>
       <div className="flex-1 overflow-y-auto">
-        <SearchResultList searchResultList={searchResultList} />
+        <SearchResultList searchResultList={mockSearchResultList} />
       </div>
     </div>
   );
