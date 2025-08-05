@@ -1,16 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { getStartDayOfWeek } from "@/utils/date";
 
 export const useMonthDates = () => {
   const [focusDate, setFocusDate] = useState(() => new Date());
-
-  const getStartDayOfWeek = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstDay = new Date(year, month, 1);
-    return (firstDay.getDay() + 6) % 7; // 월요일 시작 (0)
-  };
 
   const calendarDates = useMemo(() => {
     const year = focusDate.getFullYear();

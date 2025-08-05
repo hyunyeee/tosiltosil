@@ -9,3 +9,10 @@ export const formatDate = (date: Date): string => {
   const dd = String(date.getDate()).padStart(2, "0");
   return `${yyyy}-${mm}-${dd}`;
 };
+
+export const getStartDayOfWeek = (date: Date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const firstDay = new Date(year, month, 1);
+  return (firstDay.getDay() + 6) % 7; // 월요일 시작 (0)
+};
