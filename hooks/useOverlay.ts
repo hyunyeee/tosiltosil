@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useAtom } from "jotai";
-import { overlayAtom, OverlayType } from "@/atoms/overlayAtom";
+import { overlayAtom, OverlayType } from "@/stores/overlayAtom";
 
 export function useOverlay() {
   const [overlay, setOverlay] = useAtom(overlayAtom);
