@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import { pretendard } from "@/styles/font";
 import { Providers } from "@/providers/Providers";
 import OverlayRenderer from "@/components/overlay/OverlayRenderer";
+import HeaderController from "@/components/commons/header/HeaderController";
 
 export const metadata: Metadata = {
   title: "토실토실",
@@ -23,11 +24,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${pretendard.className} bg-gray-background mx-auto flex min-h-screen w-full max-w-[430px] overflow-auto`}
+        className={`${pretendard.className} bg-gray-background mx-auto flex min-h-screen w-full max-w-[430px] flex-col overflow-auto`}
       >
         <Providers>
           <div id="portal" />
           <OverlayRenderer />
+          <HeaderController />
           {children}
         </Providers>
       </body>

@@ -21,7 +21,7 @@ const BackHeader = ({
     : "/icons/alarm-default-icon.svg";
 
   return (
-    <div className="flex w-full items-center justify-between py-[12px]">
+    <div className="flex w-full items-center justify-between py-[13px] pr-[23px] pl-5">
       <BackButton onBackClick={onBackClick} />
       {showActions && (
         <div className="flex gap-2">
