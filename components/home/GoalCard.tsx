@@ -31,12 +31,13 @@ const GoalCard = ({
         style={{ filter: "drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.1))" }}
       >
         <div
-          className="h-full w-[8px]"
+          className="absolute top-0 bottom-0 left-0 w-[8px]"
           style={{
             backgroundColor: getPrimaryColor(color),
           }}
         />
-        <div className="flex-1 py-[15px] pr-[20px] pl-[13px]">
+
+        <div className="flex-1 py-[15px] pr-[20px] pl-[21px]">
           <div className="flex w-full gap-[13px]">
             <div
               className="flex h-[38px] w-[38px] items-center justify-center rounded-[4px]"
@@ -47,7 +48,7 @@ const GoalCard = ({
               <img src="/images/goal-rabbit.svg" alt="목표 아이콘" />
             </div>
             <div className="flex flex-grow flex-col">
-              <div className="flex justify-between">
+              <div className="flex items-center justify-between">
                 <p className="text-primary-deepGray subhead1">{title}</p>
                 {hasButton && (
                   <button>
@@ -71,18 +72,22 @@ const GoalCard = ({
           </div>
 
           <div className="mt-[11px] mb-[6px] h-[1px] w-full bg-black/20" />
-          <div className="flex items-center gap-[10px]">
+          <div className="flex items-center gap-[8px]">
             <ProgressBarLabel state={state} percentage={percentage} />
-            <div className="bg-gray-card h-[18px] w-full overflow-hidden rounded-[2px]">
+            <div className="bg-gray-card w-full overflow-hidden rounded-[2px]">
               <div
-                className="h-full rounded-[2px] bg-blue-500"
+                className="h-[18px] rounded-[2px]"
                 style={{
                   width: `${percentage}%`,
                   backgroundColor: getPrimaryColor(color),
                 }}
               />
             </div>
-            <img src="/icons/start-icon.svg" alt="시작 아이콘" />
+            {hasButton && (
+              <button className="flex-shrink-0">
+                <img src="/icons/start-icon.svg" alt="시작 아이콘" />
+              </button>
+            )}
           </div>
         </div>
       </div>
