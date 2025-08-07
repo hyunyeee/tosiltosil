@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { login } from "@/apis/auth/api";
 import { useRouter } from "next/navigation";
+import { login, sendEmail } from "@/apis/auth/api";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -12,6 +12,18 @@ export const useLogin = () => {
     },
     onError: (error) => {
       console.error("로그인 실패", error);
+    },
+  });
+};
+
+export const useSendEmail = () => {
+  return useMutation({
+    mutationFn: sendEmail,
+    onSuccess: (data) => {
+      console.log("인증번호 이메일 전송 성공", data);
+    },
+    onError: (error) => {
+      console.error("인증번호 이메일 전송 실패", error);
     },
   });
 };

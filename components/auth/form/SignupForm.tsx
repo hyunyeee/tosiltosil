@@ -8,6 +8,7 @@ import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSendEmail } from "@/apis/auth/queries";
 
 interface SignupFormProps {
   onSignupNext: (password: string) => void;
@@ -32,6 +33,8 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
     },
   });
 
+  const { mutate: sendEmail } = useSendEmail();
+
   const onSubmit = (data: SignupFormData) => {
     console.log("회원가입 시도:", data);
     onSignupNext(data.password);
@@ -39,8 +42,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
   };
 
   const handleRequestCode = async (email: string) => {
-    console.log("인증번호 요청:", email);
-    // TODO: 인증번호 요청 API
+    sendEmail({ email: email, purpose: "SIGN_UP" });
   };
 
   const handleVerifyCode = async (code: string) => {
