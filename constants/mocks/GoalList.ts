@@ -1,6 +1,6 @@
-import { GoalCardProps } from "@/types/goal";
+import { GoalCardData } from "@/types/goal";
 
-export const GoalListData: GoalCardProps[] = [
+export const GoalListData: GoalCardData[] = [
   {
     categoryId: 9,
     categoryName: "감정 일기",
@@ -10,7 +10,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT5M",
     duration: "PT10M",
     percentage: 50,
-    hasButton: true,
   },
   {
     categoryId: 3,
@@ -21,7 +20,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT0S",
     duration: "PT1H",
     percentage: 0,
-    hasButton: true,
   },
   {
     categoryId: 1,
@@ -32,7 +30,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT0S",
     duration: "PT0S",
     percentage: 0,
-    hasButton: true,
   },
   {
     categoryId: 6,
@@ -43,7 +40,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT20M",
     duration: "PT20M",
     percentage: 100,
-    hasButton: true,
   },
   {
     categoryId: 2,
@@ -54,7 +50,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT2M30S",
     duration: "PT5M",
     percentage: 50,
-    hasButton: true,
   },
   {
     categoryId: 4,
@@ -65,7 +60,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT45M",
     duration: "PT45M",
     percentage: 100,
-    hasButton: true,
   },
   {
     categoryId: 10,
@@ -76,7 +70,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT12M",
     duration: "PT30M",
     percentage: 40,
-    hasButton: true,
   },
   {
     categoryId: 11,
@@ -87,7 +80,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT10M",
     duration: "PT20M",
     percentage: 50,
-    hasButton: true,
   },
   {
     categoryId: 5,
@@ -98,7 +90,6 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT1H",
     duration: "PT2H",
     percentage: 50,
-    hasButton: true,
   },
   {
     categoryId: 7,
@@ -109,6 +100,5 @@ export const GoalListData: GoalCardProps[] = [
     totalTime: "PT25M",
     duration: "PT25M",
     percentage: 100,
-    hasButton: true,
   },
 ];

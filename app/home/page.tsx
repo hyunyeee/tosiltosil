@@ -7,12 +7,13 @@ import WeekDateSelector from "@/components/home/WeekDateSelector";
 import GoalPercentage from "@/components/home/GoalPercentage";
 import CategorySelectBar from "@/components/home/CategorySelectBar";
 import GoalList from "@/components/home/GoalList";
-import { INITIAL_CATEGORY } from "@/constants/mocks/CategoryList";
+import FriendListFrame from "@/components/friend/FriendListFrame";
+import { mockCategoryList } from "@/mocks/data/category";
 import { GoalListData } from "@/constants/mocks/GoalList";
 
 export default function MainPage() {
   // TODO: 데이터 fetch 후 데이터 set 예정
-  const [categoryList, setCategoryList] = useState(INITIAL_CATEGORY);
+  const [categoryList, setCategoryList] = useState(mockCategoryList.data);
   const [goalList, setGoalList] = useState(GoalListData);
 
   const { selectedCategoryId, handleCategorySelect, filteredGoalList } =
@@ -28,7 +29,12 @@ export default function MainPage() {
         selectedCategoryId={selectedCategoryId}
         onCategorySelect={handleCategorySelect}
       />
-      <GoalList goalList={filteredGoalList} />
+      <FriendListFrame
+        isEmpty={goalList.length === 0}
+        content="진행중인 목표가 없습니다."
+      >
+        <GoalList goalList={filteredGoalList} />
+      </FriendListFrame>
     </div>
   );
 }

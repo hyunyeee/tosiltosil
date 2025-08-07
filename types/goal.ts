@@ -1,4 +1,4 @@
-export interface GoalCardProps {
+export interface GoalCardData {
   categoryId: number;
   categoryName: string;
   color: string;
@@ -7,5 +7,8 @@ export interface GoalCardProps {
   totalTime: string;
   duration: string;
   percentage: number;
-  hasButton: boolean;
+}
+
+export interface GoalCardProps extends GoalCardData {
+  hasButton?: boolean;
 }
