@@ -16,7 +16,7 @@ const InputWrapper = ({
   const containerClass = `
     flex w-full items-center gap-[6px] rounded-[6px] border-1 py-[12px] pr-[12px] pl-[20px]
     ${error ? "border-primary-red" : "border-primary-darkGray"}
-    ${isVerified && !error ? "bg-primary-gray" : ""}
+    ${isVerified && !error ? "bg-black/10" : ""}
   `;
 
   return (
