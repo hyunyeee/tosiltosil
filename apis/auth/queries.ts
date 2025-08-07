@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { login, sendEmail } from "@/apis/auth/api";
+import { login, sendEmail, verifyCode } from "@/apis/auth/api";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -20,10 +20,16 @@ export const useSendEmail = () => {
   return useMutation({
     mutationFn: sendEmail,
     onSuccess: (data) => {
-      console.log("인증번호 이메일 전송 성공", data);
+      console.log("인증코드 이메일 전송 성공", data);
     },
     onError: (error) => {
-      console.error("인증번호 이메일 전송 실패", error);
+      console.error("인증코드 이메일 전송 실패", error);
     },
+  });
+};
+
+export const useVerifyCode = () => {
+  return useMutation({
+    mutationFn: verifyCode,
   });
 };

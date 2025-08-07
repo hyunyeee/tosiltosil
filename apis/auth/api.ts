@@ -1,7 +1,11 @@
 import { apiClient } from "@/apis/client";
 import { ApiResponse } from "@/types/api/api";
 
-import { LoginPayload, SendEmailPayload } from "@/apis/auth/types";
+import {
+  LoginPayload,
+  SendEmailPayload,
+  VerifyCodePayload,
+} from "@/apis/auth/types";
 
 export const login = async (payload: LoginPayload) => {
   return await apiClient.post<ApiResponse<{ memberId: string }>, LoginPayload>(
@@ -13,6 +17,13 @@ export const login = async (payload: LoginPayload) => {
 export const sendEmail = async (payload: SendEmailPayload) => {
   return await apiClient.post<ApiResponse<{ email: string }>, SendEmailPayload>(
     "/api/v1/auth/email/send",
+    payload
+  );
+};
+
+export const verifyCode = async (payload: VerifyCodePayload) => {
+  return await apiClient.post<ApiResponse<void>, VerifyCodePayload>(
+    "/api/v1/auth/email/verify",
     payload
   );
 };

@@ -9,3 +9,9 @@ export interface SendEmailPayload {
   email: string;
   purpose: "SIGN_UP";
 }
+
+// POST /api/v1/auth/email/verify
+export interface VerifyCodePayload {
+  email: string;
+  authNumber: string;
+}

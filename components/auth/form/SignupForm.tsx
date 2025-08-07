@@ -1,26 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignupFormData, signupSchema } from "@/schemas/auth";
+import { useSendEmail, useVerifyCode } from "@/apis/auth/queries";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSendEmail } from "@/apis/auth/queries";
 
 interface SignupFormProps {
   onSignupNext: (password: string) => void;
 }
 
 const SignupForm = ({ onSignupNext }: SignupFormProps) => {
-  // TODO: isVerified 는 “인증번호확인” API 호출 결과에 따라 true 로 설정
-  const [isVerified, setIsVerified] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
 
   const {
     control,
     handleSubmit,
+    getValues,
+    watch,
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
@@ -33,7 +34,14 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
     },
   });
 
+  const email = watch("email");
+
+  useEffect(() => {
+    setIsVerified(false);
+  }, [email]);
+
   const { mutate: sendEmail } = useSendEmail();
+  const { mutate: verifyCode } = useVerifyCode();
 
   const onSubmit = (data: SignupFormData) => {
     console.log("회원가입 시도:", data);
@@ -42,12 +50,24 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
   };
 
   const handleRequestCode = async (email: string) => {
-    sendEmail({ email: email, purpose: "SIGN_UP" });
+    sendEmail({ email, purpose: "SIGN_UP" });
   };
 
   const handleVerifyCode = async (code: string) => {
-    console.log("인증번호 확인:", code);
-    // TODO: 인증번호 확인 API → 성공 시 setIsVerified(true)
+    const email = getValues("email");
+    verifyCode(
+      { email, authNumber: code },
+      {
+        onSuccess: () => {
+          setIsVerified(true);
+          console.log("인증코드 확인 성공");
+        },
+        onError: () => {
+          setIsVerified(false);
+          console.error("인증코드 확인 실패");
+        },
+      }
+    );
   };
 
   return (
