@@ -52,13 +52,10 @@ const CodeInput = ({
       <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
       <button
         type="button"
-        className="flex-shrink-0 cursor-pointer"
+        className="bg-primary-deepGray caption2 flex-shrink-0 cursor-pointer rounded-[2px] px-[9px] py-[4px] text-white"
         onClick={handleResendCode}
       >
-        <img
-          src={isVerified ? `/icons/check-icon.svg` : `/icons/re-send-icon.svg`}
-          alt={isVerified ? "인증 완료 아이콘" : "인증번호 재전송 아이콘"}
-        />
+        재전송
       </button>
     </InputWrapper>
   );
