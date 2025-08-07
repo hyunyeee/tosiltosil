@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { Controller, useForm } from "react-hook-form";
+import { useLogin } from "@/apis/auth/queries";
+import { zodResolver } from "@hookform/resolvers/zod";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { LoginFormData, loginSchema } from "@/schemas/auth";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const LoginForm = () => {
   const {
@@ -22,9 +23,10 @@ const LoginForm = () => {
     },
   });
 
+  const { mutate: login } = useLogin();
+
   const onSubmit = (data: LoginFormData) => {
-    console.log("로그인 시도:", data);
-    // TODO: 로그인 API 호출 등
+    login(data);
   };
 
   return (
