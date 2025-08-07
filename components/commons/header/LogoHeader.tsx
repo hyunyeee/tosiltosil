@@ -16,8 +16,8 @@ const LogoHeader = ({
     : "/icons/alarm-default-icon.svg";
   return (
     <>
-      <div className="flex w-full items-center justify-between py-[12px]">
-        토실토실
+      <div className="flex w-full items-center justify-between py-[12px] pr-[17px] pl-5">
+        <img src="/icons/logo.svg" alt="토실토실" />
         {showActions && (
           <div className="flex gap-2">
             <button onClick={onAlarmClick}>
