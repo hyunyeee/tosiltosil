@@ -49,14 +49,20 @@ const CodeInput = ({
         onChange={handleInputChange}
         maxLength={6}
       />
-      <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
-      <button
-        type="button"
-        className="bg-primary-deepGray caption2 flex-shrink-0 cursor-pointer rounded-[2px] px-[9px] py-[4px] text-white"
-        onClick={handleResendCode}
-      >
-        재전송
-      </button>
+      {isVerified ? (
+        <img src="/icons/check-icon.svg" alt="인증번호 확인 완료 아이콘" />
+      ) : (
+        <>
+          <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
+          <button
+            type="button"
+            className="bg-primary-deepGray caption2 flex-shrink-0 cursor-pointer rounded-[2px] px-[9px] py-[4px] text-white"
+            onClick={handleResendCode}
+          >
+            재전송
+          </button>
+        </>
+      )}
     </InputWrapper>
   );
 };
