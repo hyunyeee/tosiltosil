@@ -91,6 +91,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                 <div className="flex justify-end">
                   <PrimaryButton
                     size="sub"
+                    type="button"
                     text="인증번호받기"
                     isActive={!!field.value && !errors.email}
                     onButtonClick={() => handleRequestCode(field.value)}
@@ -117,6 +118,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                 <div className="flex justify-end">
                   <PrimaryButton
                     size="sub"
+                    type="button"
                     text="인증번호확인"
                     isActive={!!field.value && !errors.code}
                     onButtonClick={() => handleVerifyCode(field.value)}
