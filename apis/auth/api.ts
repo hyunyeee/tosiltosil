@@ -27,3 +27,12 @@ export const verifyCode = async (payload: VerifyCodePayload) => {
     payload
   );
 };
+
+export const signup = async (
+  payload: FormData
+): Promise<ApiResponse<{ nickname: string }>> => {
+  return await apiClient.post<ApiResponse<{ nickname: string }>, FormData>(
+    "/api/v1/auth/signup/local",
+    payload
+  );
+};

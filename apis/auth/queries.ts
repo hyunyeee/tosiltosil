@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { login, sendEmail, verifyCode } from "@/apis/auth/api";
+import { login, sendEmail, signup, verifyCode } from "@/apis/auth/api";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -12,6 +12,20 @@ export const useLogin = () => {
     },
     onError: (error) => {
       console.error("로그인 실패", error);
+    },
+  });
+};
+
+export const useSignup = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationFn: signup,
+    onSuccess: (data) => {
+      console.log("회원가입 성공", data);
+      router.replace("/signup/complete");
+    },
+    onError: (error) => {
+      console.error("회원가입 실패", error);
     },
   });
 };
