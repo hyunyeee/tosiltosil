@@ -23,10 +23,10 @@ const LoginForm = () => {
     },
   });
 
-  const { mutate: login } = useLogin();
+  const { mutateAsync: login, isPending } = useLogin();
 
-  const onSubmit = (data: LoginFormData) => {
-    login(data);
+  const onSubmit = async (data: LoginFormData) => {
+    await login(data);
   };
 
   return (
@@ -66,7 +66,7 @@ const LoginForm = () => {
         type="submit"
         size="main"
         text="로그인"
-        isActive={isValid && !isSubmitting}
+        isActive={isValid && !isSubmitting && !isPending}
       />
       <div className="mt-[27px] flex justify-between">
         <Link
