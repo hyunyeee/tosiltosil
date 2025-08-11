@@ -2,8 +2,8 @@
 
 import { FOOTER_CONFIG } from "@/constants/footerConstants";
 import { usePathname } from "next/navigation";
-import BottomNavBar from "./BottomNavBar";
-import PolicyFooter from "./PolicyFooter";
+import BottomNavBar from "./BottomNavBar/BottomNavBar";
+import PolicyFooter from "./PolicyFooter/PolicyFooter";
 
 const FooterController = () => {
   const pathname = usePathname();

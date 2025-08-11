@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import BackButton from "../button/BackButton";
+import BackButton from "../../button/BackButton";
 
 interface BackHeaderProps {
   onBackClick: () => void;

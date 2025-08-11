@@ -1,10 +1,10 @@
 "use client";
 import { usePathname } from "next/navigation";
-import BackHeader from "./BackHeader";
+import BackHeader from "./BackHeader/BackHeader";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { hasNewNotificationAtom } from "@/stores/notificatonAtom";
-import LogoHeader from "./LogoHeader";
+import LogoHeader from "./LogoHeader/LogoHeader";
 import {
   EXACT_PATH_CONFIGS,
   PATTERN_PATH_CONFIGS,

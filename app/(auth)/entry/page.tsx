@@ -1,5 +1,5 @@
 import IconButton from "@/components/commons/button/IconButton";
-import PolicyFooter from "@/components/commons/footer/PolicyFooter";
+import PolicyFooter from "@/components/commons/footer/PolicyFooter/PolicyFooter";
 import Link from "next/link";
 
 export default function EntryPage() {
