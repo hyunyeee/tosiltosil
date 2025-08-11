@@ -27,7 +27,7 @@ export const EXACT_PATH_CONFIGS: ExactPathConfigMap = {
   //뒤로가기 헤더
   "/alarm": { component: "BackHeader" },
   "/login": { component: "BackHeader" },
-  "/profile/eidt": { component: "BackHeader", withAlarm: true },
+  "/profile/edit": { component: "BackHeader", withAlarm: true },
   "/friend/pending": { component: "BackHeader", withAlarm: true },
   "/friend/request": { component: "BackHeader", withAlarm: true },
   "/category/edit": { component: "BackHeader", withAlarm: true },
