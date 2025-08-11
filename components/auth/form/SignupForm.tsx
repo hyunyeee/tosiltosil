@@ -44,12 +44,11 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
   const { mutate: verifyCode } = useVerifyCode();
 
   const onSubmit = (data: SignupFormData) => {
-    console.log("회원가입 시도:", data);
     onSignupNext(data.password);
-    // TODO: 실제 회원가입 API 호출
   };
 
-  const handleRequestCode = async (email: string) => {
+  const handleRequestCode = async () => {
+    const email = getValues("email");
     sendEmail({ email, purpose: "SIGN_UP" });
   };
 
@@ -94,7 +93,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                     type="button"
                     text="인증번호받기"
                     isActive={!!field.value && !errors.email}
-                    onButtonClick={() => handleRequestCode(field.value)}
+                    onButtonClick={handleRequestCode}
                   />
                 </div>
               </>
@@ -114,6 +113,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                   isVerified={isVerified}
                   errorMessage={errors.code?.message}
                   onInputChange={field.onChange}
+                  onResend={handleRequestCode}
                 />
                 <div className="flex justify-end">
                   <PrimaryButton
