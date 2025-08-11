@@ -7,7 +7,7 @@ export interface LoginPayload {
 // POST /api/v1/auth/email/send
 export interface SendEmailPayload {
   email: string;
-  purpose: "SIGN_UP";
+  purpose: "SIGN_UP" | "FORGOT_PASSWORD";
 }
 
 // POST /api/v1/auth/email/verify

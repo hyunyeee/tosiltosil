@@ -8,9 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 interface VerifyCodeFormProps {
   onCodeNext: (code: string) => void;
+  onResend: () => void;
 }
 
-const VerifyCodeForm = ({ onCodeNext }: VerifyCodeFormProps) => {
+const VerifyCodeForm = ({ onCodeNext, onResend }: VerifyCodeFormProps) => {
   const {
     control,
     handleSubmit,
@@ -41,6 +42,7 @@ const VerifyCodeForm = ({ onCodeNext }: VerifyCodeFormProps) => {
                 isVerified={false}
                 errorMessage={errors.code?.message}
                 onInputChange={field.onChange}
+                onResend={onResend}
               />
             </div>
             <PrimaryButton

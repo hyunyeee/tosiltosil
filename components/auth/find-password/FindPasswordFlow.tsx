@@ -8,6 +8,7 @@ import ResetPasswordForm from "../form/ResetPasswordForm";
 import { useRouter } from "next/navigation";
 import BackHeader from "@/components/commons/header/BackHeader";
 import { FIND_PASSWORD_STEPS } from "@/constants/flow";
+import { useSendEmail } from "@/apis/auth/queries";
 
 export default function FindPasswordFlow() {
   const router = useRouter();
@@ -15,8 +16,10 @@ export default function FindPasswordFlow() {
     useFunnel(FIND_PASSWORD_STEPS);
   const [email, setEmail] = useState("");
 
+  const { mutate: sendEmail } = useSendEmail();
+
   const handleEmailNext = (emailValue: string) => {
-    // TODO: 이메일 인증번호 API 요청
+    sendEmail({ email: emailValue, purpose: "FORGOT_PASSWORD" });
     nextStep();
     setEmail(emailValue);
   };
@@ -44,7 +47,10 @@ export default function FindPasswordFlow() {
           <RequestCodeForm onEmailNext={handleEmailNext} />
         </Step>
         <Step name="verifyCode">
-          <VerifyCodeForm onCodeNext={handleCodeNext} />
+          <VerifyCodeForm
+            onCodeNext={handleCodeNext}
+            onResend={() => sendEmail({ email, purpose: "FORGOT_PASSWORD" })}
+          />
         </Step>
         <Step name="resetPassword">
           <ResetPasswordForm onResetNext={handleReset} />
