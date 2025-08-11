@@ -12,6 +12,7 @@ interface CodeInputProps {
   errorMessage?: string;
   onInputChange: (value: string) => void;
   sort: "login" | "signup" | "find-password";
+  onResend: () => void;
 }
 
 const CodeInput = ({
@@ -21,6 +22,7 @@ const CodeInput = ({
   isValid,
   isVerified,
   onInputChange,
+  onResend,
 }: CodeInputProps) => {
   const DURATION_IN_SECONDS = 300; // 5분
 
@@ -31,6 +33,7 @@ const CodeInput = ({
   };
 
   const handleResendCode = () => {
+    onResend();
     setResendTrigger((prev) => prev + 1);
   };
 
