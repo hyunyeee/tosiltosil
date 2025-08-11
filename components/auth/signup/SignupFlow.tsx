@@ -24,7 +24,7 @@ export default function SignupFlow() {
   );
   const [termsId, setTermsId] = useState<string | null>(null);
 
-  const { mutate: signup } = useSignup();
+  const { mutateAsync: signup } = useSignup();
 
   const handleSignupNext = (password: string) => {
     setSignupData((prev) => ({ ...prev, password }));
@@ -40,7 +40,10 @@ export default function SignupFlow() {
     setStep("profile");
   };
 
-  const handleProfileNext = (formData: ProfileFormData, file: File | null) => {
+  const handleProfileNext = async (
+    formData: ProfileFormData,
+    file: File | null
+  ) => {
     const form = new FormData();
     if (file) {
       form.append("profileImage", file);
@@ -55,7 +58,7 @@ export default function SignupFlow() {
         type: "application/json",
       })
     );
-    signup(form);
+    await signup(form);
   };
 
   const handleBackClick = () => {
