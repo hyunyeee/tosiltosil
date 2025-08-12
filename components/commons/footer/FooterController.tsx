@@ -8,12 +8,11 @@ import PolicyFooter from "./PolicyFooter/PolicyFooter";
 const FooterController = () => {
   const pathname = usePathname();
 
-  const showNavBar = FOOTER_CONFIG.nav.some((path) =>
-    pathname.startsWith(path)
-  );
-  const showPolicyFooter = FOOTER_CONFIG.policy.some((path) =>
-    pathname.startsWith(path)
-  );
+  const matches = (prefix: string) =>
+    pathname === prefix || pathname.startsWith(`${prefix}/`);
+
+  const showNavBar = FOOTER_CONFIG.nav.some((path) => matches(path));
+  const showPolicyFooter = FOOTER_CONFIG.policy.some((path) => matches(path));
 
   return (
     <>
