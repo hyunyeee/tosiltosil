@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { overlayAtom } from "@/atoms/overlayAtom";
+import { overlayAtom } from "@/stores/overlayAtom";
 import Portal from "@/components/overlay/Portal";
 import ModalContainer from "@/components/overlay/ModalContainer";
 import BottomSheetContainer from "@/components/overlay/BottomSheetContainer";

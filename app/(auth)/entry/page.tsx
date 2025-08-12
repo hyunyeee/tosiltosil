@@ -1,5 +1,4 @@
 import IconButton from "@/components/commons/button/IconButton";
-import PolicyFooter from "@/components/commons/footer/PolicyFooter";
 import Link from "next/link";
 
 export default function EntryPage() {
@@ -30,7 +29,6 @@ export default function EntryPage() {
         <IconButton type="button" text="네이버로 계속하기" sort="naver" />
         {/* </Link> */}
       </main>
-      <PolicyFooter />
     </div>
   );
 }

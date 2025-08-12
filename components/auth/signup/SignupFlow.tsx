@@ -5,7 +5,7 @@ import useFunnel from "@/hooks/useFunnel";
 import { useRouter } from "next/navigation";
 import SignupForm from "../form/SignupForm";
 import TermsForm from "../form/TermsForm";
-import BackHeader from "@/components/commons/header/BackHeader";
+import BackHeader from "@/components/commons/header/BackHeader/BackHeader";
 import TermsDetail from "../terms/TermsDetail";
 import { SignupPayload, TermAgreement } from "@/types/api/auth";
 import { AGREEMENTS } from "@/constants/terms";

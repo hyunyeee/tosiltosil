@@ -11,7 +11,7 @@ const BackButton = ({ onBackClick }: BackButtonProps) => {
       onClick={onBackClick}
       className="flex w-fit gap-[6px]"
     >
-      <img src="icons/prev-icon.svg" alt="뒤로가기" />
+      <img src="/icons/prev-icon.svg" alt="뒤로가기" />
       <span className="footout text-[#33383c]">뒤로가기</span>
     </button>
   );

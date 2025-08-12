@@ -6,7 +6,7 @@ import RequestCodeForm from "../form/RequestCodeForm";
 import VerifyCodeForm from "../form/VerifyCodeForm";
 import ResetPasswordForm from "../form/ResetPasswordForm";
 import { useRouter } from "next/navigation";
-import BackHeader from "@/components/commons/header/BackHeader";
+import BackHeader from "@/components/commons/header/BackHeader/BackHeader";
 import { FIND_PASSWORD_STEPS } from "@/constants/flow";
 
 export default function FindPasswordFlow() {
