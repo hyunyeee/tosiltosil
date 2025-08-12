@@ -14,7 +14,7 @@ export const localLogin = async (payload: LoginPayload) => {
   );
 };
 
-export const sendEmail = async (payload: SendEmailPayload) => {
+export const sendAuthCodeEmail = async (payload: SendEmailPayload) => {
   return await apiClient.post<ApiResponse<{ email: string }>, SendEmailPayload>(
     "/api/v1/auth/email/send",
     payload

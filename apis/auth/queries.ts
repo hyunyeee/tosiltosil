@@ -1,6 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { localLogin, sendEmail, signup, verifyCode } from "@/apis/auth/api";
+import {
+  localLogin,
+  sendAuthCodeEmail,
+  signup,
+  verifyCode,
+} from "@/apis/auth/api";
 import {
   LoginPayload,
   SendEmailPayload,
@@ -38,7 +43,7 @@ export const useSignup = () => {
 
 export const useSendEmail = () => {
   return useMutation<ApiResponse<{ email: string }>, Error, SendEmailPayload>({
-    mutationFn: sendEmail,
+    mutationFn: sendAuthCodeEmail,
     onSuccess: (data) => {
       console.log("인증코드 이메일 전송 성공", data);
     },
