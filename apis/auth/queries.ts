@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { login, sendEmail, signup, verifyCode } from "@/apis/auth/api";
+import { localLogin, sendEmail, signup, verifyCode } from "@/apis/auth/api";
 import {
   LoginPayload,
   SendEmailPayload,
@@ -11,7 +11,7 @@ import { ApiResponse } from "@/types/api/api";
 export const useLogin = () => {
   const router = useRouter();
   return useMutation<ApiResponse<{ memberId: string }>, Error, LoginPayload>({
-    mutationFn: login,
+    mutationFn: localLogin,
     onSuccess: (data) => {
       console.log("로그인 성공", data);
       router.push("/home");

@@ -7,7 +7,7 @@ import {
   VerifyCodePayload,
 } from "@/apis/auth/types";
 
-export const login = async (payload: LoginPayload) => {
+export const localLogin = async (payload: LoginPayload) => {
   return await apiClient.post<ApiResponse<{ memberId: string }>, LoginPayload>(
     "/api/v1/auth/login/local",
     payload
