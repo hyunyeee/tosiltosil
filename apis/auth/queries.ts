@@ -41,15 +41,9 @@ export const useSignup = () => {
   });
 };
 
-export const useSendEmail = () => {
+export const useSendAuthCodeEmail = () => {
   return useMutation<ApiResponse<{ email: string }>, Error, SendEmailPayload>({
     mutationFn: sendAuthCodeEmail,
-    onSuccess: (data) => {
-      console.log("인증코드 이메일 전송 성공", data);
-    },
-    onError: (error) => {
-      console.error("인증코드 이메일 전송 실패", error);
-    },
   });
 };
 
