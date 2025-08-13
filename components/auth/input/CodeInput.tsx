@@ -2,7 +2,6 @@
 
 import InputWrapper from "@/components/auth/input/InputWrapper";
 import { formatSecondsToMMSS } from "@/utils/time";
-import { useCountdown } from "@/hooks/useCountdown";
 import { AUTH_ERROR_MESSAGE } from "@/constants/authErrorMessage";
 
 interface CodeInputProps {
@@ -13,6 +12,7 @@ interface CodeInputProps {
   onInputChange: (value: string) => void;
   sort: "login" | "signup" | "find-password";
   onResend: () => void;
+  timeLeft: number;
 }
 
 const CodeInput = ({
@@ -23,18 +23,14 @@ const CodeInput = ({
   isVerified,
   onInputChange,
   onResend,
+  timeLeft,
 }: CodeInputProps) => {
-  const DURATION_IN_SECONDS = 300; // 5분
-
-  const { timeLeft, setResendTrigger } = useCountdown(DURATION_IN_SECONDS);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onInputChange(e.target.value);
   };
 
   const handleResendCode = () => {
     onResend();
-    setResendTrigger((prev) => prev + 1);
   };
 
   return (
@@ -45,27 +41,29 @@ const CodeInput = ({
       isVerified={isVerified}
     >
       <input
-        className="subhead1 h-[24px] w-full"
+        className="subhead1 h-[24px] flex-1"
         placeholder="인증번호 입력"
         type="text"
         value={value}
         onChange={handleInputChange}
         maxLength={6}
       />
-      {isVerified ? (
-        <img src="/icons/check-icon.svg" alt="인증번호 확인 완료 아이콘" />
-      ) : (
-        <>
-          <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
-          <button
-            type="button"
-            className="bg-primary-deepGray caption2 flex-shrink-0 cursor-pointer rounded-[2px] px-[9px] py-[4px] text-white"
-            onClick={handleResendCode}
-          >
-            재전송
-          </button>
-        </>
-      )}
+      <div className="flex items-center gap-[6px]">
+        {isVerified ? (
+          <img src="/icons/check-icon.svg" alt="인증번호 확인 완료 아이콘" />
+        ) : (
+          <>
+            <p className="caption2">{formatSecondsToMMSS(timeLeft)}</p>
+            <button
+              type="button"
+              className="bg-primary-deepGray caption2 flex-shrink-0 cursor-pointer rounded-[2px] px-[9px] py-[4px] text-white"
+              onClick={handleResendCode}
+            >
+              재전송
+            </button>
+          </>
+        )}
+      </div>
     </InputWrapper>
   );
 };
