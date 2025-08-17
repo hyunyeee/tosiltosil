@@ -3,19 +3,25 @@
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSendAuthCodeEmail, useVerifyCode } from "@/apis/auth/queries";
+import {
+  useSendAuthCodeEmail,
+  useVerifyCode,
+  useVerifyEmail,
+} from "@/apis/auth/queries";
 import { useCountdown } from "@/hooks/useCountdown";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { SignupFormData, signupSchema } from "@/schemas/auth";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface SignupFormProps {
   onSignupNext: (password: string) => void;
 }
 
 const SignupForm = ({ onSignupNext }: SignupFormProps) => {
+  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [initialAuthCodeRequest, setInitialAuthCodeRequest] = useState(true);
 
@@ -37,6 +43,27 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
   });
 
   const email = watch("email");
+  const debouncedEmail = useDebounce(email, 1000);
+
+  const isEmailFormatValid = !!debouncedEmail?.trim() && !errors.email;
+
+  const {
+    data,
+    error,
+    isFetching: emailChecking,
+  } = useVerifyEmail(debouncedEmail, !errors.email);
+
+  useEffect(() => {
+    if (!isEmailFormatValid) {
+      setIsEmailAvailable(false);
+      return;
+    }
+    if (error) {
+      setIsEmailAvailable(false);
+      return;
+    }
+    setIsEmailAvailable(data?.status === 200);
+  }, [isEmailFormatValid, data, error]);
 
   useEffect(() => {
     setIsVerified(false);
@@ -45,7 +72,6 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
 
   const { mutate: sendAuthCodeEmail } = useSendAuthCodeEmail();
   const { mutate: verifyCode } = useVerifyCode();
-
   const { timeLeft, setResendTrigger } = useCountdown();
 
   const onSubmit = (data: SignupFormData) => {
@@ -114,12 +140,17 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             render={({ field }) => (
               <>
                 <EmailInput
-                  isValid={!errors.email}
-                  isVerified={isVerified}
                   sort="signup"
                   value={field.value}
-                  errorMessage={errors.email?.message}
+                  isValid={!errors.email && isEmailAvailable}
+                  isVerified={isEmailAvailable}
                   onInputChange={field.onChange}
+                  errorMessage={
+                    errors.email?.message ||
+                    (!emailChecking && isEmailFormatValid && !isEmailAvailable
+                      ? "이미 사용 중인 이메일입니다."
+                      : undefined)
+                  }
                 />
                 {initialAuthCodeRequest && (
                   <div className="flex justify-end">
@@ -127,7 +158,9 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                       size="sub"
                       type="button"
                       text="인증번호받기"
-                      isActive={!!field.value && !errors.email}
+                      isActive={
+                        !!field.value && !errors.email && isEmailAvailable
+                      }
                       onButtonClick={handleFirstRequestAuthCodeEmail}
                     />
                   </div>
@@ -136,35 +169,42 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             )}
           />
         </div>
+
         <div>
           <Controller
             name="code"
             control={control}
             render={({ field }) => (
               <>
-                <CodeInput
-                  sort="signup"
-                  value={field.value}
-                  isValid={!errors.code}
-                  isVerified={isVerified}
-                  errorMessage={errors.code?.message}
-                  onInputChange={field.onChange}
-                  onResend={handleRequestCode}
-                  timeLeft={timeLeft}
-                />
-                <div className="flex justify-end">
-                  <PrimaryButton
-                    size="sub"
-                    type="button"
-                    text="인증번호확인"
-                    isActive={!!field.value && !errors.code}
-                    onButtonClick={() => handleVerifyCode(field.value)}
+                {isEmailAvailable && (
+                  <CodeInput
+                    sort="signup"
+                    value={field.value}
+                    isValid={!errors.code}
+                    isVerified={isVerified}
+                    errorMessage={errors.code?.message}
+                    onInputChange={field.onChange}
+                    onResend={handleRequestCode}
+                    timeLeft={timeLeft}
                   />
+                )}
+
+                <div className="flex justify-end">
+                  {isEmailAvailable && (
+                    <PrimaryButton
+                      size="sub"
+                      type="button"
+                      text="인증번호확인"
+                      isActive={!!field.value && !errors.code}
+                      onButtonClick={() => handleVerifyCode(field.value)}
+                    />
+                  )}
                 </div>
               </>
             )}
           />
         </div>
+
         <Controller
           name="password"
           control={control}
@@ -179,6 +219,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             />
           )}
         />
+
         <Controller
           name="confirmPassword"
           control={control}
@@ -193,6 +234,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             />
           )}
         />
+
         <PrimaryButton
           type="submit"
           size="main"
