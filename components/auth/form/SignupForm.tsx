@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SignupFormData, signupSchema } from "@/schemas/auth";
-import { useSendEmail, useVerifyCode } from "@/apis/auth/queries";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSendAuthCodeEmail, useVerifyCode } from "@/apis/auth/queries";
+import { useCountdown } from "@/hooks/useCountdown";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { SignupFormData, signupSchema } from "@/schemas/auth";
 
 interface SignupFormProps {
   onSignupNext: (password: string) => void;
@@ -16,6 +17,7 @@ interface SignupFormProps {
 
 const SignupForm = ({ onSignupNext }: SignupFormProps) => {
   const [isVerified, setIsVerified] = useState(false);
+  const [initialAuthCodeRequest, setInitialAuthCodeRequest] = useState(true);
 
   const {
     control,
@@ -38,18 +40,50 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
 
   useEffect(() => {
     setIsVerified(false);
+    setInitialAuthCodeRequest(true);
   }, [email]);
 
-  const { mutate: sendEmail } = useSendEmail();
+  const { mutate: sendAuthCodeEmail } = useSendAuthCodeEmail();
   const { mutate: verifyCode } = useVerifyCode();
+
+  const { timeLeft, setResendTrigger } = useCountdown();
 
   const onSubmit = (data: SignupFormData) => {
     onSignupNext(data.password);
   };
 
+  const handleFirstRequestAuthCodeEmail = () => {
+    const email = getValues("email");
+    sendAuthCodeEmail(
+      { email, purpose: "SIGN_UP" },
+      {
+        onSuccess: (data) => {
+          console.log("인증코드 이메일 전송 성공", data);
+          setResendTrigger((prev) => prev + 1);
+          setInitialAuthCodeRequest(false);
+        },
+        onError: (error) => {
+          console.error("인증코드 이메일 전송 실패", error);
+          setInitialAuthCodeRequest(true);
+        },
+      }
+    );
+  };
+
   const handleRequestCode = async () => {
     const email = getValues("email");
-    sendEmail({ email, purpose: "SIGN_UP" });
+    sendAuthCodeEmail(
+      { email, purpose: "SIGN_UP" },
+      {
+        onSuccess: (data) => {
+          console.log("인증코드 이메일 전송 성공", data);
+          setResendTrigger((prev) => prev + 1);
+        },
+        onError: (error) => {
+          console.error("인증코드 이메일 전송 실패", error);
+        },
+      }
+    );
   };
 
   const handleVerifyCode = async (code: string) => {
@@ -87,15 +121,17 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                   errorMessage={errors.email?.message}
                   onInputChange={field.onChange}
                 />
-                <div className="flex justify-end">
-                  <PrimaryButton
-                    size="sub"
-                    type="button"
-                    text="인증번호받기"
-                    isActive={!!field.value && !errors.email}
-                    onButtonClick={handleRequestCode}
-                  />
-                </div>
+                {initialAuthCodeRequest && (
+                  <div className="flex justify-end">
+                    <PrimaryButton
+                      size="sub"
+                      type="button"
+                      text="인증번호받기"
+                      isActive={!!field.value && !errors.email}
+                      onButtonClick={handleFirstRequestAuthCodeEmail}
+                    />
+                  </div>
+                )}
               </>
             )}
           />
@@ -114,6 +150,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                   errorMessage={errors.code?.message}
                   onInputChange={field.onChange}
                   onResend={handleRequestCode}
+                  timeLeft={timeLeft}
                 />
                 <div className="flex justify-end">
                   <PrimaryButton

@@ -5,6 +5,8 @@ import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { RequestCodeFormData, requestCodeSchema } from "@/schemas/auth";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSendAuthCodeEmail } from "@/apis/auth/queries";
+import { useCountdown } from "@/hooks/useCountdown";
 
 interface RequestCodeFormProps {
   onEmailNext: (email: string) => void;
@@ -21,9 +23,23 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
     defaultValues: { email: "" },
   });
 
+  const { mutate: sendAuthCodeEmail } = useSendAuthCodeEmail();
+  const { setResendTrigger } = useCountdown();
+
   const onSubmit = (data: RequestCodeFormData) => {
-    console.log(data);
     onEmailNext(data.email);
+    sendAuthCodeEmail(
+      { email: data.email, purpose: "FORGOT_PASSWORD" },
+      {
+        onSuccess: (data) => {
+          console.log("인증코드 이메일 전송 성공", data);
+          setResendTrigger((prev) => prev + 1);
+        },
+        onError: (error) => {
+          console.error("인증코드 이메일 전송 실패", error);
+        },
+      }
+    );
   };
 
   return (
