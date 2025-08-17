@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCountdown } from "@/hooks/useCountdown";
 import { useSendAuthCodeEmail } from "@/apis/auth/queries";
+import { useEffect } from "react";
 
 interface VerifyCodeFormProps {
   onCodeNext: (code: string) => void;
@@ -23,6 +24,10 @@ const VerifyCodeForm = ({ onCodeNext, email }: VerifyCodeFormProps) => {
     mode: "onChange",
     defaultValues: { code: "" },
   });
+
+  useEffect(() => {
+    setResendTrigger((prev) => prev + 1);
+  }, []);
 
   const { timeLeft, setResendTrigger } = useCountdown();
   const { mutate: sendAuthCodeEmail } = useSendAuthCodeEmail();
