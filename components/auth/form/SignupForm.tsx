@@ -153,7 +153,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                   }
                 />
                 {initialAuthCodeRequest && (
-                  <div className="flex justify-end">
+                  <div className="mt-[16px] flex justify-end">
                     <PrimaryButton
                       size="sub"
                       type="button"
@@ -169,14 +169,13 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             )}
           />
         </div>
-
-        <div>
-          <Controller
-            name="code"
-            control={control}
-            render={({ field }) => (
-              <>
-                {isEmailAvailable && (
+        {isEmailAvailable && !initialAuthCodeRequest && (
+          <div>
+            <Controller
+              name="code"
+              control={control}
+              render={({ field }) => (
+                <>
                   <CodeInput
                     sort="signup"
                     value={field.value}
@@ -187,10 +186,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                     onResend={handleRequestCode}
                     timeLeft={timeLeft}
                   />
-                )}
-
-                <div className="flex justify-end">
-                  {isEmailAvailable && (
+                  <div className="flex justify-end">
                     <PrimaryButton
                       size="sub"
                       type="button"
@@ -198,12 +194,12 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                       isActive={!!field.value && !errors.code}
                       onButtonClick={() => handleVerifyCode(field.value)}
                     />
-                  )}
-                </div>
-              </>
-            )}
-          />
-        </div>
+                  </div>
+                </>
+              )}
+            />
+          </div>
+        )}
 
         <Controller
           name="password"
