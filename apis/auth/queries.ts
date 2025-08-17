@@ -1,10 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   localLogin,
   sendAuthCodeEmail,
   signup,
   verifyCode,
+  verifyEmail,
 } from "@/apis/auth/api";
 import {
   LoginPayload,
@@ -52,3 +53,16 @@ export const useVerifyCode = () => {
     mutationFn: verifyCode,
   });
 };
+
+export const useVerifyEmail = (email: string, enabled: boolean) =>
+  useQuery<
+    ApiResponse<void>,
+    Error,
+    ApiResponse<void>,
+    readonly [string, string]
+  >({
+    queryKey: ["verifyEmail", email] as const,
+    queryFn: (): Promise<ApiResponse<void>> => verifyEmail(email),
+    enabled,
+    retry: false,
+  });
