@@ -1,31 +1,19 @@
-import { ReactNode, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
+"use client";
+
+import { ReactNode, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface IPortalProps {
   children: ReactNode;
 }
 
-function Portal({ children }: IPortalProps) {
-  const portalRef = useRef<Element | null>(null);
+export default function Portal({ children }: IPortalProps) {
+  const [target, setTarget] = useState<Element | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      portalRef.current = document.querySelector("#portal");
-    }
+    setTarget(document.querySelector("#portal"));
   }, []);
 
-  if (typeof window === "undefined" || !children) {
-    return null;
-  }
-
-  const element = portalRef.current;
-
-  if (!element) {
-    console.warn("Portal element with id 'portal' not found");
-    return null;
-  }
-
-  return ReactDOM.createPortal(children, element);
+  if (!target) return null;
+  return createPortal(children, target);
 }
-
-export default Portal;
