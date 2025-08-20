@@ -18,12 +18,8 @@ export const useLogin = () => {
   const router = useRouter();
   return useMutation<ApiResponse<{ memberId: string }>, Error, LoginPayload>({
     mutationFn: localLogin,
-    onSuccess: (data) => {
-      console.log("로그인 성공", data);
+    onSuccess: () => {
       router.push("/home");
-    },
-    onError: (error) => {
-      console.error("로그인 실패", error);
     },
   });
 };
