@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
+import { useOverlay } from "@/hooks/useOverlay";
+import LoginErrorModal from "@/components/overlay/modal/LoginErrorModal";
 import { LoginFormData, loginSchema } from "@/schemas/auth";
 
 const LoginForm = () => {
@@ -23,10 +25,16 @@ const LoginForm = () => {
     },
   });
 
-  const { mutateAsync: login, isPending } = useLogin();
+  const { mutate: login, isPending } = useLogin();
+
+  const { openOverlay } = useOverlay();
 
   const onSubmit = async (data: LoginFormData) => {
-    await login(data);
+    login(data, {
+      onError: () => {
+        openOverlay("modal", <LoginErrorModal />);
+      },
+    });
   };
 
   return (
