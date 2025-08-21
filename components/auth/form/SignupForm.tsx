@@ -23,8 +23,8 @@ interface SignupFormProps {
 }
 
 const SignupForm = ({ onSignupNext }: SignupFormProps) => {
-  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(false); // 이메일 검증 성공 여부
+  const [isVerified, setIsVerified] = useState(false); // Input 잠금 처리
   const [initialAuthCodeRequest, setInitialAuthCodeRequest] = useState(true);
 
   const {
@@ -86,13 +86,11 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
     sendAuthCodeEmail(
       { email, purpose: "SIGN_UP" },
       {
-        onSuccess: (data) => {
-          console.log("인증코드 이메일 전송 성공", data);
+        onSuccess: () => {
           setResendTrigger((prev) => prev + 1);
           setInitialAuthCodeRequest(false);
         },
-        onError: (error) => {
-          console.error("인증코드 이메일 전송 실패", error);
+        onError: () => {
           setInitialAuthCodeRequest(true);
         },
       }
@@ -104,8 +102,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
     sendAuthCodeEmail(
       { email, purpose: "SIGN_UP" },
       {
-        onSuccess: (data) => {
-          console.log("인증코드 이메일 전송 성공", data);
+        onSuccess: () => {
           setResendTrigger((prev) => prev + 1);
         },
         onError: (error) => {
@@ -123,8 +120,9 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
       { email, authNumber: code },
       {
         onSuccess: () => {
-          setIsVerified(true);
-          console.log("인증코드 확인 성공");
+          if (isEmailAvailable) {
+            setIsVerified(true);
+          }
         },
         onError: () => {
           setIsVerified(false);
@@ -148,7 +146,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                   sort="signup"
                   value={field.value}
                   isValid={!errors.email && isEmailAvailable}
-                  isVerified={isEmailAvailable}
+                  isVerified={isVerified}
                   onInputChange={field.onChange}
                   errorMessage={
                     errors.email?.message ||
@@ -191,15 +189,17 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                     onResend={handleRequestCode}
                     timeLeft={timeLeft}
                   />
-                  <div className="mt-[13px] flex justify-end">
-                    <PrimaryButton
-                      size="sub"
-                      type="button"
-                      text="인증번호확인"
-                      isActive={!!field.value && !errors.code}
-                      onButtonClick={() => handleVerifyCode(field.value)}
-                    />
-                  </div>
+                  {!isVerified && (
+                    <div className="mt-[13px] flex justify-end">
+                      <PrimaryButton
+                        size="sub"
+                        type="button"
+                        text="인증번호확인"
+                        isActive={!!field.value && !errors.code}
+                        onButtonClick={() => handleVerifyCode(field.value)}
+                      />
+                    </div>
+                  )}
                 </>
               )}
             />
