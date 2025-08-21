@@ -16,13 +16,18 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
+    setError,
   } = useForm<RequestCodeFormData>({
     resolver: zodResolver(requestCodeSchema),
     mode: "onChange",
     defaultValues: { email: "" },
   });
 
-  const { mutate: sendAuthCodeEmail } = useSendAuthCodeEmail();
+  const {
+    mutate: sendAuthCodeEmail,
+    isError,
+    reset: resetMutationState,
+  } = useSendAuthCodeEmail();
 
   const onSubmit = (data: RequestCodeFormData) => {
     sendAuthCodeEmail(
@@ -30,10 +35,9 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
       {
         onSuccess: (data) => {
           onEmailNext(data.data.email);
-          console.log("인증코드 이메일 전송 성공", data);
         },
         onError: (error) => {
-          console.error("인증코드 이메일 전송 실패", error);
+          setError("email", { type: "server", message: error.message });
         },
       }
     );
@@ -51,7 +55,10 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
               isValid={!errors.email}
               value={field.value}
               errorMessage={errors.email?.message}
-              onInputChange={field.onChange}
+              onInputChange={(v) => {
+                if (isError) resetMutationState();
+                field.onChange(v);
+              }}
               sort="find-password"
             />
           )}
