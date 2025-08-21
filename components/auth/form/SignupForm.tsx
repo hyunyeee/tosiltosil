@@ -8,13 +8,15 @@ import {
   useVerifyCode,
   useVerifyEmail,
 } from "@/apis/auth/queries";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useOverlay } from "@/hooks/useOverlay";
 import { useCountdown } from "@/hooks/useCountdown";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
+import LimitExceededErrorModal from "@/components/overlay/modal/LimitExceededErrorModal";
 import { SignupFormData, signupSchema } from "@/schemas/auth";
-import { useDebounce } from "@/hooks/useDebounce";
 
 interface SignupFormProps {
   onSignupNext: (password: string) => void;
@@ -72,6 +74,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
 
   const { mutate: sendAuthCodeEmail } = useSendAuthCodeEmail();
   const { mutate: verifyCode } = useVerifyCode();
+  const { openOverlay } = useOverlay();
   const { timeLeft, setResendTrigger } = useCountdown();
 
   const onSubmit = (data: SignupFormData) => {
@@ -106,7 +109,9 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
           setResendTrigger((prev) => prev + 1);
         },
         onError: (error) => {
-          console.error("인증코드 이메일 전송 실패", error);
+          if (error) {
+            openOverlay("modal", <LimitExceededErrorModal />);
+          }
         },
       }
     );
