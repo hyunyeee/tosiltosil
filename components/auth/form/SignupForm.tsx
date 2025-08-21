@@ -191,7 +191,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
                     onResend={handleRequestCode}
                     timeLeft={timeLeft}
                   />
-                  <div className="flex justify-end">
+                  <div className="mt-[13px] flex justify-end">
                     <PrimaryButton
                       size="sub"
                       type="button"
