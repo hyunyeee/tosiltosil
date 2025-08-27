@@ -4,7 +4,13 @@ import { useEffect, useState } from "react";
 
 const DURATION_IN_SECONDS = 300; // 5분
 
-export const useCountdown = () => {
+type UseCountdownOption = {
+  duration?: number; // 기본 300초
+};
+
+export const useCountdown = ({
+  duration = DURATION_IN_SECONDS,
+}: UseCountdownOption = {}) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [resendTrigger, setResendTrigger] = useState(0); // 타이머 재시작 트리거
 
@@ -17,7 +23,7 @@ export const useCountdown = () => {
 
     const tick = () => {
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const remaining = Math.max(DURATION_IN_SECONDS - elapsed, 0);
+      const remaining = Math.max(duration - elapsed, 0);
 
       setTimeLeft(remaining);
 
@@ -26,7 +32,7 @@ export const useCountdown = () => {
       }
     };
 
-    setTimeLeft(DURATION_IN_SECONDS);
+    setTimeLeft(duration);
     timerId = setTimeout(tick, 1000);
 
     return () => {
