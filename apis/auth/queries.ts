@@ -13,6 +13,7 @@ import {
   VerifyCodePayload,
 } from "@/apis/auth/types";
 import { ApiResponse } from "@/types/api/api";
+import { authKeys } from "@/apis/auth/keys";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -51,13 +52,8 @@ export const useVerifyCode = () => {
 };
 
 export const useVerifyEmail = (email: string, enabled: boolean) =>
-  useQuery<
-    ApiResponse<void>,
-    Error,
-    ApiResponse<void>,
-    readonly [string, string]
-  >({
-    queryKey: ["verifyEmail", email] as const,
+  useQuery<ApiResponse<void>, Error, ApiResponse<void>>({
+    queryKey: authKeys.verifyEmailByAddress(email),
     queryFn: (): Promise<ApiResponse<void>> => verifyEmail(email),
     enabled,
     retry: false,
