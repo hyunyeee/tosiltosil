@@ -1,4 +1,4 @@
-import { LOGIN_ERROR_MESSAGE } from "@/constants/ModalMessages";
+import { LOGIN_ERROR_MESSAGE } from "@/constants/modal/ModalMessages";
 import AlertModal from "@/components/overlay/modal/AlertModal";
 
 const LoginErrorModal = () => {
