@@ -28,13 +28,12 @@ export const verifyCode = async (payload: VerifyCodePayload) => {
   );
 };
 
-const buildEmailExistsUrl = (email: string) =>
-  `/api/v1/members/email/exists?email=${encodeURIComponent(email)}&type=LOCAL`;
-
 export const verifyEmail = async (
   email: string
 ): Promise<ApiResponse<void>> => {
-  return await apiClient.get<ApiResponse<void>>(buildEmailExistsUrl(email));
+  return await apiClient.get<ApiResponse<void>>(
+    `/api/v1/members/email/exists?email=${encodeURIComponent(email)}&type=LOCAL`
+  );
 };
 
 export const signup = async (
