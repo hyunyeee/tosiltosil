@@ -15,7 +15,7 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
     setError,
   } = useForm<RequestCodeFormData>({
     resolver: zodResolver(requestCodeSchema),
@@ -27,6 +27,7 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
     mutate: sendAuthCodeEmail,
     isError,
     reset: resetMutationState,
+    isPending,
   } = useSendAuthCodeEmail();
 
   const onSubmit = (data: RequestCodeFormData) => {
@@ -67,7 +68,7 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
       <PrimaryButton
         size="main"
         text="인증번호 받기"
-        isActive={isValid && !isSubmitting}
+        isActive={isValid && !isPending}
       />
     </form>
   );
