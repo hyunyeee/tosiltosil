@@ -16,18 +16,20 @@ export default function FindPasswordFlow() {
   const [email, setEmail] = useState("");
 
   const handleEmailNext = (emailValue: string) => {
-    // TODO: 이메일 인증번호 API 요청
-    nextStep();
     setEmail(emailValue);
+    nextStep();
   };
+
   const handleCodeNext = (code: string) => {
     // TODO: 인증번호 완료 API
     nextStep();
   };
+
   const handleReset = (newPassword: string) => {
     // TODO: 데이터 전부 보냄
     router.replace("/login");
   };
+
   const handleBackClick = () => {
     if (isFirst) {
       router.back();
@@ -44,7 +46,7 @@ export default function FindPasswordFlow() {
           <RequestCodeForm onEmailNext={handleEmailNext} />
         </Step>
         <Step name="verifyCode">
-          <VerifyCodeForm onCodeNext={handleCodeNext} />
+          <VerifyCodeForm onCodeNext={handleCodeNext} email={email} />
         </Step>
         <Step name="resetPassword">
           <ResetPasswordForm onResetNext={handleReset} />

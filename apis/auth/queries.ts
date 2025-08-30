@@ -1,0 +1,60 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import {
+  localLogin,
+  sendAuthCodeEmail,
+  signup,
+  verifyCode,
+  verifyEmail,
+} from "@/apis/auth/api";
+import {
+  LoginPayload,
+  SendEmailPayload,
+  VerifyCodePayload,
+} from "@/apis/auth/types";
+import { ApiResponse } from "@/types/api/api";
+import { authKeys } from "@/apis/auth/keys";
+
+export const useLogin = () => {
+  const router = useRouter();
+  return useMutation<ApiResponse<{ memberId: string }>, Error, LoginPayload>({
+    mutationFn: localLogin,
+    onSuccess: () => {
+      router.push("/home");
+    },
+  });
+};
+
+export const useSignup = () => {
+  const router = useRouter();
+  return useMutation<ApiResponse<{ nickname: string }>, Error, FormData>({
+    mutationFn: signup,
+    onSuccess: (data) => {
+      console.log("회원가입 성공", data);
+      router.replace("/signup/complete");
+    },
+    onError: (error) => {
+      console.error("회원가입 실패", error);
+    },
+  });
+};
+
+export const useSendAuthCodeEmail = () => {
+  return useMutation<ApiResponse<{ email: string }>, Error, SendEmailPayload>({
+    mutationFn: sendAuthCodeEmail,
+  });
+};
+
+export const useVerifyCode = () => {
+  return useMutation<ApiResponse<void>, Error, VerifyCodePayload>({
+    mutationFn: verifyCode,
+  });
+};
+
+export const useVerifyEmail = (email: string, enabled: boolean) =>
+  useQuery<ApiResponse<void>, Error, ApiResponse<void>>({
+    queryKey: authKeys.verifyEmailByAddress(email),
+    queryFn: (): Promise<ApiResponse<void>> => verifyEmail(email),
+    enabled,
+    retry: false,
+  });

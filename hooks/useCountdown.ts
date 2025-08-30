@@ -2,11 +2,21 @@
 
 import { useEffect, useState } from "react";
 
-export const useCountdown = (duration: number) => {
-  const [timeLeft, setTimeLeft] = useState(duration);
+const DURATION_IN_SECONDS = 300; // 5분
+
+type UseCountdownOption = {
+  duration?: number; // 기본 300초
+};
+
+export const useCountdown = ({
+  duration = DURATION_IN_SECONDS,
+}: UseCountdownOption = {}) => {
+  const [timeLeft, setTimeLeft] = useState(0);
   const [resendTrigger, setResendTrigger] = useState(0); // 타이머 재시작 트리거
 
   useEffect(() => {
+    if (resendTrigger === 0) return;
+
     let timerId: ReturnType<typeof setTimeout> | null = null;
 
     const startTime = Date.now();
@@ -22,14 +32,13 @@ export const useCountdown = (duration: number) => {
       }
     };
 
-    tick();
+    setTimeLeft(duration);
+    timerId = setTimeout(tick, 1000);
 
     return () => {
-      if (timerId !== null) {
-        clearTimeout(timerId);
-      }
+      if (timerId !== null) clearTimeout(timerId);
     };
-  }, [duration, resendTrigger]);
+  }, [resendTrigger]);
 
   return { timeLeft, setResendTrigger };
 };

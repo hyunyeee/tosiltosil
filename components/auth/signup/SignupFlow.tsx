@@ -3,6 +3,7 @@
 import { useState } from "react";
 import useFunnel from "@/hooks/useFunnel";
 import { useRouter } from "next/navigation";
+import { useSignup } from "@/apis/auth/queries";
 import SignupForm from "../form/SignupForm";
 import TermsForm from "../form/TermsForm";
 import BackHeader from "@/components/commons/header/BackHeader/BackHeader";
@@ -21,8 +22,9 @@ export default function SignupFlow() {
   const [termsData, setTermsData] = useState<TermAgreement[]>(
     AGREEMENTS.map((prev) => ({ ...prev, agreed: false }))
   );
-
   const [termsId, setTermsId] = useState<string | null>(null);
+
+  const { mutateAsync: signup } = useSignup();
 
   const handleSignupNext = (password: string) => {
     setSignupData((prev) => ({ ...prev, password }));
@@ -38,7 +40,10 @@ export default function SignupFlow() {
     setStep("profile");
   };
 
-  const handleProfileNext = (formData: ProfileFormData, file: File | null) => {
+  const handleProfileNext = async (
+    formData: ProfileFormData,
+    file: File | null
+  ) => {
     const form = new FormData();
     if (file) {
       form.append("profileImage", file);
@@ -53,8 +58,7 @@ export default function SignupFlow() {
         type: "application/json",
       })
     );
-    // TODO: 제출 후 회원가입 완료
-    router.replace("/signup/complete");
+    await signup(form);
   };
 
   const handleBackClick = () => {

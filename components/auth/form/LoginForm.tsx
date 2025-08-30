@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { Controller, useForm } from "react-hook-form";
+import { useLogin } from "@/apis/auth/queries";
+import { zodResolver } from "@hookform/resolvers/zod";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
+import { useOverlay } from "@/hooks/useOverlay";
+import LoginErrorModal from "@/components/overlay/modal/LoginErrorModal";
 import { LoginFormData, loginSchema } from "@/schemas/auth";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const LoginForm = () => {
   const {
@@ -22,9 +25,16 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log("로그인 시도:", data);
-    // TODO: 로그인 API 호출 등
+  const { mutate: login, isPending } = useLogin();
+
+  const { openOverlay } = useOverlay();
+
+  const onSubmit = async (data: LoginFormData) => {
+    login(data, {
+      onError: () => {
+        openOverlay("modal", <LoginErrorModal />);
+      },
+    });
   };
 
   return (
@@ -64,7 +74,7 @@ const LoginForm = () => {
         type="submit"
         size="main"
         text="로그인"
-        isActive={isValid && !isSubmitting}
+        isActive={isValid && !isSubmitting && !isPending}
       />
       <div className="mt-[27px] flex justify-between">
         <Link

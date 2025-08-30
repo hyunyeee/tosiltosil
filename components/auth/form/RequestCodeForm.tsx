@@ -5,6 +5,7 @@ import PrimaryButton from "@/components/commons/button/PrimaryButton";
 import { RequestCodeFormData, requestCodeSchema } from "@/schemas/auth";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSendAuthCodeEmail } from "@/apis/auth/queries";
 
 interface RequestCodeFormProps {
   onEmailNext: (email: string) => void;
@@ -14,16 +15,33 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
+    setError,
   } = useForm<RequestCodeFormData>({
     resolver: zodResolver(requestCodeSchema),
     mode: "onChange",
     defaultValues: { email: "" },
   });
 
+  const {
+    mutate: sendAuthCodeEmail,
+    isError,
+    reset: resetMutationState,
+    isPending,
+  } = useSendAuthCodeEmail();
+
   const onSubmit = (data: RequestCodeFormData) => {
-    console.log(data);
-    onEmailNext(data.email);
+    sendAuthCodeEmail(
+      { email: data.email, purpose: "FORGOT_PASSWORD" },
+      {
+        onSuccess: (data) => {
+          onEmailNext(data.data.email);
+        },
+        onError: (error) => {
+          setError("email", { type: "server", message: error.message });
+        },
+      }
+    );
   };
 
   return (
@@ -38,7 +56,10 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
               isValid={!errors.email}
               value={field.value}
               errorMessage={errors.email?.message}
-              onInputChange={field.onChange}
+              onInputChange={(v) => {
+                if (isError) resetMutationState();
+                field.onChange(v);
+              }}
               sort="find-password"
             />
           )}
@@ -47,7 +68,7 @@ const RequestCodeForm = ({ onEmailNext }: RequestCodeFormProps) => {
       <PrimaryButton
         size="main"
         text="인증번호 받기"
-        isActive={isValid && !isSubmitting}
+        isActive={isValid && !isPending}
       />
     </form>
   );

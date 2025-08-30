@@ -1,25 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { SignupFormData, signupSchema } from "@/schemas/auth";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useSendAuthCodeEmail,
+  useVerifyCode,
+  useVerifyEmail,
+} from "@/apis/auth/queries";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useOverlay } from "@/hooks/useOverlay";
+import { useCountdown } from "@/hooks/useCountdown";
 import EmailInput from "@/components/auth/input/EmailInput";
 import PasswordInput from "@/components/auth/input/PasswordInput";
 import CodeInput from "@/components/auth/input/CodeInput";
 import PrimaryButton from "@/components/commons/button/PrimaryButton";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import LimitExceededErrorModal from "@/components/overlay/modal/LimitExceededErrorModal";
+import { SignupFormData, signupSchema } from "@/schemas/auth";
 
 interface SignupFormProps {
   onSignupNext: (password: string) => void;
 }
 
 const SignupForm = ({ onSignupNext }: SignupFormProps) => {
-  // TODO: isVerified 는 “인증번호확인” API 호출 결과에 따라 true 로 설정
-  const [isVerified, setIsVerified] = useState(true);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(false); // 이메일 검증 성공 여부
+  const [isVerified, setIsVerified] = useState(false); // Input 잠금 처리
+  const [initialAuthCodeRequest, setInitialAuthCodeRequest] = useState(true);
 
   const {
     control,
     handleSubmit,
+    getValues,
+    watch,
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
@@ -32,20 +44,92 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
     },
   });
 
+  const email = watch("email");
+  const debouncedEmail = useDebounce(email, 1000);
+
+  const isEmailFormatValid = !!debouncedEmail?.trim() && !errors.email;
+
+  const {
+    data,
+    error,
+    isFetching: emailChecking,
+  } = useVerifyEmail(debouncedEmail, !errors.email);
+
+  useEffect(() => {
+    if (!isEmailFormatValid) {
+      setIsEmailAvailable(false);
+      return;
+    }
+    if (error) {
+      setIsEmailAvailable(false);
+      return;
+    }
+    setIsEmailAvailable(data?.status === 200);
+  }, [isEmailFormatValid, data, error]);
+
+  useEffect(() => {
+    setIsVerified(false);
+    setInitialAuthCodeRequest(true);
+  }, [email]);
+
+  const { mutate: sendAuthCodeEmail } = useSendAuthCodeEmail();
+  const { mutate: verifyCode } = useVerifyCode();
+  const { openOverlay } = useOverlay();
+  const { timeLeft, setResendTrigger } = useCountdown();
+
   const onSubmit = (data: SignupFormData) => {
-    console.log("회원가입 시도:", data);
     onSignupNext(data.password);
-    // TODO: 실제 회원가입 API 호출
   };
 
-  const handleRequestCode = async (email: string) => {
-    console.log("인증번호 요청:", email);
-    // TODO: 인증번호 요청 API
+  const handleFirstRequestAuthCodeEmail = () => {
+    const email = getValues("email");
+    sendAuthCodeEmail(
+      { email, purpose: "SIGN_UP" },
+      {
+        onSuccess: () => {
+          setResendTrigger((prev) => prev + 1);
+          setInitialAuthCodeRequest(false);
+        },
+        onError: () => {
+          setInitialAuthCodeRequest(true);
+        },
+      }
+    );
+  };
+
+  const handleRequestCode = async () => {
+    const email = getValues("email");
+    sendAuthCodeEmail(
+      { email, purpose: "SIGN_UP" },
+      {
+        onSuccess: () => {
+          setResendTrigger((prev) => prev + 1);
+        },
+        onError: (error) => {
+          if (error) {
+            openOverlay("modal", <LimitExceededErrorModal />);
+          }
+        },
+      }
+    );
   };
 
   const handleVerifyCode = async (code: string) => {
-    console.log("인증번호 확인:", code);
-    // TODO: 인증번호 확인 API → 성공 시 setIsVerified(true)
+    const email = getValues("email");
+    verifyCode(
+      { email, authNumber: code },
+      {
+        onSuccess: () => {
+          if (isEmailAvailable) {
+            setIsVerified(true);
+          }
+        },
+        onError: () => {
+          setIsVerified(false);
+          console.error("인증코드 확인 실패");
+        },
+      }
+    );
   };
 
   return (
@@ -59,51 +143,69 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             render={({ field }) => (
               <>
                 <EmailInput
-                  isValid={!errors.email}
-                  isVerified={isVerified}
                   sort="signup"
                   value={field.value}
-                  errorMessage={errors.email?.message}
+                  isValid={!errors.email && isEmailAvailable}
+                  isVerified={isVerified}
                   onInputChange={field.onChange}
+                  errorMessage={
+                    errors.email?.message ||
+                    (!emailChecking && isEmailFormatValid && !isEmailAvailable
+                      ? "이미 사용 중인 이메일입니다."
+                      : undefined)
+                  }
                 />
-                <div className="flex justify-end">
-                  <PrimaryButton
-                    size="sub"
-                    text="인증번호받기"
-                    isActive={!!field.value && !errors.email}
-                    onButtonClick={() => handleRequestCode(field.value)}
-                  />
-                </div>
+                {initialAuthCodeRequest && (
+                  <div className="mt-[16px] flex justify-end">
+                    <PrimaryButton
+                      size="sub"
+                      type="button"
+                      text="인증번호받기"
+                      isActive={
+                        !!field.value && !errors.email && isEmailAvailable
+                      }
+                      onButtonClick={handleFirstRequestAuthCodeEmail}
+                    />
+                  </div>
+                )}
               </>
             )}
           />
         </div>
-        <div>
-          <Controller
-            name="code"
-            control={control}
-            render={({ field }) => (
-              <>
-                <CodeInput
-                  sort="signup"
-                  value={field.value}
-                  isValid={!errors.code}
-                  isVerified={isVerified}
-                  errorMessage={errors.code?.message}
-                  onInputChange={field.onChange}
-                />
-                <div className="flex justify-end">
-                  <PrimaryButton
-                    size="sub"
-                    text="인증번호확인"
-                    isActive={!!field.value && !errors.code}
-                    onButtonClick={() => handleVerifyCode(field.value)}
+        {isEmailAvailable && !initialAuthCodeRequest && (
+          <div>
+            <Controller
+              name="code"
+              control={control}
+              render={({ field }) => (
+                <>
+                  <CodeInput
+                    sort="signup"
+                    value={field.value}
+                    isValid={!errors.code}
+                    isVerified={isVerified}
+                    errorMessage={errors.code?.message}
+                    onInputChange={field.onChange}
+                    onResend={handleRequestCode}
+                    timeLeft={timeLeft}
                   />
-                </div>
-              </>
-            )}
-          />
-        </div>
+                  {!isVerified && (
+                    <div className="mt-[13px] flex justify-end">
+                      <PrimaryButton
+                        size="sub"
+                        type="button"
+                        text="인증번호확인"
+                        isActive={!!field.value && !errors.code}
+                        onButtonClick={() => handleVerifyCode(field.value)}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            />
+          </div>
+        )}
+
         <Controller
           name="password"
           control={control}
@@ -118,6 +220,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             />
           )}
         />
+
         <Controller
           name="confirmPassword"
           control={control}
@@ -132,6 +235,7 @@ const SignupForm = ({ onSignupNext }: SignupFormProps) => {
             />
           )}
         />
+
         <PrimaryButton
           type="submit"
           size="main"
